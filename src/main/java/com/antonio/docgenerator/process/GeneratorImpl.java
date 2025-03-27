@@ -10,16 +10,16 @@ import org.springframework.stereotype.Service;
 @Service
 public class GeneratorImpl implements Generator {
 
-    @Autowired
-    private InitParameters initParameters;
-
-    @Autowired
-    private InputStrategyFactory inputStrategyFactory;
-
-    private OutputStrategy outputStrategy;
+//    @Autowired
+//    private InitParameters initParameters;
+//
+//    @Autowired
+//    private InputStrategyFactory inputStrategyFactory;
+//
+//    private OutputStrategy outputStrategy;
 
     @Override
     public void generate() {
-
+        System.out.println("tralalalalalalalalalalalalalalalalalal");
     }
 }

@@ -2,4 +2,16 @@ spring:
   application:
     name: doc-generator
 
-
+  logging:
+    pattern:
+      console: "%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n"
+      file: "%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n"
+    file:
+      name: logs/doc-generator.log
+      max-history: 30
+      max-size: 10MB
+      path: logs
+    level:
+      root: INFO
+      com.antonio.docgenerator: DEBUG
+      org.apache.poi: WARN

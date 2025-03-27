@@ -4,100 +4,86 @@ import com.antonio.docgenerator.dto.input.DefaultItem;
 import org.apache.poi.ss.usermodel.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+@Service
 public class DefaultReader {
-
-    public static void main(String[] args) {
-        String filePath = "excel-example/DataFromInvoice for example .xlsx"; // Укажите путь к файлу
-
-        DefaultReader reader = new DefaultReader();
-        try {
-            List<List<DefaultItem>> dataBlocks = reader.readExcel(filePath);
-
-            // Логируем результат
-            for (int i = 0; i < dataBlocks.size(); i++) {
-                System.out.printf("Блок данных #%d%n", i + 1);
-                System.out.println();
-                for (DefaultItem item : dataBlocks.get(i)) {
-                    System.out.println(item.toString());
-                }
-                System.out.println("----------------------");
-            }
-
-        } catch (IOException e) {
-            logger.error("Ошибка при чтении файла: {}", e.getMessage());
-        }
-    }
-
-
+    private static final Logger logger = LoggerFactory.getLogger(DefaultReader.class);
     private final List<List<DefaultItem>> dataBlocks = new ArrayList<>();
     private List<DefaultItem> currentBlock = new ArrayList<>();
 
-    private static final Logger logger = LoggerFactory.getLogger(DefaultReader.class);
-
     public List<List<DefaultItem>> readExcel(String filePath) throws IOException {
-        FileInputStream file = new FileInputStream(new File(filePath));
-        Workbook workbook = WorkbookFactory.create(file);
-        Sheet sheet = workbook.getSheetAt(0);
+        logger.info("Начало обработки Excel-файла: {}", filePath);
 
-        // Обрабатываем все строки в листе
-        for (Row row : sheet) {
-            logger.debug("Читаем строку #{}", row.getRowNum() + 1);  // Логируем номер строки
-            if (row.getRowNum() < 2) continue; // Пропускаем заголовки (читаем с 3 строки)
+        try (FileInputStream file = new FileInputStream(new File(filePath));
+             Workbook workbook = WorkbookFactory.create(file)) {
 
-            // Обрабатываем строку
-            DefaultItem item = processDataBlock(row);
+            Sheet sheet = workbook.getSheetAt(0);
+            logger.debug("Рабочий лист '{}' успешно загружен", sheet.getSheetName());
 
-            if (item != null) {
-                logger.info("Обработан элемент: {}", item); // Логируем обработанный элемент
-                currentBlock.add(item);
-            } else {
-                if (!currentBlock.isEmpty()) {
-                    dataBlocks.add(new ArrayList<>(currentBlock)); // Сохраняем текущий блок
-                    currentBlock.clear(); // Начинаем новый блок
+            for (Row row : sheet) {
+                logger.trace("Обработка строки {}", row.getRowNum() + 1);
+
+                if (row.getRowNum() < 2) continue;
+
+                DefaultItem item = processDataBlock(row);
+                if (item != null) {
+                    currentBlock.add(item);
+                    logger.debug("Добавлен элемент: {}", item);
+                } else if (!currentBlock.isEmpty()) {
+                    logger.debug("Завершен блок из {} элементов", currentBlock.size());
+                    dataBlocks.add(new ArrayList<>(currentBlock));
+                    currentBlock.clear();
                 }
             }
-        }
 
-        // Добавляем последний блок, если он не пустой
-        if (!currentBlock.isEmpty()) {
-            dataBlocks.add(new ArrayList<>(currentBlock));
-        }
+            if (!currentBlock.isEmpty()) {
+                dataBlocks.add(new ArrayList<>(currentBlock));
+                logger.debug("Добавлен последний блок из {} элементов", currentBlock.size());
+            }
 
-        workbook.close();
-        file.close();
-        return dataBlocks;
+            logger.info("Файл успешно обработан. Найдено {} блоков данных", dataBlocks.size());
+            return dataBlocks;
+
+        } catch (IOException e) {
+            logger.error("Ошибка при обработке Excel-файла: {}", filePath, e);
+            throw e;
+        }
     }
 
     private DefaultItem processDataBlock(Row row) {
         DefaultItem item = new DefaultItem();
 
-        // Читаем A-F (индексы 0-5)
-        item.setItemNo(getIntegerValue(row.getCell(0)));                // A
-        item.setOriginalName(getCellValue(row.getCell(1)));             // B
-        item.setAlterNameRus(getCellValue(row.getCell(2)));             // C
-        item.setSize(getCellValue(row.getCell(3)));                     // D
-        item.setMarking(getCellValue(row.getCell(4)));                  // E
-        item.setQuantityInBox(getCellValue(row.getCell(5)));            // F
-        item.setOrder(getCellValue(row.getCell(6)));                    // G
-        item.setAlterImagePath(getCellValue(row.getCell(7)));           // H
+        try {
+            item.setItemNo(getIntegerValue(row.getCell(0)));
+            item.setOriginalName(getCellValue(row.getCell(1)));
+            item.setAlterNameRus(getCellValue(row.getCell(2)));
+            item.setSize(getCellValue(row.getCell(3)));
+            item.setMarking(getCellValue(row.getCell(4)));
+            item.setQuantityInBox(getCellValue(row.getCell(5)));
+            item.setOrder(getCellValue(row.getCell(6)));
+            item.setAlterImagePath(getCellValue(row.getCell(7)));
 
-        // Логируем значения для каждой ячейки
-        logger.debug("Читаем строку -> ItemNo: {}, OriginalName: {}, AlterNameRus: {}, Size: {}, Marking: {}, QuantityInBox: {}, Order: {}, AlterImagePath: {}",
-                item.getItemNo(), item.getOriginalName(), item.getAlterNameRus(), item.getSize(),
-                item.getMarking(), item.getQuantityInBox(), item.getOrder(), item.getAlterImagePath());
+            if (logger.isTraceEnabled()) {
+                logger.trace("Прочитаны данные: {}", item);
+            }
 
-        if (isEmptyItem(item)) {
-            logger.info("Элемент пустой, пропускаем");
+            if (isEmptyItem(item)) {
+                logger.debug("Пустой элемент в строке {}", row.getRowNum() + 1);
+                return null;
+            }
+
+            return item;
+        } catch (Exception e) {
+            logger.warn("Ошибка обработки строки {}: {}", row.getRowNum() + 1, e.getMessage());
             return null;
         }
-
-        return item;
     }
 
 
@@ -153,4 +139,27 @@ public class DefaultReader {
         }
         return null;
     }
+
+
+    //    public static void main(String[] args) {
+//        String filePath = "excel-example/DataFromInvoice for example .xlsx"; // Укажите путь к файлу
+//
+//        DefaultReader reader = new DefaultReader();
+//        try {
+//            List<List<DefaultItem>> dataBlocks = reader.readExcel(filePath);
+//
+//            // Логируем результат
+//            for (int i = 0; i < dataBlocks.size(); i++) {
+//                System.out.printf("Блок данных #%d%n", i + 1);
+//                System.out.println();
+//                for (DefaultItem item : dataBlocks.get(i)) {
+//                    System.out.println(item.toString());
+//                }
+//                System.out.println("----------------------");
+//            }
+//
+//        } catch (IOException e) {
+//            logger.error("Ошибка при чтении файла: {}", e.getMessage());
+//        }
+//    }
 }
