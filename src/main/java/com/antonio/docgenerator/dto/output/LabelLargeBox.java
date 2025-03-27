@@ -1,11 +1,12 @@
 package com.antonio.docgenerator.dto.output;
 
+import com.antonio.docgenerator.dto.OutputDto;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-public class LabelLargeBox {
+public class LabelLargeBox implements OutputDto<LabelLargeBox> {
     private String keyName;
     private Integer itemNo;
     private String imagePath;
@@ -26,5 +27,10 @@ public class LabelLargeBox {
                 marking + " | " +
                 quantityInBox + " | " +
                 order + " | ";
+    }
+
+    @Override
+    public String getTypeString() {
+        return this.getClass().toString();
     }
 }

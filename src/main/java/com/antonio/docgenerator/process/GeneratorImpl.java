@@ -20,18 +20,6 @@ public class GeneratorImpl implements Generator {
 
     @Override
     public void generate() {
-        String message = String.format("Input: %s; strategy: %s; output: %s; type: %s",
-                initParameters.inputFileName(), initParameters.getInputType(), initParameters.outputFileName(), initParameters.getOutputType());
-        System.out.println(message);
 
-        InputStrategy strategy = inputStrategyFactory.getStrategy(initParameters.getInputType());
-
-        somedata = strategy.justDoIt(initParameters.inputFileName());
-
-        //logger
-        outputStrategy.doOutput(somedata)
-
-        // TODO
-        System.out.println("Finished!");
     }
 }

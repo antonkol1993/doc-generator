@@ -1,11 +1,12 @@
 package com.antonio.docgenerator.dto.input;
 
+import com.antonio.docgenerator.dto.InputDto;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-public class DefaultItem {
+public class DefaultItem implements InputDto<DefaultItem> {
     private Integer itemNo;
     private String alterImagePath;
 
@@ -32,4 +33,8 @@ public class DefaultItem {
                 '}' ;
     }
 
+    @Override
+    public String getTypeString() {
+        return this.getClass().toString();
+    }
 }

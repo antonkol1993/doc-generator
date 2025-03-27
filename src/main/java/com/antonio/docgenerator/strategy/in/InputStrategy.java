@@ -1,4 +1,5 @@
 package com.antonio.docgenerator.strategy.in;
 
-public interface InputStrategy {
+public interface InputStrategy{
+
 }
