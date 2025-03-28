@@ -13,14 +13,14 @@ import java.util.List;
 import java.util.Properties;
 
 @Service
-public class ItemMapper {
+public class DefaultMapperImpl implements Mapper<DefaultItem, LabelLargeBox> {
 
-    private static final Logger logger = LoggerFactory.getLogger(ItemMapper.class);
+    private static final Logger logger = LoggerFactory.getLogger(DefaultMapperImpl.class);
     private final Properties mappingToImage = new Properties();
     private final Properties mappingToValueRUS = new Properties();
     private final Properties mappingToImages = new Properties();
 
-    public ItemMapper() {
+    public DefaultMapperImpl() {
         loadProperties(mappingToImage, "mapping_item-invoice.properties");
         loadProperties(mappingToValueRUS, "mapping_item-RUSvalue.properties");
         loadProperties(mappingToImages, "mapping_item-image.properties");
@@ -43,6 +43,7 @@ public class ItemMapper {
         }
     }
 
+    @Override
     public List<List<LabelLargeBox>> map(List<List<DefaultItem>> dataBlocks) {
         List<List<LabelLargeBox>> mappedBlocks = new ArrayList<>();
 
@@ -99,4 +100,7 @@ public class ItemMapper {
         }
         return null;
     }
+
+
+
 }

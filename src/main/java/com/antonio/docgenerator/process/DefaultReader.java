@@ -6,22 +6,22 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class DefaultReader {
+public class DefaultReader implements Reader<DefaultItem>{
     private static final Logger logger = LoggerFactory.getLogger(DefaultReader.class);
     private final List<List<DefaultItem>> dataBlocks = new ArrayList<>();
-    private List<DefaultItem> currentBlock = new ArrayList<>();
+    private final List<DefaultItem> currentBlock = new ArrayList<>();
 
+    @Override
     public List<List<DefaultItem>> readExcel(String filePath) throws IOException {
         logger.info("Начало обработки Excel-файла: {}", filePath);
 
-        try (FileInputStream file = new FileInputStream(new File(filePath));
+        try (FileInputStream file = new FileInputStream((filePath));
              Workbook workbook = WorkbookFactory.create(file)) {
 
             Sheet sheet = workbook.getSheetAt(0);
@@ -115,7 +115,12 @@ public class DefaultReader {
             case BOOLEAN:
                 return String.valueOf(cell.getBooleanCellValue());
             case FORMULA:
-                return cell.getCellFormula();
+                try {
+                    return cell.getCellFormula();
+                } catch (Exception e) {
+                    logger.warn("Ошибка при чтении формулы в {}: {}", cell.getAddress(), e.getMessage());
+                    return "ERROR_FORMULA";
+                }
             case BLANK:
                 return "";
             default:
@@ -124,11 +129,13 @@ public class DefaultReader {
     }
 
     private Integer getIntegerValue(Cell cell) {
-        if (cell == null) {
-            return null;
-        }
+        if (cell == null) return null;
         if (cell.getCellType() == CellType.NUMERIC) {
-            return (int) cell.getNumericCellValue(); // Преобразуем число в Integer
+            double numericValue = cell.getNumericCellValue();
+            if (numericValue % 1 != 0) {
+                logger.warn("Число {} в ячейке {} содержит дробную часть, округление!", numericValue, cell.getAddress());
+            }
+            return (int) Math.round(numericValue); // Безопасное округление
         }
         if (cell.getCellType() == CellType.STRING) {
             try {
