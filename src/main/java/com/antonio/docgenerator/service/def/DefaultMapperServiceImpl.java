@@ -1,7 +1,8 @@
-package com.antonio.docgenerator.process;
+package com.antonio.docgenerator.service.def;
 
 import com.antonio.docgenerator.dto.input.DefaultItem;
 import com.antonio.docgenerator.dto.output.LabelLargeBox;
+import com.antonio.docgenerator.service.MapperService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -13,14 +14,14 @@ import java.util.List;
 import java.util.Properties;
 
 @Service
-public class DefaultMapperImpl implements Mapper<DefaultItem, LabelLargeBox> {
+public class DefaultMapperServiceImpl implements MapperService<DefaultItem, LabelLargeBox> {
 
-    private static final Logger logger = LoggerFactory.getLogger(DefaultMapperImpl.class);
+    private static final Logger logger = LoggerFactory.getLogger(DefaultMapperServiceImpl.class);
     private final Properties mappingToImage = new Properties();
     private final Properties mappingToValueRUS = new Properties();
     private final Properties mappingToImages = new Properties();
 
-    public DefaultMapperImpl() {
+    public DefaultMapperServiceImpl() {
         loadProperties(mappingToImage, "mapping_item-invoice.properties");
         loadProperties(mappingToValueRUS, "mapping_item-RUSvalue.properties");
         loadProperties(mappingToImages, "mapping_item-image.properties");

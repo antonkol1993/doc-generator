@@ -1,6 +1,7 @@
-package com.antonio.docgenerator.process;
+package com.antonio.docgenerator.service.def;
 
 import com.antonio.docgenerator.dto.input.DefaultItem;
+import com.antonio.docgenerator.service.ReaderService;
 import org.apache.poi.ss.usermodel.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,8 +13,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class DefaultReader implements Reader<DefaultItem>{
-    private static final Logger logger = LoggerFactory.getLogger(DefaultReader.class);
+public class DefaultReaderServiceImpl implements ReaderService<DefaultItem> {
+    private static final Logger logger = LoggerFactory.getLogger(DefaultReaderServiceImpl.class);
     private final List<List<DefaultItem>> dataBlocks = new ArrayList<>();
     private final List<DefaultItem> currentBlock = new ArrayList<>();
 

@@ -1,9 +1,11 @@
 package com.antonio.docgenerator;
 
 import com.antonio.docgenerator.dto.input.DefaultItem;
-import com.antonio.docgenerator.process.DefaultReader;
+import com.antonio.docgenerator.dto.output.LabelLargeBox;
+import com.antonio.docgenerator.service.GeneratorService;
+import com.antonio.docgenerator.service.def.DefaultReaderServiceImpl;
 import com.antonio.docgenerator.process.Generator;
-import com.antonio.docgenerator.process.DefaultMapperImpl;
+import com.antonio.docgenerator.service.def.DefaultMapperServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -25,13 +27,16 @@ import java.util.List;
     }
 
     @Bean
-    CommandLineRunner run(DefaultReader defaultReader, DefaultMapperImpl defaultMapperImpl) {
+    CommandLineRunner run(DefaultReaderServiceImpl defaultReader, DefaultMapperServiceImpl defaultMapperImpl,
+                          GeneratorService<LabelLargeBox> generatorService) {
         return args -> {
             List<List<DefaultItem>> defaultList;
+            List<List<LabelLargeBox>> preparedItems;
             String filePath = "excel-example/DataFromInvoice for example .xlsx"; // Укажи путь к файлу
             try {
                 defaultList = defaultReader.readExcel(filePath);
-                defaultMapperImpl.map(defaultList);
+                preparedItems = defaultMapperImpl.map(defaultList);
+                generatorService.generateCards(preparedItems);
             } catch (IOException e) {
                 System.err.println("Ошибка при чтении файла: " + e.getMessage());
             }
