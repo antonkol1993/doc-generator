@@ -1,8 +1,8 @@
-package com.antonio.docgenerator.service.def;
+package com.antonio.docgenerator.serviceToRemove.def;
 
 import com.antonio.docgenerator.dto.input.DefaultItem;
 import com.antonio.docgenerator.dto.output.LabelLargeBox;
-import com.antonio.docgenerator.service.MapperService;
+import com.antonio.docgenerator.serviceToRemove.MapperService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;

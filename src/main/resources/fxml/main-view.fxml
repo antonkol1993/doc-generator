@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox spacing="10" alignment="CENTER" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.antonio.docgenerator.ui.MainController">
+
+    <Label text="Генератор документов" style="-fx-font-size: 18px;"/>
+
+    <Button fx:id="generateButton" text="Запустить генерацию" onAction="#onGenerateClick"/>
+    <Button fx:id="exitButton" text="Выход" onAction="#onExitClick"/>
+
+</VBox>

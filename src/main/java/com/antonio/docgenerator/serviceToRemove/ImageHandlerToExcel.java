@@ -1,4 +1,4 @@
-package com.antonio.docgenerator.service;
+package com.antonio.docgenerator.serviceToRemove;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.poi.ss.usermodel.Picture;
@@ -94,8 +94,7 @@ public class ImageHandlerToExcel {
 //            anchor.setAnchorType(ClientAnchor.AnchorType.MOVE_DONT_RESIZE);
                 Picture picture = drawing.createPicture(anchor, pictureIdx);
             }
-        }
-        else {
+        } else {
             System.out.println("картинка не передана");
         }
     }

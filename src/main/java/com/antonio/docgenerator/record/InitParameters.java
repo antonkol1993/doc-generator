@@ -8,13 +8,13 @@ import org.springframework.stereotype.Component;
 
 @Component
 @PropertySource("file:./resources/init.properties")
-public record InitParameters(@Value("${inputStrategy}") String inputStrategy,
+public record InitParameters(@Value("${inputType}") String inputType,
                              @Value("${inputFileName}") String inputFileName,
                              @Value("${outputType}") String outputType,
                              @Value("${outputFileName}") String outputFileName) {
 
     public InputType getInputType() {
-        return InputType.valueOf(inputStrategy);
+        return InputType.valueOf(inputType);
     }
 
     public OutputType getOutputType() {

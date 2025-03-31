@@ -1,11 +1,10 @@
-package com.antonio.docgenerator.service;
+package com.antonio.docgenerator.serviceToRemove;
 
 import com.antonio.docgenerator.dto.output.LabelLargeBox;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 
 import java.io.FileOutputStream;
@@ -13,7 +12,7 @@ import java.io.IOException;
 import java.util.List;
 
 @Service
-public class GeneratorServiceImpl implements GeneratorService<LabelLargeBox>{
+public class GeneratorServiceImpl implements GeneratorService<LabelLargeBox> {
 
     private final boolean isXSSF;
     private int startRow = 2;
@@ -41,8 +40,7 @@ public class GeneratorServiceImpl implements GeneratorService<LabelLargeBox>{
         }
         try (FileOutputStream fileOut = new FileOutputStream("output.xlsx")) {
             workbook.write(fileOut);
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             System.out.println("не получилось записать файл");
         }
         workbook.close();
@@ -94,7 +92,7 @@ public class GeneratorServiceImpl implements GeneratorService<LabelLargeBox>{
         ImageHandlerToExcel.addImageToSheet(workbook, sheet, "src/main/resources/static/images/Mfix.jpg",
                 startRow - 1, startCol, startRow - 1, startCol + 2);
         ImageHandlerToExcel.addImageToSheet(workbook, sheet, labelLargeBox.getImagePath(),
-                startRow , startCol, startRow , startCol + 2);
+                startRow, startCol, startRow, startCol + 2);
     }
 
 
