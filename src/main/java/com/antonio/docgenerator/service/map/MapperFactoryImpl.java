@@ -2,12 +2,7 @@ package com.antonio.docgenerator.service.map;
 
 import com.antonio.docgenerator.dto.InputDto;
 import com.antonio.docgenerator.dto.OutputDto;
-import com.antonio.docgenerator.dto.input.DefaultItem;
-import com.antonio.docgenerator.dto.input.HisenerItem;
-import com.antonio.docgenerator.dto.output.LabelLargeBox;
 import com.antonio.docgenerator.enums.InputType;
-import com.antonio.docgenerator.service.in.DefaultReader;
-import com.antonio.docgenerator.service.in.HisenerReader;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

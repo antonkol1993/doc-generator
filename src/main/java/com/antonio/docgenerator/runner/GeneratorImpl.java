@@ -2,8 +2,6 @@ package com.antonio.docgenerator.runner;
 
 import com.antonio.docgenerator.dto.InputDto;
 import com.antonio.docgenerator.dto.OutputDto;
-import com.antonio.docgenerator.dto.input.DefaultItem;
-import com.antonio.docgenerator.dto.output.LabelLargeBox;
 import com.antonio.docgenerator.enums.InputType;
 import com.antonio.docgenerator.record.InitParameters;
 import com.antonio.docgenerator.service.in.InputReader;
@@ -12,7 +10,6 @@ import com.antonio.docgenerator.service.map.Mapper;
 import com.antonio.docgenerator.service.map.MapperFactory;
 import com.antonio.docgenerator.service.out.OutputWriter;
 import com.antonio.docgenerator.service.out.OutputWriterFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -21,17 +18,17 @@ import java.util.List;
 @Service
 public class GeneratorImpl implements Generator {
 
-    @Autowired
-    private InitParameters initParameters;
+    private final InitParameters initParameters;
+    private final InputReaderFactory inputReaderFactory;
+    private final MapperFactory mapperFactory;
+    private final OutputWriterFactory outputWriterFactory;
 
-    @Autowired
-    private InputReaderFactory inputReaderFactory;
-
-    @Autowired
-    private MapperFactory mapperFactory;
-
-    @Autowired
-    private OutputWriterFactory outputWriterFactory;
+    public GeneratorImpl(InitParameters initParameters, InputReaderFactory inputReaderFactory, MapperFactory mapperFactory, OutputWriterFactory outputWriterFactory) {
+        this.initParameters = initParameters;
+        this.inputReaderFactory = inputReaderFactory;
+        this.mapperFactory = mapperFactory;
+        this.outputWriterFactory = outputWriterFactory;
+    }
 
     @Override
     public void generate() throws IOException {
@@ -53,7 +50,7 @@ public class GeneratorImpl implements Generator {
         OutputWriter<OutputDto<?>> outputWriter = outputWriterFactory.getWriter(inputType);
 
         // Генерируем карточки
-        outputWriter.generateCards((List<List<OutputDto<?>>>) mappedLists);
+        outputWriter.generateCards(mappedLists);
     }
 }
 

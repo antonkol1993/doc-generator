@@ -21,7 +21,7 @@ public class DefaultItem implements InputDto<DefaultItem> {
 
     @Override
     public String toString() {
-        return  '{' +
+        return '{' +
                 "\"itemNo\"=" + "\"" + itemNo + "\"" + " | " +
                 "\"alterImagePath\"=" + "\"" + alterImagePath + "\"" + " | " +
                 "\"originalName\"=" + "\"" + originalName + "\"" + " | " +
@@ -30,7 +30,7 @@ public class DefaultItem implements InputDto<DefaultItem> {
                 "\"marking\"=" + "\"" + marking + "\"" + " | " +
                 "\"quantityInBox\"=" + "\"" + quantityInBox + "\"" + " | " +
                 "\"order\"=" + "\"" + order + "\"" +
-                '}' ;
+                '}';
     }
 
     @Override

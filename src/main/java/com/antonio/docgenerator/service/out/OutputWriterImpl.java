@@ -3,7 +3,6 @@ package com.antonio.docgenerator.service.out;
 import com.antonio.docgenerator.dto.output.LabelLargeBox;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.ss.util.CellRangeAddress;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,7 +13,6 @@ import java.util.List;
 @Service
 public class OutputWriterImpl implements OutputWriter<LabelLargeBox> {
 
-    private final boolean isXSSF;
     private int startRow = 2;
     private int startCol = 2;
     private final Workbook workbook;
@@ -24,7 +22,6 @@ public class OutputWriterImpl implements OutputWriter<LabelLargeBox> {
     public OutputWriterImpl(Workbook workbook) {
         this.workbook = workbook;
         this.sheet = workbook.createSheet("Labels"); // ✅ Создаём лист здесь
-        this.isXSSF = workbook instanceof XSSFWorkbook;
     }
 
     @Override

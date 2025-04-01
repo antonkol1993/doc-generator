@@ -1,7 +1,6 @@
 package com.antonio.docgenerator.service.out;
 
 import org.apache.commons.io.IOUtils;
-import org.apache.poi.ss.usermodel.Picture;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -29,7 +28,6 @@ public class ImageHandlerToExcel {
                 imageBytes = IOUtils.toByteArray(inputStream);
             } catch (IOException e) {
                 System.err.println("Image not found: " + imagePath);
-                e.printStackTrace();
                 throw e;
             }
 
@@ -91,8 +89,7 @@ public class ImageHandlerToExcel {
             if (workbook instanceof XSSFWorkbook) {
                 XSSFDrawing drawing = ((XSSFWorkbook) workbook).getSheetAt(0).createDrawingPatriarch();
                 XSSFClientAnchor anchor = new XSSFClientAnchor(dx1, dy1, -dx1, -dy1, startCol, startRow, endCol + 1, endRow + 1);
-//            anchor.setAnchorType(ClientAnchor.AnchorType.MOVE_DONT_RESIZE);
-                Picture picture = drawing.createPicture(anchor, pictureIdx);
+                drawing.createPicture(anchor, pictureIdx);
             }
         } else {
             System.out.println("картинка не передана");

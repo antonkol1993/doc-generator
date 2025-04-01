@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class DefaultReader implements InputReader {
+public class DefaultReader implements InputReader<DefaultItem> {
     private static final Logger logger = LoggerFactory.getLogger(DefaultReader.class);
     private final List<List<DefaultItem>> dataBlocks = new ArrayList<>();
     private final List<DefaultItem> currentBlock = new ArrayList<>();
@@ -147,26 +147,4 @@ public class DefaultReader implements InputReader {
         return null;
     }
 
-
-    //    public static void main(String[] args) {
-//        String filePath = "excel-example/DataFromInvoice for example .xlsx"; // Укажите путь к файлу
-//
-//        DefaultReader reader = new DefaultReader();
-//        try {
-//            List<List<DefaultItem>> dataBlocks = reader.readExcel(filePath);
-//
-//            // Логируем результат
-//            for (int i = 0; i < dataBlocks.size(); i++) {
-//                System.out.printf("Блок данных #%d%n", i + 1);
-//                System.out.println();
-//                for (DefaultItem item : dataBlocks.get(i)) {
-//                    System.out.println(item.toString());
-//                }
-//                System.out.println("----------------------");
-//            }
-//
-//        } catch (IOException e) {
-//            logger.error("Ошибка при чтении файла: {}", e.getMessage());
-//        }
-//    }
 }
