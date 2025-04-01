@@ -1,4 +1,9 @@
 package com.antonio.docgenerator.service.out;
 
-public interface OutputWriter {
+import java.io.IOException;
+import java.util.List;
+
+public interface OutputWriter<T> {
+
+    void generateCards(List<List<T>> t) throws IOException;
 }

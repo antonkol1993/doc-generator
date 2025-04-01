@@ -1,4 +1,4 @@
-package com.antonio.docgenerator.serviceToRemove;
+package com.antonio.docgenerator.service.out;
 
 import com.antonio.docgenerator.dto.output.LabelLargeBox;
 import org.apache.poi.ss.usermodel.*;
@@ -12,7 +12,7 @@ import java.io.IOException;
 import java.util.List;
 
 @Service
-public class GeneratorServiceImpl implements GeneratorService<LabelLargeBox> {
+public class OutputWriterImpl implements OutputWriter<LabelLargeBox> {
 
     private final boolean isXSSF;
     private int startRow = 2;
@@ -21,7 +21,7 @@ public class GeneratorServiceImpl implements GeneratorService<LabelLargeBox> {
     private final Sheet sheet;
 
     @Autowired // Говорим Spring, что он должен передать эти зависимости
-    public GeneratorServiceImpl(Workbook workbook) {
+    public OutputWriterImpl(Workbook workbook) {
         this.workbook = workbook;
         this.sheet = workbook.createSheet("Labels"); // ✅ Создаём лист здесь
         this.isXSSF = workbook instanceof XSSFWorkbook;
@@ -89,7 +89,7 @@ public class GeneratorServiceImpl implements GeneratorService<LabelLargeBox> {
         }
 
         // Добавление изображений
-        ImageHandlerToExcel.addImageToSheet(workbook, sheet, "src/main/resources/static/images/Mfix.jpg",
+        ImageHandlerToExcel.addImageToSheet(workbook, sheet, "resources/images/Mfix.jpg",
                 startRow - 1, startCol, startRow - 1, startCol + 2);
         ImageHandlerToExcel.addImageToSheet(workbook, sheet, labelLargeBox.getImagePath(),
                 startRow, startCol, startRow, startCol + 2);

@@ -1,8 +1,7 @@
-package com.antonio.docgenerator.serviceToRemove.def;
+package com.antonio.docgenerator.service.map;
 
 import com.antonio.docgenerator.dto.input.DefaultItem;
 import com.antonio.docgenerator.dto.output.LabelLargeBox;
-import com.antonio.docgenerator.serviceToRemove.MapperService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -67,19 +66,13 @@ public class DefaultMapperServiceImpl implements MapperService<DefaultItem, Labe
         labelBox.setQuantityInBox(item.getQuantityInBox());
         labelBox.setOrder(item.getOrder());
 
-        String originalName = item.getOriginalName();
-        if (originalName == null || originalName.trim().isEmpty()) {
-            logger.warn("⚠ Ошибка: originalName == null или пустой! No [{}]", item.getItemNo());
-            return labelBox;
-        }
-        originalName = originalName.trim();
+        String originalName = item.getOriginalName().trim();
 
         String mappedKey = findKeyByValue(mappingToImage, originalName);
         if (mappedKey == null) {
             logger.warn("❌ Значение [{}] не найдено в mapping_item-invoice.properties!", originalName);
             labelBox.setNameRus(item.getAlterNameRus());
             labelBox.setImagePath(item.getAlterImagePath());
-            return labelBox;
         } else {
             logger.info("✅ Найден ключ: {}", mappedKey);
             labelBox.setKeyName(mappedKey);
@@ -89,8 +82,9 @@ public class DefaultMapperServiceImpl implements MapperService<DefaultItem, Labe
 
             String imagePath = mappingToImages.getProperty(mappedKey, "");
             labelBox.setImagePath(imagePath);
-            return labelBox;
         }
+        logger.debug("Результат маппинга: {}", labelBox);
+        return labelBox;
     }
 
     private String findKeyByValue(Properties properties, String valueToFind) {

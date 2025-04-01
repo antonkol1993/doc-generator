@@ -4,6 +4,8 @@ import com.antonio.docgenerator.dto.input.DefaultItem;
 import com.antonio.docgenerator.dto.output.LabelLargeBox;
 import com.antonio.docgenerator.record.InitParameters;
 import com.antonio.docgenerator.service.in.InputReaderFactory;
+import com.antonio.docgenerator.service.map.MapperService;
+import com.antonio.docgenerator.service.out.OutputWriter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,29 +17,19 @@ public class GeneratorImpl implements Generator {
 
     @Autowired
     private InitParameters initParameters;
-    //
     @Autowired
     private InputReaderFactory inputReaderFactory;
-    //
-//    private OutputStrategy outputStrategy;
-    List<List<DefaultItem>> defaultList;
-    List<List<LabelLargeBox>> preparedItems;
-    String filePath = "excel-example/DataFromInvoice for example .xlsx"; // Укажи путь к файлу
-            try
 
-    {
-        defaultList = defaultReader.readExcel(filePath);
-        preparedItems = defaultMapperImpl.map(defaultList);
-        generatorService.generateCards(preparedItems);
-    } catch(
-    IOException e)
-
-    {
-        System.err.println("Ошибка при чтении файла: " + e.getMessage());
-    }
+    //todo Надо видимо переделывать 2 autowired ниже, чтобы был динамическим???
+    @Autowired
+    private MapperService<DefaultItem,LabelLargeBox> mapperService;
+    @Autowired
+    private OutputWriter<LabelLargeBox> outputWriter;
 
     @Override
-    public void generate() {
-        List<List<DefaultItem>> lists = inputReaderFactory.getReader(initParameters.getInputType()).readExcel(initParameters.inputFileName());
+    public void generate() throws IOException {
+        List<List<DefaultItem>> defaultLists = inputReaderFactory.getReader(initParameters.getInputType()).readExcel(initParameters.inputFileName());
+        List<List<LabelLargeBox>> mappedLists = mapperService.map(defaultLists);
+        outputWriter.generateCards(mappedLists);
     }
 }

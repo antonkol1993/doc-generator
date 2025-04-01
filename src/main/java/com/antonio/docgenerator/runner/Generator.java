@@ -1,6 +1,8 @@
 package com.antonio.docgenerator.runner;
 
+import java.io.IOException;
+
 public interface Generator {
 
-    void generate();
+    void generate() throws IOException;
 }

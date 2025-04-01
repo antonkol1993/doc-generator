@@ -1,4 +1,4 @@
-package com.antonio.docgenerator.serviceToRemove;
+package com.antonio.docgenerator.service.map;
 
 import java.util.List;
 
