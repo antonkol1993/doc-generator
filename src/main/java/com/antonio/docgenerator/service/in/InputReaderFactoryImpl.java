@@ -1,21 +1,31 @@
 package com.antonio.docgenerator.service.in;
 
-import com.antonio.docgenerator.dto.input.DefaultItem;
-import com.antonio.docgenerator.dto.output.LabelLargeBox;
+import com.antonio.docgenerator.dto.InputDto;
 import com.antonio.docgenerator.enums.InputType;
-import com.antonio.docgenerator.service.map.MapperService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class InputReaderFactoryImpl implements InputReaderFactory {
 
+    private final DefaultReader defaultReader;
+    private final HisenerReader hisenerReader;
+
+    @Autowired
+    public InputReaderFactoryImpl(DefaultReader defaultReader,
+                                  HisenerReader hisenerReader) {
+        this.defaultReader = defaultReader;
+        this.hisenerReader = hisenerReader;
+    }
 
     @Override
-    public InputReader getReader(InputType inputType) {
+    @SuppressWarnings("unchecked")
+    public <T extends InputDto<?>> InputReader<T> getReader(InputType inputType) {
         return switch (inputType) {
-            case DEFAULT -> new DefaultReader();
-            case HISENER -> new HisenerReader();
+            case DEFAULT -> (InputReader<T>) defaultReader;
+            case HISENER -> (InputReader<T>) hisenerReader;
             default -> throw new RuntimeException("Unknown InputType: " + inputType);
         };
     }
 }
+

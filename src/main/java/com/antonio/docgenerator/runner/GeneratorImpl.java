@@ -1,11 +1,17 @@
 package com.antonio.docgenerator.runner;
 
+import com.antonio.docgenerator.dto.InputDto;
+import com.antonio.docgenerator.dto.OutputDto;
 import com.antonio.docgenerator.dto.input.DefaultItem;
 import com.antonio.docgenerator.dto.output.LabelLargeBox;
+import com.antonio.docgenerator.enums.InputType;
 import com.antonio.docgenerator.record.InitParameters;
+import com.antonio.docgenerator.service.in.InputReader;
 import com.antonio.docgenerator.service.in.InputReaderFactory;
-import com.antonio.docgenerator.service.map.MapperService;
+import com.antonio.docgenerator.service.map.Mapper;
+import com.antonio.docgenerator.service.map.MapperFactory;
 import com.antonio.docgenerator.service.out.OutputWriter;
+import com.antonio.docgenerator.service.out.OutputWriterFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,19 +23,37 @@ public class GeneratorImpl implements Generator {
 
     @Autowired
     private InitParameters initParameters;
+
     @Autowired
     private InputReaderFactory inputReaderFactory;
 
-    //todo Надо видимо переделывать 2 autowired ниже, чтобы был динамическим???
     @Autowired
-    private MapperService<DefaultItem,LabelLargeBox> mapperService;
+    private MapperFactory mapperFactory;
+
     @Autowired
-    private OutputWriter<LabelLargeBox> outputWriter;
+    private OutputWriterFactory outputWriterFactory;
 
     @Override
     public void generate() throws IOException {
-        List<List<DefaultItem>> defaultLists = inputReaderFactory.getReader(initParameters.getInputType()).readExcel(initParameters.inputFileName());
-        List<List<LabelLargeBox>> mappedLists = mapperService.map(defaultLists);
-        outputWriter.generateCards(mappedLists);
+        InputType inputType = initParameters.getInputType();
+
+        // Получаем ридер для нужного типа
+        InputReader<? extends InputDto<?>> inputReader = inputReaderFactory.getReader(inputType);
+
+        // Читаем данные
+        List<? extends List<? extends InputDto<?>>> inputData = inputReader.readExcel(initParameters.inputFileName());
+
+        // Получаем маппер
+        Mapper<InputDto<?>, OutputDto<?>> mapper = mapperFactory.getMapper(inputType);
+
+        // Преобразуем данные
+        List<List<OutputDto<?>>> mappedLists = mapper.map((List<List<InputDto<?>>>) inputData);
+
+        // Получаем правильный OutputWriter
+        OutputWriter<OutputDto<?>> outputWriter = outputWriterFactory.getWriter(inputType);
+
+        // Генерируем карточки
+        outputWriter.generateCards((List<List<OutputDto<?>>>) mappedLists);
     }
 }
+
