@@ -2,6 +2,13 @@ spring:
   application:
     name: doc-generator
 
+  # Настройка для статических ресурсов
+  web:
+    resources:
+      static-locations:
+        - file:./resources/
+        - classpath:/resources/
+
   logging:
     pattern:
       console: "%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n"

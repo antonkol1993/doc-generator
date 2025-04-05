@@ -1,5 +1,6 @@
 package com.antonio.docgenerator.service.out;
 
+import com.antonio.docgenerator.config.CommonProperties;
 import com.antonio.docgenerator.dto.output.LabelLargeBox;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.ss.util.CellRangeAddress;
@@ -22,15 +23,18 @@ public class OutputWriterXLSXImpl implements OutputWriter<LabelLargeBox> {
     private final Workbook workbook;
     private final Sheet sheet;
     private final ImageHandlerToExcel imageHandlerToExcel;
+    private final CommonProperties commonProperties;
 
     private static final Logger log = LoggerFactory.getLogger(ImageHandlerToExcel.class);
 
 
     @Autowired // Говорим Spring, что он должен передать эти зависимости
-    public OutputWriterXLSXImpl(ImageHandlerToExcel imageHandlerToExcel) {
+    public OutputWriterXLSXImpl(ImageHandlerToExcel imageHandlerToExcel,
+                                CommonProperties commonProperties) {
         this.workbook = new XSSFWorkbook();
         this.sheet = workbook.createSheet("Labels"); // ✅ Создаём лист здесь
         this.imageHandlerToExcel = imageHandlerToExcel;
+        this.commonProperties = commonProperties;
     }
 
     @Override
@@ -53,41 +57,63 @@ public class OutputWriterXLSXImpl implements OutputWriter<LabelLargeBox> {
     }
 
     private void addCard(LabelLargeBox item) throws IOException {
-        CellStyle style1 = createCellStyle("Arial", false, BorderStyle.MEDIUM, HorizontalAlignment.CENTER, (short) 10);
-        CellStyle style2 = createCellStyle("Arial", true, BorderStyle.MEDIUM, HorizontalAlignment.CENTER, (short) 11);
-        CellStyle style3 = createCellStyle("Arial", true, BorderStyle.THIN, HorizontalAlignment.CENTER, (short) 10);
-        CellStyle style4 = createCellStyle("Arial", true, BorderStyle.THIN, HorizontalAlignment.GENERAL, (short) 10);
+        String markingLabel = commonProperties.get("marking");
+        String sizeLabel = commonProperties.get("size_label");
+        String quantityLabel = commonProperties.get("quantity");
+        String pcsLabel = commonProperties.get("pcs");
+        String weightLabel = commonProperties.get("weight");
+        String kgLabel = commonProperties.get("kg");
+        String madeInLabel = commonProperties.get("made_in");
+        String orderLabel = commonProperties.get("order_label");
+        String logoPath = commonProperties.get("logo_path");
+
+        CellStyle style1 = createCellStyle("Arial", false, BorderStyle.MEDIUM,
+                HorizontalAlignment.CENTER, (short) 10);
+        CellStyle style2 = createCellStyle("Arial", true, BorderStyle.MEDIUM,
+                HorizontalAlignment.CENTER, (short) 11);
+        CellStyle style3 = createCellStyle("Arial", true, BorderStyle.THIN,
+                HorizontalAlignment.CENTER, (short) 10);
+        CellStyle style4 = createCellStyle("Arial", true, BorderStyle.THIN,
+                HorizontalAlignment.GENERAL, (short) 10);
 
         setColumnWidths(sheet, startCol); // Корректный сдвиг вправо
         setRowHeights(sheet, startRow); // Корректный сдвиг вниз
 
-        createMergedCell(startRow, startCol + 1, startRow, startCol + 3, "", style1);
-        createMergedCell(startRow + 1, startCol + 1, startRow + 1, startCol + 3, "", style2);
+        createMergedCell(startRow, startCol + 1, startRow, startCol + 3,
+                "", style1);
+        createMergedCell(startRow + 1, startCol + 1, startRow + 1, startCol + 3,
+                "", style2);
         createMergedCell(startRow + 2, startCol + 1, startRow + 2, startCol + 3,
                 item.getNameRus() + "\n" + item.getSize(), style2);
 
-        createCell(startRow + 3, startCol + 1, "Marking", style4);
-        createMergedCell(startRow + 3, startCol + 2, startRow + 3, startCol + 3, item.getMarking(), style3);
+        createCell(startRow + 3, startCol + 1, markingLabel, style4);
+        createMergedCell(startRow + 3, startCol + 2, startRow + 3, startCol + 3,
+                item.getMarking(), style3);
 
-        createCell(startRow + 4, startCol + 1, "РАЗМЕР/Size", style4);
-        createMergedCell(startRow + 4, startCol + 2, startRow + 4, startCol + 3, item.getSize(), style3);
+        createCell(startRow + 4, startCol + 1, sizeLabel, style4);
+        createMergedCell(startRow + 4, startCol + 2, startRow + 4, startCol + 3,
+                item.getSize(), style3);
 
         createCell(startRow + 5, startCol + 1, "", style4);
-        createMergedCell(startRow + 5, startCol + 2, startRow + 5, startCol + 3, "", style3);
+        createMergedCell(startRow + 5, startCol + 2, startRow + 5, startCol + 3,
+                "", style3);
 
-        createCell(startRow + 6, startCol + 1, "Кол-во в упак/шт.", style4);
+        createCell(startRow + 6, startCol + 1, quantityLabel, style4);
         createCell(startRow + 6, startCol + 2, item.getQuantityInBox(), style3);
-        createCell(startRow + 6, startCol + 3, "Шт / PCS", style4);
+        createCell(startRow + 6, startCol + 3, pcsLabel, style4);
 
-        createCell(startRow + 7, startCol + 1, "Вес упак Кг/Kgs", style4);
+        createCell(startRow + 7, startCol + 1, weightLabel, style4);
         createCell(startRow + 7, startCol + 2, "", style3);
-        createCell(startRow + 7, startCol + 3, "Кг/Kgs", style4);
+        createCell(startRow + 7, startCol + 3, kgLabel, style4);
 
         createCell(startRow + 8, startCol + 1, "", style4);
-        createMergedCell(startRow + 8, startCol + 2, startRow + 8, startCol + 3, "Сделано в КНР", style4);
+        createMergedCell(startRow + 8, startCol + 2, startRow + 8, startCol + 3,
+                madeInLabel, style4);
 
-        createCell(startRow + 9, startCol + 1, "ORDER:", style4);
-        createMergedCell(startRow + 9, startCol + 2, startRow + 9, startCol + 3, item.getOrder(), style4);
+        createCell(startRow + 9, startCol + 1, orderLabel, style4);
+        createMergedCell(startRow + 9, startCol + 2, startRow + 9, startCol + 3,
+                item.getOrder(), style4);
+
 
         // 🔹 Авторазмер всех строк карточки
         for (int i = startRow + 2; i <= startRow + 9; i++) {
@@ -96,9 +122,8 @@ public class OutputWriterXLSXImpl implements OutputWriter<LabelLargeBox> {
 
         // Добавление изображений
         boolean image1Added = imageHandlerToExcel.addImageToSheet(workbook, sheet,
-                "resources/images/Mfix.jpg",
-                startRow - 1, startCol,
-                startRow - 1, startCol + 2);
+                logoPath, startRow - 1, startCol, startRow - 1, startCol + 2);
+
         if (image1Added) {
             log.info("✅ Логотип Mfix добавлен успешно! itemNo: {}", item.getItemNo());
         } else {
@@ -116,7 +141,8 @@ public class OutputWriterXLSXImpl implements OutputWriter<LabelLargeBox> {
     }
 
 
-    private CellStyle createCellStyle(String fontName, boolean bold, BorderStyle border, HorizontalAlignment alignment, short fontSize) {
+    private CellStyle createCellStyle(String fontName, boolean bold, BorderStyle border, HorizontalAlignment alignment,
+                                      short fontSize) {
         CellStyle style = workbook.createCellStyle();
         Font font = workbook.createFont();
         font.setFontName(fontName);
@@ -163,7 +189,8 @@ public class OutputWriterXLSXImpl implements OutputWriter<LabelLargeBox> {
     }
 
     private void createMergedCell(int startRow, int startCol, int endRow, int endCol, String value, CellStyle style) {
-        sheet.addMergedRegion(new CellRangeAddress(startRow - 1, endRow - 1, startCol - 1, endCol - 1));
+        sheet.addMergedRegion(new CellRangeAddress(startRow - 1, endRow - 1,
+                startCol - 1, endCol - 1));
 
         for (int row = startRow; row <= endRow; row++) {
             for (int col = startCol; col <= endCol; col++) {
