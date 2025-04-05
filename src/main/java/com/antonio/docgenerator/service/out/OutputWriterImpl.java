@@ -3,11 +3,13 @@ package com.antonio.docgenerator.service.out;
 import com.antonio.docgenerator.dto.output.LabelLargeBox;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.ss.util.CellRangeAddress;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.util.List;
 
 @Service
@@ -17,11 +19,13 @@ public class OutputWriterImpl implements OutputWriter<LabelLargeBox> {
     private int startCol = 2;
     private final Workbook workbook;
     private final Sheet sheet;
+    private ImageHandlerToExcel imageHandlerToExcel;
 
     @Autowired // Говорим Spring, что он должен передать эти зависимости
-    public OutputWriterImpl(Workbook workbook) {
-        this.workbook = workbook;
+    public OutputWriterImpl(ImageHandlerToExcel imageHandlerToExcel) {
+        this.workbook = new XSSFWorkbook();
         this.sheet = workbook.createSheet("Labels"); // ✅ Создаём лист здесь
+        this.imageHandlerToExcel = imageHandlerToExcel;
     }
 
     @Override
@@ -86,9 +90,9 @@ public class OutputWriterImpl implements OutputWriter<LabelLargeBox> {
         }
 
         // Добавление изображений
-        ImageHandlerToExcel.addImageToSheet(workbook, sheet, "resources/images/Mfix.jpg",
+        imageHandlerToExcel.addImageToSheet(workbook, sheet, "resources/images/Mfix.jpg",
                 startRow - 1, startCol, startRow - 1, startCol + 2);
-        ImageHandlerToExcel.addImageToSheet(workbook, sheet, labelLargeBox.getImagePath(),
+        imageHandlerToExcel.addImageToSheet(workbook, sheet, labelLargeBox.getImagePath(),
                 startRow, startCol, startRow, startCol + 2);
     }
 
