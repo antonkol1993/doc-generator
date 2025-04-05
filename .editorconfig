@@ -1,0 +1,5 @@
+﻿# .editorconfig
+root = true
+
+[*.properties]
+charset = utf-8  # Говорит IDE, что файлы .properties должны использовать кодировку UTF-8.
