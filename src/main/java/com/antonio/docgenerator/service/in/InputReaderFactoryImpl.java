@@ -24,7 +24,7 @@ public class InputReaderFactoryImpl implements InputReaderFactory {
         return switch (inputType) {
             case DEFAULT -> (InputReader<T>) defaultReader;
             case HISENER -> (InputReader<T>) hisenerReader;
-            default -> throw new RuntimeException("Unknown InputType: " + inputType);
+            default -> throw new RuntimeException("Неизвестный входящий тип: " + inputType);
         };
     }
 }

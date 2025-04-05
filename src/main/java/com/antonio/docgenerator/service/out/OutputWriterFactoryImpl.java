@@ -23,7 +23,7 @@ public class OutputWriterFactoryImpl implements OutputWriterFactory {
         return switch (outputType) {
             case XLSX -> (OutputWriter<K>) (OutputWriter<LabelLargeBox>) outputWriterXLSX;
 //            case PDF -> (OutputWriter<K>) (OutputWriter<LabelLargeBox>) outputWriterPDF;
-            default -> throw new IllegalArgumentException("Unsupported type: " + outputType);
+            default -> throw new IllegalArgumentException("Неподдерживаемый тип: " + outputType);
         };
     }
 }

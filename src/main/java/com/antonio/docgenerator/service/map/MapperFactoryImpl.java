@@ -24,7 +24,7 @@ public class MapperFactoryImpl implements MapperFactory {
         return switch (inputType) {
             case DEFAULT -> (Mapper<T, K>) defaultMapper;
             case HISENER -> (Mapper<T, K>) hisenerMapper;
-            default -> throw new IllegalArgumentException("Unsupported type: " + inputType);
+            default -> throw new IllegalArgumentException("Неподдерживаемый тип: " + inputType);
         };
     }
 }

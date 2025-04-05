@@ -29,7 +29,7 @@ public class ImageHandlerToExcel {
             try (InputStream inputStream = new FileInputStream(imagePath)) {
                 imageBytes = IOUtils.toByteArray(inputStream);
             } catch (IOException e) {
-                System.err.println("Image not found: " + imagePath);
+                System.err.println("Картинка не найдена: " + imagePath);
                 throw e;
             }
 
