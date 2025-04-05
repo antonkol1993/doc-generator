@@ -7,6 +7,7 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFClientAnchor;
 import org.apache.poi.xssf.usermodel.XSSFDrawing;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.springframework.stereotype.Service;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -15,10 +16,11 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
+@Service
 public class ImageHandlerToExcel {
 
-    public static void addImageToSheet(Workbook workbook, Sheet sheet, String imagePath,
-                                       int startRow, int startCol, int endRow, int endCol) throws IOException {
+    public boolean addImageToSheet(Workbook workbook, Sheet sheet, String imagePath,
+                                   int startRow, int startCol, int endRow, int endCol) throws IOException {
         // Загружаем изображение в массив байтов
         byte[] imageBytes;
         if (imagePath != null && !imagePath.trim().isEmpty()) {
@@ -87,12 +89,15 @@ public class ImageHandlerToExcel {
 
             // Добавляем изображение в Excel
             if (workbook instanceof XSSFWorkbook) {
-                XSSFDrawing drawing = ((XSSFWorkbook) workbook).getSheetAt(0).createDrawingPatriarch();
+                XSSFDrawing drawing = (XSSFDrawing) sheet.createDrawingPatriarch();
                 XSSFClientAnchor anchor = new XSSFClientAnchor(dx1, dy1, -dx1, -dy1, startCol, startRow, endCol + 1, endRow + 1);
                 drawing.createPicture(anchor, pictureIdx);
             }
+
+            return true;
         } else {
-            System.out.println("картинка не передана");
+
+            return false;
         }
     }
 }
