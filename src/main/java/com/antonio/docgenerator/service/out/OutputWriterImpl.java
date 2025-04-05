@@ -4,12 +4,13 @@ import com.antonio.docgenerator.dto.output.LabelLargeBox;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.util.List;
 
 @Service
@@ -17,9 +18,13 @@ public class OutputWriterImpl implements OutputWriter<LabelLargeBox> {
 
     private int startRow = 2;
     private int startCol = 2;
+
     private final Workbook workbook;
     private final Sheet sheet;
-    private ImageHandlerToExcel imageHandlerToExcel;
+    private final ImageHandlerToExcel imageHandlerToExcel;
+
+    private static final Logger log = LoggerFactory.getLogger(ImageHandlerToExcel.class);
+
 
     @Autowired // Говорим Spring, что он должен передать эти зависимости
     public OutputWriterImpl(ImageHandlerToExcel imageHandlerToExcel) {
@@ -47,7 +52,7 @@ public class OutputWriterImpl implements OutputWriter<LabelLargeBox> {
         workbook.close();
     }
 
-    private void addCard(LabelLargeBox labelLargeBox) throws IOException {
+    private void addCard(LabelLargeBox item) throws IOException {
         CellStyle style1 = createCellStyle("Arial", false, BorderStyle.MEDIUM, HorizontalAlignment.CENTER, (short) 10);
         CellStyle style2 = createCellStyle("Arial", true, BorderStyle.MEDIUM, HorizontalAlignment.CENTER, (short) 11);
         CellStyle style3 = createCellStyle("Arial", true, BorderStyle.THIN, HorizontalAlignment.CENTER, (short) 10);
@@ -59,19 +64,19 @@ public class OutputWriterImpl implements OutputWriter<LabelLargeBox> {
         createMergedCell(startRow, startCol + 1, startRow, startCol + 3, "", style1);
         createMergedCell(startRow + 1, startCol + 1, startRow + 1, startCol + 3, "", style2);
         createMergedCell(startRow + 2, startCol + 1, startRow + 2, startCol + 3,
-                labelLargeBox.getNameRus() + "\n" + labelLargeBox.getSize(), style2);
+                item.getNameRus() + "\n" + item.getSize(), style2);
 
         createCell(startRow + 3, startCol + 1, "Marking", style4);
-        createMergedCell(startRow + 3, startCol + 2, startRow + 3, startCol + 3, labelLargeBox.getMarking(), style3);
+        createMergedCell(startRow + 3, startCol + 2, startRow + 3, startCol + 3, item.getMarking(), style3);
 
         createCell(startRow + 4, startCol + 1, "РАЗМЕР/Size", style4);
-        createMergedCell(startRow + 4, startCol + 2, startRow + 4, startCol + 3, labelLargeBox.getSize(), style3);
+        createMergedCell(startRow + 4, startCol + 2, startRow + 4, startCol + 3, item.getSize(), style3);
 
         createCell(startRow + 5, startCol + 1, "", style4);
         createMergedCell(startRow + 5, startCol + 2, startRow + 5, startCol + 3, "", style3);
 
         createCell(startRow + 6, startCol + 1, "Кол-во в упак/шт.", style4);
-        createCell(startRow + 6, startCol + 2, labelLargeBox.getQuantityInBox(), style3);
+        createCell(startRow + 6, startCol + 2, item.getQuantityInBox(), style3);
         createCell(startRow + 6, startCol + 3, "Шт / PCS", style4);
 
         createCell(startRow + 7, startCol + 1, "Вес упак Кг/Kgs", style4);
@@ -82,7 +87,7 @@ public class OutputWriterImpl implements OutputWriter<LabelLargeBox> {
         createMergedCell(startRow + 8, startCol + 2, startRow + 8, startCol + 3, "Сделано в КНР", style4);
 
         createCell(startRow + 9, startCol + 1, "ORDER:", style4);
-        createMergedCell(startRow + 9, startCol + 2, startRow + 9, startCol + 3, labelLargeBox.getOrder(), style4);
+        createMergedCell(startRow + 9, startCol + 2, startRow + 9, startCol + 3, item.getOrder(), style4);
 
         // 🔹 Авторазмер всех строк карточки
         for (int i = startRow + 2; i <= startRow + 9; i++) {
@@ -90,10 +95,24 @@ public class OutputWriterImpl implements OutputWriter<LabelLargeBox> {
         }
 
         // Добавление изображений
-        imageHandlerToExcel.addImageToSheet(workbook, sheet, "resources/images/Mfix.jpg",
-                startRow - 1, startCol, startRow - 1, startCol + 2);
-        imageHandlerToExcel.addImageToSheet(workbook, sheet, labelLargeBox.getImagePath(),
+        boolean image1Added = imageHandlerToExcel.addImageToSheet(workbook, sheet,
+                "resources/images/Mfix.jpg",
+                startRow - 1, startCol,
+                startRow - 1, startCol + 2);
+        if (image1Added) {
+            log.info("✅ Логотип Mfix добавлен успешно! itemNo: {}", item.getItemNo());
+        } else {
+            log.warn("⚠️ Логотип Mfix не передан. itemNo: {}", item.getItemNo());
+        }
+
+        boolean image2Added = imageHandlerToExcel.addImageToSheet(workbook, sheet, item.getImagePath(),
                 startRow, startCol, startRow, startCol + 2);
+        if (image2Added) {
+            log.info("✅ Картинка добавлена успешно! itemNo: {}", item.getItemNo());
+        } else {
+            log.warn("⚠️ Картинка не передана. itemNo: {}", item.getItemNo());
+        }
+
     }
 
 
