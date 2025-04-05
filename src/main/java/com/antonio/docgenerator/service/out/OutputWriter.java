@@ -5,5 +5,5 @@ import java.util.List;
 
 public interface OutputWriter<T> {
 
-    void generateCards(List<List<T>> t) throws IOException;
+    void generateCards(List<List<T>> t, String fileName) throws IOException;
 }

@@ -3,6 +3,7 @@ package com.antonio.docgenerator.runner;
 import com.antonio.docgenerator.dto.InputDto;
 import com.antonio.docgenerator.dto.OutputDto;
 import com.antonio.docgenerator.enums.InputType;
+import com.antonio.docgenerator.enums.OutputType;
 import com.antonio.docgenerator.record.InitParameters;
 import com.antonio.docgenerator.service.in.InputReader;
 import com.antonio.docgenerator.service.in.InputReaderFactory;
@@ -33,12 +34,15 @@ public class GeneratorImpl implements Generator {
     @Override
     public void generate() throws IOException {
         InputType inputType = initParameters.getInputType();
+        OutputType outputType = initParameters.getOutputType();
+        String inputFilename = initParameters.getInputFileName();
+        String outputFilename = initParameters.getOutputFileName();
 
         // Получаем ридер для нужного типа
         InputReader<? extends InputDto<?>> inputReader = inputReaderFactory.getReader(inputType);
 
         // Читаем данные
-        List<? extends List<? extends InputDto<?>>> inputData = inputReader.readExcel(initParameters.inputFileName());
+        List<? extends List<? extends InputDto<?>>> inputData = inputReader.readExcel(inputFilename);
 
         // Получаем маппер
         Mapper<InputDto<?>, OutputDto<?>> mapper = mapperFactory.getMapper(inputType);
@@ -47,10 +51,10 @@ public class GeneratorImpl implements Generator {
         List<List<OutputDto<?>>> mappedLists = mapper.map((List<List<InputDto<?>>>) inputData);
 
         // Получаем правильный OutputWriter
-        OutputWriter<OutputDto<?>> outputWriter = outputWriterFactory.getWriter(inputType);
+        OutputWriter<OutputDto<?>> outputWriter = outputWriterFactory.getWriter(outputType, outputFilename);
 
         // Генерируем карточки
-        outputWriter.generateCards(mappedLists);
+        outputWriter.generateCards(mappedLists, outputFilename);
     }
 }
 

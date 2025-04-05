@@ -14,7 +14,7 @@ import java.io.IOException;
 import java.util.List;
 
 @Service
-public class OutputWriterImpl implements OutputWriter<LabelLargeBox> {
+public class OutputWriterXLSXImpl implements OutputWriter<LabelLargeBox> {
 
     private int startRow = 2;
     private int startCol = 2;
@@ -27,14 +27,14 @@ public class OutputWriterImpl implements OutputWriter<LabelLargeBox> {
 
 
     @Autowired // Говорим Spring, что он должен передать эти зависимости
-    public OutputWriterImpl(ImageHandlerToExcel imageHandlerToExcel) {
+    public OutputWriterXLSXImpl(ImageHandlerToExcel imageHandlerToExcel) {
         this.workbook = new XSSFWorkbook();
         this.sheet = workbook.createSheet("Labels"); // ✅ Создаём лист здесь
         this.imageHandlerToExcel = imageHandlerToExcel;
     }
 
     @Override
-    public void generateCards(List<List<LabelLargeBox>> dataBlocks) throws IOException {
+    public void generateCards(List<List<LabelLargeBox>> dataBlocks, String outputName) throws IOException {
         int tempCol = startCol;
         for (List<LabelLargeBox> block : dataBlocks) {
             for (LabelLargeBox item : block) {
@@ -44,7 +44,7 @@ public class OutputWriterImpl implements OutputWriter<LabelLargeBox> {
             startRow += 12; // Сдвигаем вниз на 12 строк
             startCol = tempCol; // Возвращаем колонку в начало
         }
-        try (FileOutputStream fileOut = new FileOutputStream("output.xlsx")) {
+        try (FileOutputStream fileOut = new FileOutputStream(outputName)) {
             workbook.write(fileOut);
         } catch (IOException e) {
             System.out.println("не получилось записать файл");

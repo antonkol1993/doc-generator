@@ -17,8 +17,16 @@ public record InitParameters(@Value("${inputType}") String inputType,
         return InputType.valueOf(inputType);
     }
 
+    public String getInputFileName() {
+        return inputFileName;
+    }
+
     public OutputType getOutputType() {
         return OutputType.valueOf(outputType);
+    }
+
+    public String getOutputFileName() {
+        return outputFileName;
     }
 
 }
