@@ -30,6 +30,7 @@
         <java.version>17</java.version>
         <lombok.version>1.18.30</lombok.version>
         <apache.pom.version>5.2.3</apache.pom.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
     <dependencies>
         <dependency>
