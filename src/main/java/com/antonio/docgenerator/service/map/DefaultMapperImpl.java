@@ -1,5 +1,6 @@
 package com.antonio.docgenerator.service.map;
 
+import com.antonio.docgenerator.dto.InputDto;
 import com.antonio.docgenerator.dto.input.DefaultItem;
 import com.antonio.docgenerator.dto.output.LabelLargeBox;
 import org.slf4j.Logger;
@@ -13,7 +14,7 @@ import java.util.List;
 import java.util.Properties;
 
 @Service
-public class DefaultMapperImpl implements Mapper<DefaultItem, LabelLargeBox> {
+public class DefaultMapperImpl implements Mapper<LabelLargeBox> {
 
     private static final Logger logger = LoggerFactory.getLogger(DefaultMapperImpl.class);
     private final Properties mappingToImage = new Properties();
@@ -44,13 +45,17 @@ public class DefaultMapperImpl implements Mapper<DefaultItem, LabelLargeBox> {
     }
 
     @Override
-    public List<List<LabelLargeBox>> map(List<List<DefaultItem>> dataBlocks) {
+    public List<List<LabelLargeBox>> map(List<List<InputDto>> dataBlocks) {
         List<List<LabelLargeBox>> mappedBlocks = new ArrayList<>();
 
-        for (List<DefaultItem> block : dataBlocks) {
+        for (List<InputDto> block : dataBlocks) {
             List<LabelLargeBox> mappedBlock = new ArrayList<>();
-            for (DefaultItem item : block) {
-                mappedBlock.add(mapItem(item));
+            for (InputDto it : block) {
+                if (it instanceof DefaultItem item) {
+                    mappedBlock.add(mapItem(item));
+                } else {
+                    throw new RuntimeException("are you nuts?");
+                }
             }
             mappedBlocks.add(mappedBlock);
         }

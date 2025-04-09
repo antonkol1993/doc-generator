@@ -20,10 +20,10 @@ public class InputReaderFactoryImpl implements InputReaderFactory {
 
     @Override
     @SuppressWarnings("unchecked")
-    public <T extends InputDto<?>> InputReader<T> getReader(InputType inputType) {
+    public InputReader getReader(InputType inputType) {
         return switch (inputType) {
-            case DEFAULT -> (InputReader<T>) defaultReader;
-            case HISENER -> (InputReader<T>) hisenerReader;
+            case DEFAULT -> defaultReader;
+            case HISENER -> hisenerReader;
             default -> throw new RuntimeException("Неизвестный входящий тип: " + inputType);
         };
     }

@@ -1,5 +1,5 @@
 package com.antonio.docgenerator.dto;
 
-public interface InputDto<T> {
+public interface InputDto {
     String getTypeString();
 }

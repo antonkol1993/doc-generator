@@ -20,10 +20,10 @@ public class MapperFactoryImpl implements MapperFactory {
 
     @Override
     @SuppressWarnings("unchecked")
-    public <T extends InputDto<?>, K extends OutputDto<?>> Mapper<T, K> getMapper(InputType inputType) {
+    public <K extends OutputDto<?>> Mapper<K> getMapper(InputType inputType) {
         return switch (inputType) {
-            case DEFAULT -> (Mapper<T, K>) defaultMapper;
-            case HISENER -> (Mapper<T, K>) hisenerMapper;
+            case DEFAULT -> (Mapper<K>) defaultMapper;
+            case HISENER -> (Mapper<K>) hisenerMapper;
             default -> throw new IllegalArgumentException("Неподдерживаемый тип: " + inputType);
         };
     }

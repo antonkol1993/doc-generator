@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 @PropertySource("file:./resources/init.properties")
 public record InitParameters(@Value("${inputType}") String inputType,
                              @Value("${inputFileName}") String inputFileName,
+                             @Value("${inputType}") String mapperType,
                              @Value("${outputType}") String outputType,
                              @Value("${outputFileName}") String outputFileName) {
 

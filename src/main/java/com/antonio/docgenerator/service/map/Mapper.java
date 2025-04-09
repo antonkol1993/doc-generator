@@ -5,7 +5,7 @@ import com.antonio.docgenerator.dto.OutputDto;
 
 import java.util.List;
 
-public interface Mapper<T extends InputDto<?>, K extends OutputDto<?>> {
+public interface Mapper<K extends OutputDto<?>> {
 
-    List<List<K>> map(List<List<T>> t);
+    List<List<K>> map(List<List<InputDto>> t);
 }

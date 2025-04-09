@@ -4,6 +4,6 @@ import com.antonio.docgenerator.dto.InputDto;
 import com.antonio.docgenerator.enums.InputType;
 
 public interface InputReaderFactory {
-    <T extends InputDto<?>> InputReader<T> getReader(InputType inputType);
+    InputReader getReader(InputType inputType);
 }
 

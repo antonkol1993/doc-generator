@@ -39,16 +39,16 @@ public class GeneratorImpl implements Generator {
         String outputFilename = initParameters.getOutputFileName();
 
         // Получаем ридер для нужного типа
-        InputReader<? extends InputDto<?>> inputReader = inputReaderFactory.getReader(inputType);
+        InputReader inputReader = inputReaderFactory.getReader(inputType);
 
         // Читаем данные
-        List<? extends List<? extends InputDto<?>>> inputData = inputReader.readExcel(inputFilename);
+        List<List<InputDto>> inputData = inputReader.readExcel(inputFilename);
 
         // Получаем маппер
-        Mapper<InputDto<?>, OutputDto<?>> mapper = mapperFactory.getMapper(inputType);
+        Mapper<OutputDto<?>> mapper = mapperFactory.getMapper(inputType);
 
         // Преобразуем данные
-        List<List<OutputDto<?>>> mappedLists = mapper.map((List<List<InputDto<?>>>) inputData);
+        List<List<OutputDto<?>>> mappedLists = mapper.map(inputData);
 
         // Получаем правильный OutputWriter
         OutputWriter<OutputDto<?>> outputWriter = outputWriterFactory.getWriter(outputType, outputFilename);

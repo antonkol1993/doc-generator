@@ -1,9 +1,9 @@
 package com.antonio.docgenerator.service.in;
 
+import com.antonio.docgenerator.dto.InputDto;
 import com.antonio.docgenerator.dto.input.DefaultItem;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.poi.ss.usermodel.*;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.io.FileInputStream;
@@ -12,32 +12,33 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class DefaultReader implements InputReader<DefaultItem> {
-    private static final Logger logger = LoggerFactory.getLogger(DefaultReader.class);
-    private final List<List<DefaultItem>> dataBlocks = new ArrayList<>();
-    private final List<DefaultItem> currentBlock = new ArrayList<>();
+@Slf4j
+public class DefaultReader implements InputReader {
+//    private static final log log = logFactory.getlog(DefaultReader.class);
+    private final List<List<InputDto>> dataBlocks = new ArrayList<>();
+    private final List<InputDto> currentBlock = new ArrayList<>();
 
     @Override
-    public List<List<DefaultItem>> readExcel(String filePath) throws IOException {
-        logger.info("Начало обработки Excel-файла: {}", filePath);
+    public List<List<InputDto>> readExcel(String filePath) throws IOException {
+        log.info("Начало обработки Excel-файла: {}", filePath);
 
         try (FileInputStream file = new FileInputStream((filePath));
              Workbook workbook = WorkbookFactory.create(file)) {
 
             Sheet sheet = workbook.getSheetAt(0);
-            logger.debug("Рабочий лист '{}' успешно загружен", sheet.getSheetName());
+            log.debug("Рабочий лист '{}' успешно загружен", sheet.getSheetName());
 
             for (Row row : sheet) {
-                logger.trace("Обработка строки {}", row.getRowNum() + 1);
+                log.trace("Обработка строки {}", row.getRowNum() + 1);
 
                 if (row.getRowNum() < 2) continue;
 
                 DefaultItem item = processDataBlock(row);
                 if (item != null) {
                     currentBlock.add(item);
-                    logger.debug("Добавлен элемент: {}", item);
+                    log.debug("Добавлен элемент: {}", item);
                 } else if (!currentBlock.isEmpty()) {
-                    logger.debug("Завершен блок из {} элементов", currentBlock.size());
+                    log.debug("Завершен блок из {} элементов", currentBlock.size());
                     dataBlocks.add(new ArrayList<>(currentBlock));
                     currentBlock.clear();
                 }
@@ -45,14 +46,14 @@ public class DefaultReader implements InputReader<DefaultItem> {
 
             if (!currentBlock.isEmpty()) {
                 dataBlocks.add(new ArrayList<>(currentBlock));
-                logger.debug("Добавлен последний блок из {} элементов", currentBlock.size());
+                log.debug("Добавлен последний блок из {} элементов", currentBlock.size());
             }
 
-            logger.info("Файл успешно обработан. Найдено {} блоков данных", dataBlocks.size());
+            log.info("Файл успешно обработан. Найдено {} блоков данных", dataBlocks.size());
             return dataBlocks;
 
         } catch (IOException e) {
-            logger.error("Ошибка при обработке Excel-файла: {}", filePath, e);
+            log.error("Ошибка при обработке Excel-файла: {}", filePath, e);
             throw e;
         }
     }
@@ -70,18 +71,18 @@ public class DefaultReader implements InputReader<DefaultItem> {
             item.setOrder(getCellValue(row.getCell(6)));
             item.setAlterImagePath(getCellValue(row.getCell(7)));
 
-            if (logger.isTraceEnabled()) {
-                logger.trace("Прочитаны данные: {}", item);
+            if (log.isTraceEnabled()) {
+                log.trace("Прочитаны данные: {}", item);
             }
 
             if (isEmptyItem(item)) {
-                logger.debug("Пустой элемент в строке {}", row.getRowNum() + 1);
+                log.debug("Пустой элемент в строке {}", row.getRowNum() + 1);
                 return null;
             }
 
             return item;
         } catch (Exception e) {
-            logger.warn("Ошибка обработки строки {}: {}", row.getRowNum() + 1, e.getMessage());
+            log.warn("Ошибка обработки строки {}: {}", row.getRowNum() + 1, e.getMessage());
             return null;
         }
     }
@@ -118,7 +119,7 @@ public class DefaultReader implements InputReader<DefaultItem> {
                 try {
                     return cell.getCellFormula();
                 } catch (Exception e) {
-                    logger.warn("Ошибка при чтении формулы в {}: {}", cell.getAddress(), e.getMessage());
+                    log.warn("Ошибка при чтении формулы в {}: {}", cell.getAddress(), e.getMessage());
                     return "ERROR_FORMULA";
                 }
             case BLANK:
@@ -133,7 +134,7 @@ public class DefaultReader implements InputReader<DefaultItem> {
         if (cell.getCellType() == CellType.NUMERIC) {
             double numericValue = cell.getNumericCellValue();
             if (numericValue % 1 != 0) {
-                logger.warn("Число {} в ячейке {} содержит дробную часть, округление!", numericValue, cell.getAddress());
+                log.warn("Число {} в ячейке {} содержит дробную часть, округление!", numericValue, cell.getAddress());
             }
             return (int) Math.round(numericValue); // Безопасное округление
         }

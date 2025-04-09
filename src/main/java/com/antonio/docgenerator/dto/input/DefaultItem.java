@@ -6,7 +6,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class DefaultItem implements InputDto<DefaultItem> {
+public class DefaultItem implements InputDto {
     private Integer itemNo;
     private String alterImagePath;
 

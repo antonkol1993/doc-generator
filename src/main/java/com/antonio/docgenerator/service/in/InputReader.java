@@ -5,7 +5,7 @@ import com.antonio.docgenerator.dto.InputDto;
 import java.io.IOException;
 import java.util.List;
 
-public interface InputReader<T extends InputDto<?>> {
-    List<List<T>> readExcel(String filePath) throws IOException;
+public interface InputReader {
+    List<List<InputDto>> readExcel(String filePath) throws IOException;
 }
 
