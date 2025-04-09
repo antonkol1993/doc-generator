@@ -13,11 +13,11 @@ public class CommonProperties {
 
     private final Properties properties = new Properties();
 
-    public CommonProperties(@Value("file:./resources/common.properties") Resource resource) {
+    public CommonProperties(@Value("file:./resources/common-large-box-excel.properties") Resource resource) {
         try (InputStreamReader reader = new InputStreamReader(resource.getInputStream(), StandardCharsets.UTF_8)) {
             properties.load(reader);
         } catch (Exception e) {
-            throw new RuntimeException("Не удалось загрузить common.properties", e);
+            throw new RuntimeException("Не удалось загрузить common-large-box-excel.properties", e);
         }
     }
 
