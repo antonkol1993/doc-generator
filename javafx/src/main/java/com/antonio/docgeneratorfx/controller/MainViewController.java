@@ -7,6 +7,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.stage.FileChooser;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import java.io.File;
@@ -16,6 +17,8 @@ import java.util.List;
 @RequiredArgsConstructor
 
 public class MainViewController {
+
+    @Qualifier("defaultReader")
     private final InputReader reader;
 
     @FXML
