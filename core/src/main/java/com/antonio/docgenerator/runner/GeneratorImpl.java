@@ -1,5 +1,8 @@
 package com.antonio.docgenerator.runner;
 
+import com.antonio.docgenerator.service.map.Mapper;
+import com.antonio.docgenerator.service.map.MapperFactory;
+import com.antonio.docgenerator.service.out.OutputWriter;
 import com.antonio.docgenerator.dto.InputDto;
 import com.antonio.docgenerator.dto.OutputDto;
 import com.antonio.docgenerator.enums.InputType;
@@ -7,9 +10,6 @@ import com.antonio.docgenerator.enums.OutputType;
 import com.antonio.docgenerator.record.InitParameters;
 import com.antonio.docgenerator.service.in.InputReader;
 import com.antonio.docgenerator.service.in.InputReaderFactory;
-import com.antonio.docgenerator.service.map.Mapper;
-import com.antonio.docgenerator.service.map.MapperFactory;
-import com.antonio.docgenerator.service.out.OutputWriter;
 import com.antonio.docgenerator.service.out.OutputWriterFactory;
 import org.springframework.stereotype.Service;
 

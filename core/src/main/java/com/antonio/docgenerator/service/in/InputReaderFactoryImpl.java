@@ -1,6 +1,5 @@
 package com.antonio.docgenerator.service.in;
 
-import com.antonio.docgenerator.dto.InputDto;
 import com.antonio.docgenerator.enums.InputType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

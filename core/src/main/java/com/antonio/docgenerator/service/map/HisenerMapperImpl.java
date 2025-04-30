@@ -1,7 +1,6 @@
 package com.antonio.docgenerator.service.map;
 
 import com.antonio.docgenerator.dto.InputDto;
-import com.antonio.docgenerator.dto.input.HisenerItem;
 import com.antonio.docgenerator.dto.output.LabelLargeBox;
 import org.springframework.stereotype.Service;
 

@@ -1,4 +1,4 @@
-package com.antonio.docgenerator.trying11111111IMAGE.test;
+package com.antonio.docgenerator.trying11111111IMAGE;
 
 import lombok.Data;
 

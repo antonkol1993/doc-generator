@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane xmlns:fx="http://javafx.com/fxml" fx:controller="com.antonio.docgeneratorfx.controller.Dsaasdasd" prefWidth="600" prefHeight="400">
+    <children>
+        <Button text="Выбрать Excel" layoutX="200" layoutY="150" onAction="#onChooseFile"/>
+        <Label fx:id="statusLabel" layoutX="200" layoutY="200" prefWidth="400"/>
+    </children>
+</AnchorPane>

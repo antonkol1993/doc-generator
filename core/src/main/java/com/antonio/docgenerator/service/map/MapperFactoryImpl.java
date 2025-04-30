@@ -1,6 +1,5 @@
 package com.antonio.docgenerator.service.map;
 
-import com.antonio.docgenerator.dto.InputDto;
 import com.antonio.docgenerator.dto.OutputDto;
 import com.antonio.docgenerator.enums.InputType;
 import org.springframework.beans.factory.annotation.Autowired;

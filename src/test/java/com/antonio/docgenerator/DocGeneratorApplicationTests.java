@@ -6,8 +6,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 @SpringBootTest
 class DocGeneratorApplicationTests {
 
-    @Test
-    void contextLoads() {
-    }
+        @Test
+        public void sampleTest() {
+            assertTrue(true);
+        }
+
 
 }
