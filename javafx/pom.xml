@@ -55,7 +55,7 @@
                 <artifactId>javafx-maven-plugin</artifactId>
                 <version>0.0.8</version> <!-- Используем старую версию -->
                 <configuration>
-                    <mainClass>com.antonio.docgeneratorfx.SpringJavaFxRunner</mainClass>
+                    <mainClass>com.antonio.SpringJavaFxRunner</mainClass>
 <!--                    <options>-->
 <!--                        <option>&#45;&#45;module-path</option>-->
 <!--                        <option>C:/Users/user/.m2/repository/javafx-sdk-21.0.7</option>-->
