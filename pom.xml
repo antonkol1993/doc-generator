@@ -21,7 +21,7 @@
         <spring.boot.version>3.4.4</spring.boot.version> <!-- Укажи правильную версию Spring Boot -->
         <apache.poi.version>5.2.3</apache.poi.version> <!-- Укажи версию Apache POI -->
         <lombok.version>1.18.30</lombok.version> <!-- Укажи версию Lombok -->
-        <javafx.version>21</javafx.version> <!-- Укажи версию JavaFX -->
+        <javafx.version>21.0.7</javafx.version> <!-- Укажи версию JavaFX -->
     </properties>
 
     <dependencyManagement>

@@ -46,6 +46,10 @@ public class DefaultMapperImpl implements Mapper<LabelLargeBox> {
 
     @Override
     public List<List<LabelLargeBox>> map(List<List<InputDto>> dataBlocks) {
+        System.out.println(">>> Вызван DeafultMapper: !!!!!!!!!!!!");
+        System.out.println(">>> Вызван DeafultMapper: !!!!!!!!!!!!");
+        System.out.println(">>> Вызван DeafultMapper: !!!!!!!!!!!!");
+        System.out.println(">>> Вызван DeafultMapper: !!!!!!!!!!!!");
         List<List<LabelLargeBox>> mappedBlocks = new ArrayList<>();
 
         for (List<InputDto> block : dataBlocks) {

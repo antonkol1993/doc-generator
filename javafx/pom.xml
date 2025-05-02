@@ -11,12 +11,18 @@
 
     <artifactId>javafx</artifactId>
 
+    <repositories>
+        <repository>
+            <id>openjfx-repo</id>
+            <url>https://maven.java.net/content/groups/public/</url>
+        </repository>
+    </repositories>
+
     <dependencies>
         <!-- Связь с core -->
         <dependency>
-            <groupId>com.mgt-group</groupId>  <!-- ✅ Совпадает с parent-module -->
+            <groupId>com.mgt-group</groupId>
             <artifactId>core</artifactId>
-            <!-- Без version, т.к. у тебя уже настроен dependencyManagement в parent -->
         </dependency>
 
 
@@ -43,15 +49,28 @@
 
     <build>
         <plugins>
-            <!-- JavaFX Maven Plugin (если нужно запускать) -->
+            <!-- JavaFX Maven Plugin -->
             <plugin>
                 <groupId>org.openjfx</groupId>
                 <artifactId>javafx-maven-plugin</artifactId>
-                <version>0.0.8</version>
+                <version>0.0.8</version> <!-- Используем старую версию -->
                 <configuration>
-                    <mainClass>com.antonio.docgeneratorfx.DocGeneratorApp</mainClass>
+                    <mainClass>com.antonio.docgeneratorfx.SpringJavaFxRunner</mainClass>
+<!--                    <options>-->
+<!--                        <option>&#45;&#45;module-path</option>-->
+<!--                        <option>C:/Users/user/.m2/repository/javafx-sdk-21.0.7</option>-->
+<!--                        <option>&#45;&#45;add-modules</option>-->
+<!--                        <option>javafx.controls,javafx.fxml</option>-->
+<!--                    </options>-->
                 </configuration>
             </plugin>
         </plugins>
     </build>
+
+
+
+
+
+
+
 </project>
