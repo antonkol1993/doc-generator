@@ -5,11 +5,16 @@
 
     <parent>
         <groupId>com.mgt-group</groupId>
-        <artifactId>parent-module</artifactId>
+        <artifactId>doc-generator-parent</artifactId>
         <version>1.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>core</artifactId>
+    <artifactId>doc-generator-core</artifactId>
+    <name>doc-generator core</name>
+    <description>core part of all functions</description>
+    <version>1.0-SNAPSHOT</version>
+    <packaging>jar</packaging>
+
 
     <dependencies>
         <!-- Spring Boot -->

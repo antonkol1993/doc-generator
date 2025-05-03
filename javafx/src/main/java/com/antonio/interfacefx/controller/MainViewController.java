@@ -1,7 +1,7 @@
 package com.antonio.interfacefx.controller;
 
-import com.antonio.generator.dto.InputDto;
-import com.antonio.generator.service.in.InputReader;
+//import com.antonio.generator.dto.InputDto;
+//import com.antonio.generator.service.in.InputReader;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -16,11 +16,11 @@ import java.util.List;
 @Component
 public class MainViewController {
 
-    private final InputReader reader;
+//    private final InputReader reader;
 
-    public MainViewController(@Qualifier("defaultReader") InputReader inputReader) {
-        this.reader = inputReader;
-    }
+//    public MainViewController(@Qualifier("defaultReader") InputReader inputReader) {
+//        this.reader = inputReader;
+//    }
 
 
     @FXML
@@ -36,13 +36,13 @@ public class MainViewController {
 
         readButton.setOnAction(e -> {
             try {
-                List<List<InputDto>> lists = reader.readExcel("excel-example/DataFromInvoice for example .xlsx");
-                statusLabel.setText("Файл успешно прочитан");
-                for (List<InputDto> list : lists) {
-                    for (InputDto dto : list) {
-                        System.out.println(dto);
-                    }
-                }
+//                List<List<InputDto>> lists = reader.readExcel("excel-example/DataFromInvoice for example .xlsx");
+//                statusLabel.setText("Файл успешно прочитан");
+//                for (List<InputDto> list : lists) {
+//                    for (InputDto dto : list) {
+//                        System.out.println(dto);
+//                    }
+//                }
             } catch (Exception ex) {
                 statusLabel.setText("Ошибка: " + ex.getMessage());
             }
@@ -57,9 +57,9 @@ public class MainViewController {
         if (file != null) {
             statusLabel.setText("Файл: " + file.getName());
             try {
-                List<List<InputDto>> data = reader.readExcel(file.getAbsolutePath());
-                statusLabel.setText("Успешно загружено блоков: " + data.size());
-                data.forEach(list -> list.forEach(System.out::println));
+//                List<List<InputDto>> data = reader.readExcel(file.getAbsolutePath());
+//                statusLabel.setText("Успешно загружено блоков: " + data.size());
+//                data.forEach(list -> list.forEach(System.out::println));
             } catch (Exception e) {
                 statusLabel.setText("Ошибка: " + e.getMessage());
             }
