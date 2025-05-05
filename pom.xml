@@ -25,7 +25,10 @@
         <apache.poi.version>5.2.3</apache.poi.version> <!-- Укажи версию Apache POI -->
         <lombok.version>1.18.30</lombok.version> <!-- Укажи версию Lombok -->
         <javafx.version>21.0.7</javafx.version> <!-- Укажи версию JavaFX -->
+        <sqlite.jdbc.version>3.49.1.0</sqlite.jdbc.version>
+        <sqlite.dialect.version>0.2.0</sqlite.dialect.version>
     </properties>
+
 
     <dependencyManagement>
         <dependencies>
@@ -44,6 +47,23 @@
                 <artifactId>spring-boot-starter-test</artifactId>
                 <version>${spring.boot.version}</version> <!-- Используется версия из parent POM -->
                 <scope>test</scope>
+            </dependency>
+
+            <!-- Spring Data JPA + SQLite -->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-data-jpa</artifactId>
+                <version>${spring.boot.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.xerial</groupId>
+                <artifactId>sqlite-jdbc</artifactId>
+                <version>${sqlite.jdbc.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.github.gwenn</groupId>
+                <artifactId>sqlite-dialect</artifactId>
+                <version>${sqlite.dialect.version}</version>
             </dependency>
 
             <dependency>
