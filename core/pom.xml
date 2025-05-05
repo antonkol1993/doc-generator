@@ -17,11 +17,15 @@
 
 
     <dependencies>
+        <!-- repo dependency -->
+
+
+
         <!-- Spring Boot -->
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter</artifactId>
-            <version>${spring.boot.version}</version>
+            <groupId>com.mgt-group</groupId>
+            <artifactId>doc-generator-repo</artifactId>
+            <version>1.0-SNAPSHOT</version>
         </dependency>
 
         <dependency>
@@ -70,23 +74,7 @@
             <version>${javafx.version}</version>
         </dependency>
 
-        <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter</artifactId>
-            <version>${junit.jupiter.version}</version>
-            <scope>test</scope>
-        </dependency>
 
-        <dependency>
-            <groupId>org.xerial</groupId>
-            <artifactId>sqlite-jdbc</artifactId>
-            <version>${sqlite.jdbc.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.github.gwenn</groupId>
-            <artifactId>sqlite-dialect</artifactId>
-            <version>${sqlite.dialect.version}</version>
-        </dependency>
     </dependencies>
 
 </project>
