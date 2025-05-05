@@ -1,4 +1,4 @@
-package com.antonio.ui;
+package com.ui;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -9,7 +9,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.ConfigurableApplicationContext;
 
-@SpringBootApplication(scanBasePackages = "com.antonio.ui")
+@SpringBootApplication(scanBasePackages = "com.antonio")
 public class SpringJavaFxRunner extends Application {
 
     private ConfigurableApplicationContext context;

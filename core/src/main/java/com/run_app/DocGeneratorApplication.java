@@ -1,4 +1,4 @@
-package com.antonio.core;
+package com.run_app;
 
 import com.antonio.core.generator.runner.Generator;
 import org.springframework.beans.factory.annotation.Autowired;
