@@ -7,7 +7,8 @@ spring:
 
   jpa:
     hibernate:
-      ddl-auto: update
+#      ddl-auto: update # Это заставит Hibernate создавать или обновлять таблицы
+      ddl-auto: create # create
     properties:
       hibernate:
         dialect: org.hibernate.community.dialect.SQLiteDialect
@@ -18,5 +19,6 @@ spring:
 
 app:
   database:
-    path: ${user.dir}/data
+    path: ${user.dir}/database
+#    path: C:/Users/user/IdeaProjects/doc-generator/database
     name: m-group-trade.db

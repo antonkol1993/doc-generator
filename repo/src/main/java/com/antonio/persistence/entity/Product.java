@@ -1,26 +1,25 @@
 package com.antonio.persistence.entity;
 
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Data;
 
 
 @Data
 @Entity
+@Table(name = "product")
 public class Product {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(name = "name")
     private String name;
-    private double price;
 
+    @Column(name = "price")
+    private Double price;
 
-
-    // Getters and setters
 
 }
+
 
