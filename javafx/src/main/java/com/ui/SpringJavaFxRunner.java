@@ -9,7 +9,14 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.ConfigurableApplicationContext;
 
-@SpringBootApplication(scanBasePackages = "com.antonio")
+@SpringBootApplication(
+        scanBasePackages = "com.antonio",
+        exclude = {
+        org.springframework.boot.autoconfigure.web.servlet.ServletWebServerFactoryAutoConfiguration.class,
+        org.springframework.boot.autoconfigure.web.servlet.WebMvcAutoConfiguration.class,
+        org.springframework.boot.autoconfigure.jmx.JmxAutoConfiguration.class
+})
+
 public class SpringJavaFxRunner extends Application {
 
     private ConfigurableApplicationContext context;

@@ -62,18 +62,6 @@
         </dependency>
 
 
-        <!-- JavaFX (если нужно использовать и в core) -->
-        <dependency>
-            <groupId>org.openjfx</groupId>
-            <artifactId>javafx-controls</artifactId>
-            <version>${javafx.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.openjfx</groupId>
-            <artifactId>javafx-fxml</artifactId>
-            <version>${javafx.version}</version>
-        </dependency>
-
 
     </dependencies>
 
