@@ -40,6 +40,14 @@ public class DbInit implements CommandLineRunner {
         // Сохраняем его в базу данных
         productRepository.save(product);
 
+        // Добавляем пример продукта в базу данных
+        Product product2 = new Product();
+        product2.setName("Test Product222323");
+        product2.setPrice(213231321.0);
+
+        // Сохраняем его в базу данных
+        productRepository.save(product2);
+
         // Выводим список всех продуктов
         productRepository.findAll().forEach(p ->
                 System.out.println(p.getName()
