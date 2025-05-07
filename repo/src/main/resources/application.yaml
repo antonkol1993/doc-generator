@@ -1,20 +1,20 @@
 spring:
   datasource:
-    url: jdbc:sqlite:file:${app.database.path}/${app.database.name}
+    url: jdbc:sqlite:${app.database.path}/${app.database.name}
     driver-class-name: org.sqlite.JDBC
     hikari:
-      maximum-pool-size: 1  # Важно для SQLite!
+      maximum-pool-size: 1
 
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: create
     properties:
       hibernate:
         dialect: org.hibernate.community.dialect.SQLiteDialect
         connection.autocommit: true
         format_sql: true
     show-sql: true
-    open-in-view: false  # Обязательно для Spring Boot 3+
+    open-in-view: false
 
 app:
   database:
