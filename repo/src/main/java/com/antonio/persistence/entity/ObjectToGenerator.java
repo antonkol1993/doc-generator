@@ -11,8 +11,11 @@ public class ObjectToGenerator {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "orig_name")
-    private String originalName;
+    @Column(name = "key_name")
+    private String keyName;
+
+    @Column(name = "eng_name")
+    private String engName;
 
     @Column(name = "rus_name")
     private String rusName;
@@ -22,4 +25,11 @@ public class ObjectToGenerator {
 
     @Column(name = "image_path")
     private String imagePath;
+
+    @Column(name = "tn_ved_code")
+    private String tn_ved_code;
+
+    @Column(name = "producer")
+    private String producer;
+
 }

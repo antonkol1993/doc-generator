@@ -41,7 +41,7 @@ public class ObjectService {
     public ObjectToGenerator updateObject(Long id, ObjectToGenerator updatedData) {
         return repository.findById(id)
                 .map(existing -> {
-                    existing.setOriginalName(updatedData.getOriginalName());
+                    existing.setKeyName(updatedData.getKeyName());
                     existing.setRusName(updatedData.getRusName());
                     existing.setTo1C8name(updatedData.getTo1C8name());
                     existing.setImagePath(updatedData.getImagePath());
