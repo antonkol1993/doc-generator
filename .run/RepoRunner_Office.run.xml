@@ -1,0 +1,15 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="RepoRunner_Office" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+    <module name="repo" />
+    <option name="SPRING_BOOT_MAIN_CLASS" value="com.runners.RepoApplication" />
+    <extension name="coverage">
+      <pattern>
+        <option name="PATTERN" value="com.runners.*" />
+        <option name="ENABLED" value="true" />
+      </pattern>
+    </extension>
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>

@@ -17,17 +17,15 @@
 
 
     <dependencies>
+
         <!-- repo dependency -->
-
-
-
-        <!-- Spring Boot -->
         <dependency>
             <groupId>com.mgt-group</groupId>
             <artifactId>doc-generator-repo</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
 
+        <!-- Spring Boot -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-logging</artifactId>

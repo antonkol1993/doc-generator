@@ -6,16 +6,27 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @SpringBootApplication(
-        scanBasePackages = "com.antonio",
         exclude = {
         org.springframework.boot.autoconfigure.web.servlet.ServletWebServerFactoryAutoConfiguration.class,
         org.springframework.boot.autoconfigure.web.servlet.WebMvcAutoConfiguration.class,
         org.springframework.boot.autoconfigure.jmx.JmxAutoConfiguration.class
 })
+@ComponentScan(basePackages = {
+        "com.antonio.interfacefx",         // твой UI слой
+        "com.antonio.core",         // твой core
+        "com.antonio.persistence.db_init", // где лежит DbInit
+        "com.antonio.persistence.repository", // обязательно для репозиториев
+        "com.antonio.persistence.entity"   // если есть сущности с @Component
+})
+@EnableJpaRepositories(basePackages = "com.antonio.persistence.repository")
+@EntityScan(basePackages = "com.antonio.persistence.entity")
 
 public class SpringJavaFxRunner extends Application {
 

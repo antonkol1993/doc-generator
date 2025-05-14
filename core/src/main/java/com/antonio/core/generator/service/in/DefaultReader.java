@@ -11,7 +11,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-@Service
+@Service("defaultReader")
 @Slf4j
 public class DefaultReader implements InputReader {
 //    private static final log log = logFactory.getlog(DefaultReader.class);

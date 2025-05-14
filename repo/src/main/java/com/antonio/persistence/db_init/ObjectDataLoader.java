@@ -36,7 +36,8 @@ public class ObjectDataLoader {
         );
     }
 
-    private static ObjectToGenerator create(String keyName, String engName, String rusName, String imagePath) {
+    private static ObjectToGenerator create(String keyName, String engName, String rusName,
+                                            String imagePath) {
         ObjectToGenerator obj = new ObjectToGenerator();
         obj.setKeyName(keyName);
         obj.setEngName(engName);
