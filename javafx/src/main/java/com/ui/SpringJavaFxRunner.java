@@ -1,5 +1,6 @@
 package com.ui;
 
+import com.antonio.interfacefx.util.SceneSwitcher;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -14,10 +15,10 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @SpringBootApplication(
         exclude = {
-        org.springframework.boot.autoconfigure.web.servlet.ServletWebServerFactoryAutoConfiguration.class,
-        org.springframework.boot.autoconfigure.web.servlet.WebMvcAutoConfiguration.class,
-        org.springframework.boot.autoconfigure.jmx.JmxAutoConfiguration.class
-})
+                org.springframework.boot.autoconfigure.web.servlet.ServletWebServerFactoryAutoConfiguration.class,
+                org.springframework.boot.autoconfigure.web.servlet.WebMvcAutoConfiguration.class,
+                org.springframework.boot.autoconfigure.jmx.JmxAutoConfiguration.class
+        })
 @ComponentScan(basePackages = {
         "com.antonio.interfacefx",         // твой UI слой
         "com.antonio.core",         // твой core
@@ -34,21 +35,19 @@ public class SpringJavaFxRunner extends Application {
 
     @Override
     public void init() {
+
         // Запускаем Spring Boot и сохраняем контекст
         context = new SpringApplicationBuilder(SpringJavaFxRunner.class).run();
     }
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        // Загружаем FXML и внедряем зависимости через Spring
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/main-view.fxml"));
-        loader.setControllerFactory(context::getBean); // даёт Spring управлять контроллером
-        Parent root = loader.load();
+        // Устанавливаем Spring-контекст и Stage в SceneSwitcher
+        SceneSwitcher.setApplicationContext(context);
+        SceneSwitcher.setPrimaryStage(primaryStage);
 
-        // Отображаем сцену
-        primaryStage.setTitle("Doc Generator FX");
-        primaryStage.setScene(new Scene(root));
-        primaryStage.show();
+        // Переключаем сцену на главное меню
+        SceneSwitcher.switchScene("/fxml/menu-view.fxml", "Doc Generator FX");
     }
 
     @Override

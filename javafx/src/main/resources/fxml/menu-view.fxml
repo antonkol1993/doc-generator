@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane xmlns:fx="http://javafx.com/fxml" fx:controller="com.antonio.interfacefx.controller.MenuController"
+            prefWidth="600" prefHeight="400">
+    <children>
+        <VBox alignment="CENTER" spacing="20" layoutX="200" layoutY="80" prefWidth="200">
+            <Button text="Объекты" onAction="#onObjects"/>
+            <Button text="Генерация" onAction="#onGeneration"/>
+            <Region prefHeight="80"/> <!-- пустой блок для смещения вниз -->
+            <Button text="Завершить" onAction="#onExit"/>
+        </VBox>
+    </children>
+</AnchorPane>
+
