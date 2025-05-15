@@ -33,5 +33,21 @@ public class SceneSwitcher {
             logger.severe("Ошибка при загрузке сцены: " + fxmlPath + ". Сообщение ошибки: " + e.getMessage());
         }
     }
+
+    public static void openInNewWindow(String fxmlPath, String title) {
+        try {
+            FXMLLoader loader = new FXMLLoader(SceneSwitcher.class.getResource(fxmlPath));
+            loader.setControllerFactory(springContext::getBean);
+            Parent root = loader.load();
+
+            Stage newStage = new Stage();
+            newStage.setTitle(title);
+            newStage.setScene(new Scene(root));
+            newStage.show();
+        } catch (Exception e) {
+            logger.severe("Ошибка при открытии нового окна: " + fxmlPath + ". Сообщение ошибки: " + e.getMessage());
+        }
+    }
+
 }
 

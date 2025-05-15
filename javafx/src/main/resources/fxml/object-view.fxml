@@ -5,10 +5,12 @@
 
 <AnchorPane xmlns:fx="http://javafx.com/fxml" fx:controller="com.antonio.interfacefx.controller.ObjectController"
             prefWidth="600" prefHeight="400">
-    <children>
-        <Button fx:id="createObjectButton" text="Создать объект" layoutX="50" layoutY="150" onAction="#onCreateObject"/>
-
-
-        <Button fx:id="backButton" text="Назад" layoutX="50" layoutY="200" onAction="#onBack"/>
-    </children>
+    <VBox layoutX="50" layoutY="50" spacing="10">
+        <Button fx:id="createObjectButton" text="Создать объект" onAction="#onCreateObject"/>
+        <Button fx:id="listOfObjects" text="Список объектов" onAction="#onListOfObjects"/>
+        <Region minHeight="80"/> <!-- отступ между кнопками -->
+        <Button fx:id="backButton" text="Назад" onAction="#onBack"/>
+    </VBox>
 </AnchorPane>
+
+

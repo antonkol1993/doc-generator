@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane xmlns:fx="http://javafx.com/fxml" fx:controller="com.antonio.interfacefx.controller.ObjectListController"
+            prefWidth="800" prefHeight="600">
+    <children>
+        <TableView fx:id="objectTable" layoutX="20" layoutY="20" prefWidth="760" prefHeight="560">
+            <columns>
+                <TableColumn fx:id="idColumn" text="ID" prefWidth="50"/>
+                <TableColumn fx:id="keyNameColumn" text="Key Name" prefWidth="100"/>
+                <TableColumn fx:id="engNameColumn" text="English Name" prefWidth="150"/>
+                <TableColumn fx:id="rusNameColumn" text="Russian Name" prefWidth="150"/>
+                <TableColumn fx:id="producerColumn" text="Producer" prefWidth="100"/>
+            </columns>
+        </TableView>
+    </children>
+</AnchorPane>
