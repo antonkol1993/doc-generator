@@ -3,7 +3,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane xmlns:fx="http://javafx.com/fxml" fx:controller="com.antonio.interfacefx.controller.ObjectListController"
+<AnchorPane xmlns:fx="http://javafx.com/fxml" fx:controller="com.antonio.interfacefx.controller.ListOfObjectsController"
             prefWidth="800" prefHeight="600">
     <children>
         <TableView fx:id="objectTable" layoutX="20" layoutY="20" prefWidth="760" prefHeight="560">
