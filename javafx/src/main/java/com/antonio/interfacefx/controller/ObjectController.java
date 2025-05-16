@@ -5,7 +5,6 @@ import com.antonio.persistence.repository.ObjectToGeneratorRepository;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -27,8 +26,9 @@ public class ObjectController {
     // Обработчик для кнопки "Создать объект"
     @FXML
     public void onCreateObject(ActionEvent event) {
-        System.out.println("Объект создан!");
+        SceneSwitcher.openInNewWindow("/fxml/object-form.fxml", "Создание объекта");
     }
+
 
     // Обработчик для кнопки "Создать объект"
     @FXML
@@ -40,6 +40,6 @@ public class ObjectController {
     // Обработчик кнопки "Назад"
     @FXML
     public void onBack(ActionEvent event) {
-        SceneSwitcher.switchScene("/fxml/menu-view.fxml", "Doc Generator FX");
+        SceneSwitcher.switchScene("/fxml/menu-controller.fxml", "Doc Generator FX");
     }
 }

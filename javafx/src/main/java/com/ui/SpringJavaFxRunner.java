@@ -2,9 +2,6 @@ package com.ui;
 
 import com.antonio.interfacefx.util.SceneSwitcher;
 import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.stage.Stage;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
@@ -47,7 +44,7 @@ public class SpringJavaFxRunner extends Application {
         SceneSwitcher.setPrimaryStage(primaryStage);
 
         // Переключаем сцену на главное меню
-        SceneSwitcher.switchScene("/fxml/menu-view.fxml", "Doc Generator FX");
+        SceneSwitcher.switchScene("/fxml/menu-controller.fxml", "Doc Generator FX");
     }
 
     @Override

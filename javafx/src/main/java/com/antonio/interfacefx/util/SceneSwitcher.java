@@ -46,6 +46,7 @@ public class SceneSwitcher {
             newStage.show();
         } catch (Exception e) {
             logger.severe("Ошибка при открытии нового окна: " + fxmlPath + ". Сообщение ошибки: " + e.getMessage());
+            e.printStackTrace();
         }
     }
 

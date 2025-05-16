@@ -59,7 +59,7 @@ public class GenerationController {
     // Обработчик кнопки "Назад"
     @FXML
     public void onBack(ActionEvent event) {
-        SceneSwitcher.switchScene("/fxml/menu-view.fxml", "Doc Generator FX");
+        SceneSwitcher.switchScene("/fxml/menu-controller.fxml", "Doc Generator FX");
     }
 
     // Чтение файла

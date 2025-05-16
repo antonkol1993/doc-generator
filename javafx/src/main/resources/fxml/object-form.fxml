@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.geometry.Pos?>
+
+<VBox xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.antonio.interfacefx.controller.ObjectFormController"
+      spacing="20" alignment="CENTER"
+      prefWidth="600">
+
+    <padding>
+        <Insets top="20" right="20" bottom="20" left="20"/>
+    </padding>
+
+    <Label text="Добавление объекта" style="-fx-font-size: 18px; -fx-font-weight: bold;"/>
+
+    <GridPane hgap="10" vgap="10">
+        <Label text="Key Name:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+        <TextField fx:id="keyNameField" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+
+        <Label text="English Name:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+        <TextField fx:id="engNameField" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+
+        <Label text="Russian Name:" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+        <TextField fx:id="rusNameField" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+
+        <Label text="1C8 Name:" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
+        <TextField fx:id="to1C8NameField" GridPane.rowIndex="3" GridPane.columnIndex="1"/>
+
+        <Label text="Image Path:" GridPane.rowIndex="4" GridPane.columnIndex="0"/>
+        <TextField fx:id="imagePathField" GridPane.rowIndex="4" GridPane.columnIndex="1"/>
+
+        <Label text="TN VED Code:" GridPane.rowIndex="5" GridPane.columnIndex="0"/>
+        <TextField fx:id="tnVedCodeField" GridPane.rowIndex="5" GridPane.columnIndex="1"/>
+
+        <Label text="Producer:" GridPane.rowIndex="6" GridPane.columnIndex="0"/>
+        <TextField fx:id="producerField" GridPane.rowIndex="6" GridPane.columnIndex="1"/>
+    </GridPane>
+
+    <Button text="Сохранить" onAction="#onSave"/>
+</VBox>

@@ -15,11 +15,11 @@ import java.io.IOException;
 public class MenuController {
 
     public void onObjects(ActionEvent event) throws IOException {
-        switchScene("/fxml/object-view.fxml", event);
+        switchScene("/fxml/objects-controller.fxml", event);
     }
 
     public void onGeneration(ActionEvent event) throws IOException {
-        switchScene("/fxml/generation-view.fxml", event);
+        switchScene("/fxml/generation-controller.fxml", event);
     }
 
     public void onExit(ActionEvent event) {
