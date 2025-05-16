@@ -1,6 +1,6 @@
 databaseChangeLog:
   - include:
-      file: src/main/resources/db/changelog/ver_1_BETA/create-objects-table.sql
+      file: db/changelog/ver_1_BETA/create-objects-table.sql
   - include:
 #      file: db/changelog/scripts/ver_1_BETA/insert_data.sql
-      file: src/main/resources/db/changelog/ver_1_BETA/insert_data.sql
+      file: db/changelog/ver_1_BETA/insert_data.sql
