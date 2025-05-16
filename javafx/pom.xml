@@ -18,21 +18,7 @@
         <start-class>com.ui.SpringJavaFxRunner</start-class>
 
     </properties>
-<!--    <repositories>-->
-<!--        <repository>-->
-<!--            <id>central-repo</id>-->
-<!--            <url>https://repo1.maven.org/maven2/</url>-->
-<!--        </repository>-->
-<!--        <repository>-->
-<!--            <id>openjfx-repo</id>-->
-<!--            <url>https://maven.java.net/content/groups/public/</url>-->
-<!--        </repository>-->
-<!--        <repository>-->
-<!--            <id>local-repo</id>-->
-<!--            <name>Local Repository</name>-->
-<!--            <url>C:\Users\user\.m2\repository</url>-->
-<!--        </repository>-->
-<!--    </repositories>-->
+
 
     <dependencies>
         <!-- Связь с core -->
@@ -72,6 +58,15 @@
             <artifactId>lombok</artifactId>
             <scope>provided</scope>
         </dependency>
+
+        <!-- ЕЩЕ здесь указал liquibase -->
+        <dependency>
+            <groupId>org.liquibase</groupId>
+            <artifactId>liquibase-core</artifactId>
+        </dependency>
+
+
+
 
     </dependencies>
 

@@ -37,6 +37,11 @@
             </exclusions>
         </dependency>
 
+        <!-- Liquibase -->
+        <dependency>
+            <groupId>org.liquibase</groupId>
+            <artifactId>liquibase-core</artifactId>
+        </dependency>
         <!-- логирование от Spring Boot (версия подтягивается из родительского POM) -->
         <dependency>
             <groupId>org.springframework.boot</groupId>

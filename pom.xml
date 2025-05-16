@@ -34,6 +34,7 @@
         <sqlite.jdbc.version>3.45.3.0</sqlite.jdbc.version>
         <hibernate.dialect.version>6.4.4.Final</hibernate.dialect.version>
         <junit.jupiter.version>5.9.3</junit.jupiter.version>
+        <liquibase.version>4.30.0</liquibase.version>
     </properties>
 
     <dependencyManagement>
@@ -92,6 +93,11 @@
                 <artifactId>junit-jupiter</artifactId>
                 <version>${junit.jupiter.version}</version>
                 <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.liquibase</groupId>
+                <artifactId>liquibase-core</artifactId>
+                <version>${liquibase.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

@@ -1,6 +1,7 @@
 package com.ui;
 
 import com.antonio.interfacefx.util.SceneSwitcher;
+import jakarta.annotation.PostConstruct;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -9,6 +10,8 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+
+import java.net.URL;
 
 @SpringBootApplication(
         exclude = {
@@ -45,6 +48,9 @@ public class SpringJavaFxRunner extends Application {
 
         // Переключаем сцену на главное меню
         SceneSwitcher.switchScene("/fxml/menu-controller.fxml", "Doc Generator FX");
+//        //todo удалить в дальнейшем
+//        URL resource = getClass().getClassLoader().getResource("db/changelog/liquibase-changeLog.yaml");
+//        System.out.println("Liquibase config path: " + resource);
     }
 
     @Override
@@ -55,6 +61,19 @@ public class SpringJavaFxRunner extends Application {
 
     public static void main(String[] args) {
         Application.launch(args);
+    }
+
+//todo удалить в дальнейшем для проверки!!!!
+    @PostConstruct
+    public void checkLiquibaseChangelog() {
+        ClassLoader cl = Thread.currentThread().getContextClassLoader();
+        URL resource = cl.getResource("db/changelog/liquibase-changeLog.yaml");
+        System.out.println("Liquibase changelog URL: " + resource);
+        if (resource == null) {
+            System.out.println("Liquibase changelog NOT found in classpath!");
+        } else {
+            System.out.println("Liquibase changelog FOUND!");
+        }
     }
 
 
