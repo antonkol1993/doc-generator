@@ -16,6 +16,8 @@ app:
   database:
     path: ${user.dir}/data
     name: m-group-trade.db
+  storage:
+    path: storage/images/metalware
 
 #logging:
 #  level:

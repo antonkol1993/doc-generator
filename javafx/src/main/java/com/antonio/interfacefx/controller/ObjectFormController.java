@@ -1,5 +1,6 @@
 package com.antonio.interfacefx.controller;
 
+import com.antonio.interfacefx.config.AppProperties;
 import com.antonio.persistence.entity.ObjectToGenerator;
 import com.antonio.persistence.repository.ObjectToGeneratorRepository;
 import javafx.fxml.FXML;
@@ -22,16 +23,25 @@ import java.nio.file.StandardCopyOption;
 public class ObjectFormController {
 
     private final ObjectToGeneratorRepository repository;
+    private final AppProperties appProperties;
 
-    @FXML private VBox rootPane;
+    @FXML
+    private VBox rootPane;
 
-    @FXML private TextField keyNameField;
-    @FXML private TextField engNameField;
-    @FXML private TextField rusNameField;
-    @FXML private TextField to1C8NameField;
-    @FXML private TextField imagePathField;
-    @FXML private TextField tnVedCodeField;
-    @FXML private TextField producerField;
+    @FXML
+    private TextField keyNameField;
+    @FXML
+    private TextField engNameField;
+    @FXML
+    private TextField rusNameField;
+    @FXML
+    private TextField to1C8NameField;
+    @FXML
+    private TextField imagePathField;
+    @FXML
+    private TextField tnVedCodeField;
+    @FXML
+    private TextField producerField;
 
     @FXML
     public void initialize() {
@@ -139,14 +149,18 @@ public class ObjectFormController {
             Path source = Paths.get(originalPath);
             String fileName = source.getFileName().toString();
 
-            Path destination = Paths.get("storage/images/metalware", fileName);
+            String baseDir = appProperties.getStoragePath();
+            Path destination = Paths.get(baseDir, fileName);
             Files.createDirectories(destination.getParent());
 
             Files.copy(source, destination, StandardCopyOption.REPLACE_EXISTING);
-            return "storage/images/metalware/" + fileName;
+            return baseDir + "/" + fileName;
         } catch (IOException e) {
             e.printStackTrace();
             return null;
         }
     }
+
+
 }
+
