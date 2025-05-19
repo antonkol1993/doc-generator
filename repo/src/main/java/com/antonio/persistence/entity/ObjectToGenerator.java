@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import lombok.Data;
 
 @Data
-@Entity(name = "object_main")
+@Entity(name = "objects")
 public class ObjectToGenerator {
 
     @Id

@@ -1,30 +1,30 @@
-spring:
-  datasource:
-    url: jdbc:sqlite:${app.database.path}/${app.database.name}
-    driver-class-name: org.sqlite.JDBC
-    hikari:
-      maximum-pool-size: 1
-  jpa:
-    hibernate:
-      ddl-auto: none
-    properties:
-      hibernate:
-        dialect: org.hibernate.community.dialect.SQLiteDialect
-        connection.autocommit: true
-        format_sql: true
-    show-sql: true
-    open-in-view: false
-  liquibase:
-    change-log: classpath:db/changelog/liquibase-changeLog.yaml
-    enabled: true
-    drop-first: false
-
-
-app:
-  database:
-    path: ${user.dir}/data
-    name: m-group-trade.db
-
-logging:
-#  level:
-#    liquibase: debug
+#spring:
+#  datasource:
+#    url: jdbc:sqlite:${app.database.path}/${app.database.name}
+#    driver-class-name: org.sqlite.JDBC
+#    hikari:
+#      maximum-pool-size: 1
+#  jpa:
+#    hibernate:
+#      ddl-auto: none
+#    properties:
+#      hibernate:
+#        dialect: org.hibernate.community.dialect.SQLiteDialect
+#        connection.autocommit: true
+#        format_sql: true
+#    show-sql: true
+#    open-in-view: false
+#  liquibase:
+#    change-log: classpath:db/changelog/liquibase-changeLog.yaml
+#    enabled: true
+#    drop-first: false
+#
+#
+#app:
+#  database:
+#    path: ${user.dir}/data
+#    name: m-group-trade.db
+#
+#logging:
+##  level:
+##    liquibase: debug

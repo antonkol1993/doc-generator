@@ -17,6 +17,6 @@ app:
     path: ${user.dir}/data
     name: m-group-trade.db
 
-logging:
-  level:
-    liquibase: DEBUG
+#logging:
+#  level:
+#    liquibase: DEBUG
