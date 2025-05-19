@@ -3,7 +3,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane xmlns:fx="http://javafx.com/fxml" fx:controller="com.antonio.interfacefx.controller.GenerationController"
+<AnchorPane xmlns:fx="http://javafx.com/fxml" fx:controller="com.antonio.interfacefx.controller.GenerateSectionController"
             prefWidth="600" prefHeight="400">
     <children>
         <Button fx:id="readButton" text="Запустить чтение Excel" layoutX="50" layoutY="150" onAction="#onRead"/>

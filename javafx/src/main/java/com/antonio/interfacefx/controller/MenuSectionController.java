@@ -12,14 +12,14 @@ import org.springframework.stereotype.Component;
 import java.io.IOException;
 
 @Component
-public class MenuController {
+public class MenuSectionController {
 
     public void onObjects(ActionEvent event) throws IOException {
-        switchScene("/fxml/objects-controller.fxml", event);
+        switchScene("/fxml/objects-section.fxml", event);
     }
 
     public void onGeneration(ActionEvent event) throws IOException {
-        switchScene("/fxml/generation-controller.fxml", event);
+        switchScene("/fxml/generate-section.fxml", event);
     }
 
     public void onExit(ActionEvent event) {

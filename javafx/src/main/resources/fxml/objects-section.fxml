@@ -3,7 +3,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane xmlns:fx="http://javafx.com/fxml" fx:controller="com.antonio.interfacefx.controller.ObjectController"
+<AnchorPane xmlns:fx="http://javafx.com/fxml" fx:controller="com.antonio.interfacefx.controller.ObjectsSectionController"
             prefWidth="600" prefHeight="400">
     <VBox layoutX="50" layoutY="50" spacing="10">
         <Button fx:id="createObjectButton" text="Создать объект" onAction="#onCreateObject"/>

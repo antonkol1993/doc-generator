@@ -14,11 +14,11 @@ import java.io.File;
 import java.util.List;
 
 @Component
-public class GenerationController {
+public class GenerateSectionController {
 
     private final InputReader reader;
 
-    public GenerationController(@Qualifier("defaultReader") InputReader inputReader) {
+    public GenerateSectionController(@Qualifier("defaultReader") InputReader inputReader) {
         this.reader = inputReader;
     }
 
@@ -59,7 +59,7 @@ public class GenerationController {
     // Обработчик кнопки "Назад"
     @FXML
     public void onBack(ActionEvent event) {
-        SceneSwitcher.switchScene("/fxml/menu-controller.fxml", "Doc Generator FX");
+        SceneSwitcher.switchScene("/fxml/menu-section.fxml", "Doc Generator FX");
     }
 
     // Чтение файла

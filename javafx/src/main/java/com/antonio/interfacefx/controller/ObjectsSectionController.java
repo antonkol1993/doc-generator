@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public class ObjectController {
+public class ObjectsSectionController {
 
     private final ObjectToGeneratorRepository repository;
 
@@ -40,6 +40,6 @@ public class ObjectController {
     // Обработчик кнопки "Назад"
     @FXML
     public void onBack(ActionEvent event) {
-        SceneSwitcher.switchScene("/fxml/menu-controller.fxml", "Doc Generator FX");
+        SceneSwitcher.switchScene("/fxml/menu-section.fxml", "Doc Generator FX");
     }
 }

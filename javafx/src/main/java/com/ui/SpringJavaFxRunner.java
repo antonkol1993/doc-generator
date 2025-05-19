@@ -47,7 +47,7 @@ public class SpringJavaFxRunner extends Application {
         SceneSwitcher.setPrimaryStage(primaryStage);
 
         // Переключаем сцену на главное меню
-        SceneSwitcher.switchScene("/fxml/menu-controller.fxml", "Doc Generator FX");
+        SceneSwitcher.switchScene("/fxml/menu-section.fxml", "Doc Generator FX");
 //        //todo удалить в дальнейшем
 //        URL resource = getClass().getClassLoader().getResource("db/changelog/liquibase-changeLog.yaml");
 //        System.out.println("Liquibase config path: " + resource);
