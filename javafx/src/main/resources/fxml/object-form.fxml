@@ -7,6 +7,7 @@
 
 <VBox xmlns:fx="http://javafx.com/fxml"
       fx:controller="com.antonio.interfacefx.controller.ObjectFormController"
+      fx:id="rootPane"
       spacing="20" alignment="CENTER"
       prefWidth="600">
 
@@ -31,6 +32,7 @@
 
         <Label text="Image Path:" GridPane.rowIndex="4" GridPane.columnIndex="0"/>
         <TextField fx:id="imagePathField" GridPane.rowIndex="4" GridPane.columnIndex="1"/>
+        <Button text="Выбрать файл" onAction="#onChooseImage" GridPane.rowIndex="4" GridPane.columnIndex="2"/>
 
         <Label text="TN VED Code:" GridPane.rowIndex="5" GridPane.columnIndex="0"/>
         <TextField fx:id="tnVedCodeField" GridPane.rowIndex="5" GridPane.columnIndex="1"/>
