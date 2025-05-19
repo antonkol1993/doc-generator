@@ -1,14 +1,13 @@
 package com.antonio.interfacefx.config;
 
+import lombok.Getter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+@Getter
 @Component
 public class AppProperties {
     @Value("${app.storage.path}")
-    private String storagePath;
+    private String imagePath;
 
-    public String getStoragePath() {
-        return storagePath;
-    }
 }

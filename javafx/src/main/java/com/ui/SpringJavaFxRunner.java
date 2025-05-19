@@ -11,6 +11,7 @@ import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
+import java.io.InputStream;
 import java.net.URL;
 
 @SpringBootApplication(
@@ -20,11 +21,10 @@ import java.net.URL;
                 org.springframework.boot.autoconfigure.jmx.JmxAutoConfiguration.class
         })
 @ComponentScan(basePackages = {
-        "com.antonio.interfacefx",         // твой UI слой
-        "com.antonio.core",         // твой core
-        "com.antonio.persistence.db_init", // где лежит DbInit
-        "com.antonio.persistence.repository", // обязательно для репозиториев
-        "com.antonio.persistence.entity"   // если есть сущности с @Component
+        "com.antonio.interfacefx",         // UI слой
+        "com.antonio.core",         // core
+        "com.antonio.persistence.repository", // репозиторий
+        "com.antonio.persistence.entity"   // @Component
 })
 @EnableJpaRepositories(basePackages = "com.antonio.persistence.repository")
 @EntityScan(basePackages = "com.antonio.persistence.entity")
@@ -48,9 +48,14 @@ public class SpringJavaFxRunner extends Application {
 
         // Переключаем сцену на главное меню
         SceneSwitcher.switchScene("/fxml/menu-section.fxml", "Doc Generator FX");
-//        //todo удалить в дальнейшем
-//        URL resource = getClass().getClassLoader().getResource("db/changelog/liquibase-changeLog.yaml");
-//        System.out.println("Liquibase config path: " + resource);
+
+        //todo удалить потом для проверки!!!!!
+        InputStream is = getClass().getClassLoader().getResourceAsStream("db/changelog/liquibase-changeLog.yaml");
+        if (is == null) {
+            System.out.println("Файл changelog не найден в classpath!");
+        } else {
+            System.out.println("Файл changelog найден");
+        }
     }
 
     @Override
@@ -62,19 +67,5 @@ public class SpringJavaFxRunner extends Application {
     public static void main(String[] args) {
         Application.launch(args);
     }
-
-//todo удалить в дальнейшем для проверки!!!!
-    @PostConstruct
-    public void checkLiquibaseChangelog() {
-        ClassLoader cl = Thread.currentThread().getContextClassLoader();
-        URL resource = cl.getResource("db/changelog/liquibase-changeLog.yaml");
-        System.out.println("Liquibase changelog URL: " + resource);
-        if (resource == null) {
-            System.out.println("Liquibase changelog NOT found in classpath!");
-        } else {
-            System.out.println("Liquibase changelog FOUND!");
-        }
-    }
-
 
 }

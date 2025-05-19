@@ -1,6 +1,6 @@
 package com.run_app;
 
-import com.antonio.core.generator.runner.Generator;
+import com.antonio.core.generator.generator.Generator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;

@@ -1,4 +1,4 @@
-package com.antonio.core.generator.runner;
+package com.antonio.core.generator.generator;
 
 import com.antonio.core.generator.service.map.Mapper;
 import com.antonio.core.generator.service.map.MapperFactory;

@@ -11,6 +11,7 @@ spring:
   liquibase:
     change-log: classpath:db/changelog/liquibase-changeLog.yaml
     enabled: true
+    contexts: dev
 
 app:
   database:
@@ -19,6 +20,6 @@ app:
   storage:
     path: storage/images/metalware
 
-#logging:
-#  level:
-#    liquibase: DEBUG
+logging:
+  level:
+    liquibase: TRACE

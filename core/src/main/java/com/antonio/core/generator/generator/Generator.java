@@ -1,4 +1,4 @@
-package com.antonio.core.generator.runner;
+package com.antonio.core.generator.generator;
 
 import java.io.IOException;
 
