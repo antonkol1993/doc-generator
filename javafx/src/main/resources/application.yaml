@@ -20,6 +20,11 @@ app:
   storage:
     path: storage/images/metalware
 
-logging:
-  level:
-    liquibase: TRACE
+#logging:
+#  level:
+#    root: DEBUG                  # общий уровень логгирования (весь проект)
+#    liquibase: TRACE             # детализированно видеть все миграции
+#    org.springframework: INFO    # не засорять логи спамом от Spring
+#    org.hibernate.SQL: DEBUG     # видеть SQL-запросы от Hibernate
+#    org.hibernate.type: TRACE    # видеть параметры, подставляемые в SQL
+

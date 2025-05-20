@@ -48,14 +48,6 @@ public class SpringJavaFxRunner extends Application {
 
         // Переключаем сцену на главное меню
         SceneSwitcher.switchScene("/fxml/menu-section.fxml", "Doc Generator FX");
-
-        //todo удалить потом для проверки!!!!!
-        InputStream is = getClass().getClassLoader().getResourceAsStream("db/changelog/liquibase-changeLog.yaml");
-        if (is == null) {
-            System.out.println("Файл changelog не найден в classpath!");
-        } else {
-            System.out.println("Файл changelog найден");
-        }
     }
 
     @Override
