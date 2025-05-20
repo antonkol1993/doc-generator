@@ -6,10 +6,14 @@
 <AnchorPane xmlns:fx="http://javafx.com/fxml" fx:controller="com.antonio.interfacefx.controller.GenerateSectionController"
             prefWidth="600" prefHeight="400">
     <children>
+        <Button text="DEFAULT" layoutX="50" layoutY="50" onAction="#onDefault"/>
+        <Button text="HISENER" layoutX="200" layoutY="50" onAction="#onHisener"/>
+
+
         <Button fx:id="readButton" text="Запустить чтение Excel" layoutX="50" layoutY="150" onAction="#onRead"/>
         <Button text="Выбрать Excel" layoutX="250" layoutY="150" onAction="#onChooseFile"/>
         <Label fx:id="statusLabel" layoutX="50" layoutY="200" prefWidth="500"/>
-        <Region prefHeight="80"/> <!-- пустой блок для смещения вниз -->
         <Button fx:id="backButton" text="Назад" layoutX="50" layoutY="300" onAction="#onBack"/>
     </children>
 </AnchorPane>
+

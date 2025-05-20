@@ -20,12 +20,6 @@ public class DefaultReader implements InputReader {
 
     @Override
     public List<List<InputDto>> readExcel(String filePath) throws IOException {
-        System.out.println(">>> Вызван readExcel: !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" + filePath);
-        System.out.println(">>> Вызван readExcel: !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" + filePath);
-        System.out.println(">>> Вызван readExcel: !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" + filePath);
-        System.out.println(">>> Вызван readExcel: !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" + filePath);
-        System.out.println(">>> Вызван readExcel: !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" + filePath);
-
         log.info("Начало обработки Excel-файла: {}", filePath);
 
         try (FileInputStream file = new FileInputStream((filePath));

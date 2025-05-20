@@ -3,5 +3,3 @@ databaseChangeLog:
       file: db/changelog/ver_1_BETA/create-objects-table.sql
   - include:
       file: db/changelog/ver_1_BETA/insert_data.sql
-  - include:
-      file: db/changelog/ver_1_BETA/settings_tables.sql
