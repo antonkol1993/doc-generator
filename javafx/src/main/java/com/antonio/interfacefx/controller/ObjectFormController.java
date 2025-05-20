@@ -1,6 +1,7 @@
 package com.antonio.interfacefx.controller;
 
 import com.antonio.interfacefx.config.AppProperties;
+import com.antonio.interfacefx.util.SceneSwitcher;
 import com.antonio.persistence.entity.ObjectToGenerator;
 import com.antonio.persistence.repository.ObjectToGeneratorRepository;
 import javafx.fxml.FXML;
@@ -149,17 +150,20 @@ public class ObjectFormController {
             Path source = Paths.get(originalPath);
             String fileName = source.getFileName().toString();
 
-            String baseDir = appProperties.getImagePath();
+            String baseDir = appProperties.getImagePath(); // например, storage/images/metalware
             Path destination = Paths.get(baseDir, fileName);
             Files.createDirectories(destination.getParent());
 
             Files.copy(source, destination, StandardCopyOption.REPLACE_EXISTING);
-            return baseDir + "/" + fileName;
+
+            // Возвращаем только имя файла, без пути
+            return fileName;
         } catch (IOException e) {
             e.printStackTrace();
             return null;
         }
     }
+
 
 
 }

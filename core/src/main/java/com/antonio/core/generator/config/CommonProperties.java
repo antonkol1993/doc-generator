@@ -13,7 +13,7 @@ public class CommonProperties {
 
     private final Properties properties = new Properties();
 
-    public CommonProperties(@Value("file:./resources/common-large-box-excel.properties") Resource resource) {
+    public CommonProperties(@Value("file:./storage/common-large-box-excel.properties") Resource resource) {
         try (InputStreamReader reader = new InputStreamReader(resource.getInputStream(), StandardCharsets.UTF_8)) {
             properties.load(reader);
         } catch (Exception e) {

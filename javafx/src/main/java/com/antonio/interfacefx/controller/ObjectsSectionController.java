@@ -5,12 +5,15 @@ import com.antonio.persistence.repository.ObjectToGeneratorRepository;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
 public class ObjectsSectionController {
+
+
 
     private final ObjectToGeneratorRepository repository;
 

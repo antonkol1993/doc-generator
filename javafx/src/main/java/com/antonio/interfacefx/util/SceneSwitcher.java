@@ -7,6 +7,7 @@ import javafx.stage.Stage;
 import lombok.Setter;
 import org.springframework.context.ApplicationContext;
 
+import java.io.IOException;
 import java.util.logging.Logger;
 
 public class SceneSwitcher {
@@ -33,6 +34,7 @@ public class SceneSwitcher {
             logger.severe("Ошибка при загрузке сцены: " + fxmlPath + ". Сообщение ошибки: " + e.getMessage());
         }
     }
+
 
     public static void openInNewWindow(String fxmlPath, String title) {
         try {
