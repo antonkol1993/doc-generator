@@ -21,22 +21,22 @@ public class ListOfObjectsController {
 
     @FXML
     private TableView<ObjectToGenerator> objectTable;
-
     @FXML
     private TableColumn<ObjectToGenerator, Long> idColumn;
-
     @FXML
     private TableColumn<ObjectToGenerator, String> keyNameColumn;
-
     @FXML
     private TableColumn<ObjectToGenerator, String> engNameColumn;
-
     @FXML
     private TableColumn<ObjectToGenerator, String> rusNameColumn;
-
     @FXML
     private TableColumn<ObjectToGenerator, String> producerColumn;
-
+    @FXML
+    private TableColumn<ObjectToGenerator, String> to1C8NameColumn;
+    @FXML
+    private TableColumn<ObjectToGenerator, String> imagePathColumn;
+    @FXML
+    private TableColumn<ObjectToGenerator, String> tnVedCodeColumn;
 
 
     @FXML
@@ -45,9 +45,13 @@ public class ListOfObjectsController {
         keyNameColumn.setCellValueFactory(new PropertyValueFactory<>("keyName"));
         engNameColumn.setCellValueFactory(new PropertyValueFactory<>("engName"));
         rusNameColumn.setCellValueFactory(new PropertyValueFactory<>("rusName"));
+        to1C8NameColumn.setCellValueFactory(new PropertyValueFactory<>("to1C8name")); // имя должно соответствовать геттеру
+        imagePathColumn.setCellValueFactory(new PropertyValueFactory<>("imagePath"));
+        tnVedCodeColumn.setCellValueFactory(new PropertyValueFactory<>("tn_ved_code"));
         producerColumn.setCellValueFactory(new PropertyValueFactory<>("producer"));
 
         List<ObjectToGenerator> allObjects = repository.findAll();
         objectTable.setItems(FXCollections.observableArrayList(allObjects));
     }
+
 }

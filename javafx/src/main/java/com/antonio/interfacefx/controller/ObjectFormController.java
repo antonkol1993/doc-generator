@@ -107,7 +107,7 @@ public class ObjectFormController {
         object.setEngName(emptyToNull(engNameField.getText()));
         object.setRusName(emptyToNull(rusNameField.getText()));
         object.setTo1C8name(emptyToNull(to1C8NameField.getText()));
-        object.setTn_ved_code(emptyToNull(tnVedCodeField.getText()));
+        object.setTnVedCode(emptyToNull(tnVedCodeField.getText()));
         object.setProducer(emptyToNull(producerField.getText()));
 
         // Уже скопированная картинка в imagePathField, просто сохраняем

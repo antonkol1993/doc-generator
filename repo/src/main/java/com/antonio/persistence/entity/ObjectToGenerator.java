@@ -27,7 +27,7 @@ public class ObjectToGenerator {
     private String imagePath;
 
     @Column(name = "tn_ved_code")
-    private String tn_ved_code;
+    private String tnVedCode;;
 
     @Column(name = "producer")
     private String producer;

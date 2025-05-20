@@ -6,14 +6,18 @@
 <AnchorPane xmlns:fx="http://javafx.com/fxml" fx:controller="com.antonio.interfacefx.controller.ListOfObjectsController"
             prefWidth="800" prefHeight="600">
     <children>
-        <TableView fx:id="objectTable" layoutX="20" layoutY="20" prefWidth="760" prefHeight="560">
+        <TableView fx:id="objectTable" prefHeight="400" prefWidth="800">
             <columns>
-                <TableColumn fx:id="idColumn" text="ID" prefWidth="50"/>
-                <TableColumn fx:id="keyNameColumn" text="Key Name" prefWidth="100"/>
-                <TableColumn fx:id="engNameColumn" text="English Name" prefWidth="150"/>
-                <TableColumn fx:id="rusNameColumn" text="Russian Name" prefWidth="150"/>
-                <TableColumn fx:id="producerColumn" text="Producer" prefWidth="100"/>
+                <TableColumn fx:id="idColumn" text="ID"/>
+                <TableColumn fx:id="keyNameColumn" text="Key Name"/>
+                <TableColumn fx:id="engNameColumn" text="ENG Name"/>
+                <TableColumn fx:id="rusNameColumn" text="RUS Name"/>
+                <TableColumn fx:id="to1C8NameColumn" text="1C8 Name"/>
+                <TableColumn fx:id="imagePathColumn" text="Image Path"/>
+                <TableColumn fx:id="tnVedCodeColumn" text="HS code"/>
+                <TableColumn fx:id="producerColumn" text="Producer"/>
             </columns>
         </TableView>
+
     </children>
 </AnchorPane>
