@@ -69,7 +69,7 @@ public class DefaultReader implements InputReader {
             item.setMarking(getCellValue(row.getCell(4)));
             item.setQuantityInBox(getCellValue(row.getCell(5)));
             item.setOrder(getCellValue(row.getCell(6)));
-            item.setAlterImagePath(getCellValue(row.getCell(7)));
+            item.setAlterImageName(getCellValue(row.getCell(7)));
 
             if (log.isTraceEnabled()) {
                 log.trace("Прочитаны данные: {}", item);
@@ -96,7 +96,7 @@ public class DefaultReader implements InputReader {
                 (item.getSize() == null || item.getSize().trim().isEmpty()) &&
                 (item.getQuantityInBox() == null || item.getQuantityInBox().trim().isEmpty()) &&
                 (item.getMarking() == null || item.getMarking().trim().isEmpty()) &&
-                (item.getAlterImagePath() == null || item.getAlterImagePath().trim().isEmpty()) &&
+                (item.getAlterImageName() == null || item.getAlterImageName().trim().isEmpty()) &&
                 (item.getOrder() == null || item.getOrder().trim().isEmpty());
     }
 

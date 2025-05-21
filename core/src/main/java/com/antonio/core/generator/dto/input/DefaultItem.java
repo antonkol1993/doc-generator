@@ -8,7 +8,7 @@ import lombok.Setter;
 @Setter
 public class DefaultItem implements InputDto {
     private Integer itemNo;
-    private String alterImagePath;
+    private String alterImageName;
 
     private String originalName;
     private String alterNameRus;
@@ -23,7 +23,7 @@ public class DefaultItem implements InputDto {
     public String toString() {
         return '{' +
                 "\"itemNo\"=" + "\"" + itemNo + "\"" + " | " +
-                "\"alterImagePath\"=" + "\"" + alterImagePath + "\"" + " | " +
+                "\"alterImagePath\"=" + "\"" + alterImageName + "\"" + " | " +
                 "\"originalName\"=" + "\"" + originalName + "\"" + " | " +
                 "\"alterNameRus\"=" + "\"" + alterNameRus + "\"" + " | " +
                 "\"size\"=" + "\"" + size + "\"" + " | " +

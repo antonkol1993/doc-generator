@@ -3,6 +3,7 @@ package com.antonio.core.generator.service.map;
 import com.antonio.core.generator.dto.InputDto;
 import com.antonio.core.generator.dto.input.DefaultItem;
 import com.antonio.core.generator.dto.output.LabelLargeBox;
+import com.antonio.interfacefx.config.AppProperties;
 import com.antonio.persistence.entity.ObjectToGenerator;
 import com.antonio.persistence.repository.ObjectToGeneratorRepository;
 import lombok.RequiredArgsConstructor;
@@ -10,11 +11,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import java.io.*;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Properties;
 
 @Service
 @RequiredArgsConstructor
@@ -22,7 +20,6 @@ public class DefaultMapperImpl implements Mapper<LabelLargeBox> {
 
     private final ObjectToGeneratorRepository repository;
     private static final Logger logger = LoggerFactory.getLogger(DefaultMapperImpl.class);
-
 
 
     @Override
@@ -56,22 +53,23 @@ public class DefaultMapperImpl implements Mapper<LabelLargeBox> {
 
         // ⛏ ищем по engName
         ObjectToGenerator object = repository.findByEngName(originalName).orElse(null);
-
+        // 👇 Добавляем путь к папке из конфигурации
+        String pathToImage = appProperties.getImagePath();
         if (object == null) {
             logger.warn("❌ Объект с engName = [{}] не найден в БД!", originalName);
             labelBox.setNameRus(item.getAlterNameRus());
-            labelBox.setImagePath(item.getAlterImagePath());
+            labelBox.setImagePath(pathToImage + "/" + item.getAlterImageName());
         } else {
             logger.info("✅ Найден объект по engName: {}", originalName);
             labelBox.setKeyName(object.getKeyName());
             labelBox.setNameRus(object.getRusName());
-            labelBox.setImagePath(object.getImagePath());
+            labelBox.setImagePath(pathToImage + "/" + object.getImagePath());
+
         }
 
         logger.debug("Результат маппинга: {}", labelBox);
         return labelBox;
     }
-
 
 
 }
