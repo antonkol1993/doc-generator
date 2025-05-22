@@ -19,6 +19,7 @@
     <packaging>pom</packaging>
 
     <modules>
+        <module>config</module>
         <module>core</module>
         <module>javafx</module>
         <module>repo</module>
@@ -101,5 +102,21 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.11.0</version> <!-- или последнюю -->
+                <configuration>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
+                    <encoding>UTF-8</encoding>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
 
 </project>

@@ -24,7 +24,8 @@ import java.net.URL;
         "com.antonio.interfacefx",         // UI слой
         "com.antonio.core",         // core
         "com.antonio.persistence.repository", // репозиторий
-        "com.antonio.persistence.entity"   // @Component
+        "com.antonio.persistence.entity",   // @Component
+        "com.antonio.config"   // Конфиги
 })
 @EnableJpaRepositories(basePackages = "com.antonio.persistence.repository")
 @EntityScan(basePackages = "com.antonio.persistence.entity")

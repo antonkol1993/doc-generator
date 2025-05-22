@@ -1,7 +1,6 @@
 package com.antonio.interfacefx.controller;
 
-import com.antonio.interfacefx.config.AppProperties;
-import com.antonio.interfacefx.util.SceneSwitcher;
+import com.antonio.config.AppProperties;
 import com.antonio.persistence.entity.ObjectToGenerator;
 import com.antonio.persistence.repository.ObjectToGeneratorRepository;
 import javafx.fxml.FXML;
