@@ -25,6 +25,7 @@ public class AppProperties {
     @Data
     public static class Logo {
         private String path;
+        private String fileName;
     }
 
     @Data

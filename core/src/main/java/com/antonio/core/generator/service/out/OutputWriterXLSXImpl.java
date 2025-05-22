@@ -9,7 +9,6 @@ import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.FileOutputStream;
@@ -41,14 +40,18 @@ public class OutputWriterXLSXImpl implements OutputWriter<LabelLargeBox> {
 
         int tempCol = startCol;
 
+        // Получаем имя файла логотипа из настроек
+        String logoFileName = appProperties.getLogo().getFileName();
+
         for (List<LabelLargeBox> block : dataBlocks) {
             for (LabelLargeBox item : block) {
-                addCard(item);
-                startCol += 4; // Сдвигаем вправо на 4 колонки
+                addCard(item, logoFileName);
+                startCol += 4;
             }
-            startRow += 12; // Сдвигаем вниз на 12 строк
-            startCol = tempCol; // Возвращаем колонку в начало
+            startRow += 12;
+            startCol = tempCol;
         }
+
         try (FileOutputStream fileOut = new FileOutputStream(outputName)) {
             workbook.write(fileOut);
         } catch (IOException e) {
@@ -57,7 +60,7 @@ public class OutputWriterXLSXImpl implements OutputWriter<LabelLargeBox> {
         workbook.close();
     }
 
-    private void addCard(LabelLargeBox item) throws IOException {
+    private void addCard(LabelLargeBox item, String logoFileName) throws IOException {
         String markingLabel = commonProperties.get("marking");
         String sizeLabel = commonProperties.get("size_label");
         String quantityLabel = commonProperties.get("quantity");
@@ -66,7 +69,6 @@ public class OutputWriterXLSXImpl implements OutputWriter<LabelLargeBox> {
         String kgLabel = commonProperties.get("kg");
         String madeInLabel = commonProperties.get("made_in");
         String orderLabel = commonProperties.get("order_label");
-        String logoPath = appProperties.getLogo().getPath();
 
         CellStyle style1 = createCellStyle("Arial", false, BorderStyle.MEDIUM,
                 HorizontalAlignment.CENTER, (short) 10);
@@ -77,13 +79,11 @@ public class OutputWriterXLSXImpl implements OutputWriter<LabelLargeBox> {
         CellStyle style4 = createCellStyle("Arial", true, BorderStyle.THIN,
                 HorizontalAlignment.GENERAL, (short) 10);
 
-        setColumnWidths(sheet, startCol); // Корректный сдвиг вправо
-        setRowHeights(sheet, startRow); // Корректный сдвиг вниз
+        setColumnWidths(sheet, startCol);
+        setRowHeights(sheet, startRow);
 
-        createMergedCell(startRow, startCol + 1, startRow, startCol + 3,
-                "", style1);
-        createMergedCell(startRow + 1, startCol + 1, startRow + 1, startCol + 3,
-                "", style2);
+        createMergedCell(startRow, startCol + 1, startRow, startCol + 3, "", style1);
+        createMergedCell(startRow + 1, startCol + 1, startRow + 1, startCol + 3, "", style2);
         createMergedCell(startRow + 2, startCol + 1, startRow + 2, startCol + 3,
                 item.getNameRus() + "\n" + item.getSize(), style2);
 
@@ -96,8 +96,7 @@ public class OutputWriterXLSXImpl implements OutputWriter<LabelLargeBox> {
                 item.getSize(), style3);
 
         createCell(startRow + 5, startCol + 1, "", style4);
-        createMergedCell(startRow + 5, startCol + 2, startRow + 5, startCol + 3,
-                "", style3);
+        createMergedCell(startRow + 5, startCol + 2, startRow + 5, startCol + 3, "", style3);
 
         createCell(startRow + 6, startCol + 1, quantityLabel, style4);
         createCell(startRow + 6, startCol + 2, item.getQuantityInBox(), style3);
@@ -108,38 +107,38 @@ public class OutputWriterXLSXImpl implements OutputWriter<LabelLargeBox> {
         createCell(startRow + 7, startCol + 3, kgLabel, style4);
 
         createCell(startRow + 8, startCol + 1, "", style4);
-        createMergedCell(startRow + 8, startCol + 2, startRow + 8, startCol + 3,
-                madeInLabel, style4);
+        createMergedCell(startRow + 8, startCol + 2, startRow + 8, startCol + 3, madeInLabel, style4);
 
         createCell(startRow + 9, startCol + 1, orderLabel, style4);
         createMergedCell(startRow + 9, startCol + 2, startRow + 9, startCol + 3,
                 item.getOrder(), style4);
 
-
-        // 🔹 Авторазмер всех строк карточки
         for (int i = startRow + 2; i <= startRow + 9; i++) {
             autoSizeRow(sheet, i);
         }
 
-        // Добавление изображений
-        boolean image1Added = imageHandlerToExcel.addImageToSheet(workbook, sheet,
-                logoPath, startRow - 1, startCol, startRow - 1, startCol + 2);
+// Добавление логотипа
+        boolean logoAdded = imageHandlerToExcel.addImageToSheet(workbook, sheet,
+                appProperties.getLogo().getFileName(), startRow - 1, startCol, startRow - 1,
+                startCol + 2, true);
 
-        if (image1Added) {
-            log.info("✅ Логотип Mfix добавлен успешно! itemNo: {}", item.getItemNo());
+        if (logoAdded) {
+            log.info("✅ Логотип добавлен: {}", item.getItemNo());
         } else {
-            log.warn("⚠️ Логотип Mfix не передан. itemNo: {}", item.getItemNo());
+            log.warn("⚠️ Логотип не найден: {}", item.getItemNo());
         }
 
-        boolean image2Added = imageHandlerToExcel.addImageToSheet(workbook, sheet, item.getImagePath(),
-                startRow, startCol, startRow, startCol + 2);
-        if (image2Added) {
-            log.info("✅ Картинка добавлена успешно! itemNo: {}", item.getItemNo());
-        } else {
-            log.warn("⚠️ Картинка не передана. itemNo: {}", item.getItemNo());
-        }
+// Добавление картинки товара
+        boolean imageAdded = imageHandlerToExcel.addImageToSheet(workbook, sheet,
+                item.getImageName(), startRow, startCol, startRow, startCol + 2, false);
 
+        if (imageAdded) {
+            log.info("✅ Картинка добавлена: {}", item.getItemNo());
+        } else {
+            log.warn("⚠️ Картинка не найдена: {}", item.getItemNo());
+        }
     }
+
 
 
     private CellStyle createCellStyle(String fontName, boolean bold, BorderStyle border, HorizontalAlignment alignment,

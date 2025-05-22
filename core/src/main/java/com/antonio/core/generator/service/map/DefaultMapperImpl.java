@@ -56,31 +56,35 @@ public class DefaultMapperImpl implements Mapper<LabelLargeBox> {
 
         String originalName = item.getOriginalName().trim();
         ObjectToGenerator object = repository.findByEngName(originalName).orElse(null);
-        String pathToImage = appProperties.getImage().getPath();
+
+        String imageFileName;
 
         if (object == null) {
             logger.warn(color(" ‼️ Объект с engName = [" + originalName + "] не найден в БД!", ORANGE));
             labelBox.setNameRus(item.getAlterNameRus());
-            labelBox.setImagePath(pathToImage + "/" + item.getAlterImageName());
+            imageFileName = item.getAlterImageName();
         } else {
             logger.info(color("✅ Найден объект по engName: " + originalName, RESET));
             labelBox.setKeyName(object.getKeyName());
             labelBox.setNameRus(object.getRusName());
-            labelBox.setImagePath(pathToImage + "/" + object.getImagePath());
+            imageFileName = object.getImagePath();
         }
 
-        logImageCheck(labelBox.getImagePath());
-
+        labelBox.setImageName(imageFileName); // <--- сохраняем ТОЛЬКО название файла
+        logImageCheck(imageFileName);         // <--- проверка по имени
         logger.debug(color("📦 Результат маппинга: " + labelBox, CYAN));
         return labelBox;
     }
 
-    private void logImageCheck(String imagePath) {
-        Path path = Path.of(imagePath);
-        if (Files.exists(path)) {
-            logger.info(color("🖼 Найдена картинка по пути: " + imagePath, RESET));
+    private void logImageCheck(String imageFileName) {
+        String basePath = appProperties.getImage().getPath();
+        Path fullPath = Path.of(basePath, imageFileName);
+
+        if (Files.exists(fullPath)) {
+            logger.info(color("🖼 Найдена картинка: " + imageFileName, RESET));
         } else {
-            logger.warn(color("⚠️ Картинка не найдена по пути: " + imagePath, ORANGE));
+            logger.warn(color("⚠️ Картинка не найдена: " + imageFileName, ORANGE));
         }
     }
+
 }

@@ -9,7 +9,7 @@ import lombok.Setter;
 public class LabelLargeBox implements OutputDto<LabelLargeBox> {
     private String keyName;
     private Integer itemNo;
-    private String imagePath;
+    private String imageName;
     private String nameRus;
     private String size;
     private String marking;
@@ -21,7 +21,7 @@ public class LabelLargeBox implements OutputDto<LabelLargeBox> {
     public String toString() {
         return keyName + " | " +
                 itemNo + " | " +
-                imagePath + " | " +
+                imageName + " | " +
                 nameRus + " | " +
                 size + " | " +
                 marking + " | " +
