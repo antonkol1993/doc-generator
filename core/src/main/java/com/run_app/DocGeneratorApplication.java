@@ -7,15 +7,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.context.annotation.Bean;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @SpringBootApplication(
         scanBasePackages = {
                 "com.antonio.core",
-                "com.antonio.config",     // чтобы найти AppProperties
-                "com.antonio.core"},       // если сервисы и генераторы там
-        exclude = {DataSourceAutoConfiguration.class})
+                "com.antonio.persistence",
+                "com.antonio.config"})
+@EnableJpaRepositories(basePackages = "com.antonio.persistence.repository")
+@EntityScan(basePackages = "com.antonio.persistence.entity")
+
 public class DocGeneratorApplication {
 
     @Autowired
