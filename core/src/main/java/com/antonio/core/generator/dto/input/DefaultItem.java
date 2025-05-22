@@ -18,20 +18,27 @@ public class DefaultItem implements InputDto {
     private String quantityInBox;
     private String order;
 
-
     @Override
     public String toString() {
         return '{' +
-                "\"itemNo\"=" + "\"" + itemNo + "\"" + " | " +
-                "\"alterImagePath\"=" + "\"" + alterImageName + "\"" + " | " +
-                "\"originalName\"=" + "\"" + originalName + "\"" + " | " +
-                "\"alterNameRus\"=" + "\"" + alterNameRus + "\"" + " | " +
-                "\"size\"=" + "\"" + size + "\"" + " | " +
-                "\"marking\"=" + "\"" + marking + "\"" + " | " +
-                "\"quantityInBox\"=" + "\"" + quantityInBox + "\"" + " | " +
-                "\"order\"=" + "\"" + order + "\"" +
+                "\"itemNo\"=" + (itemNo != null ? "✅\"" + itemNo + "\"" : "❌null") + " | " +
+                "\"alterImageName\"=" + (alterImageName != null && !alterImageName.isBlank() ?
+                "✅\"" + alterImageName + "\"" : "⚠️\"\"") + " | " +
+                "\"originalName\"=" + (originalName != null && !originalName.isBlank() ?
+                "✅\"" + originalName + "\"" : "⚠️\"\"") + " | " +
+                "\"alterNameRus\"=" + (alterNameRus != null && !alterNameRus.isBlank() ?
+                "✅\"" + alterNameRus + "\"" : "⚠️\"\"") + " | " +
+                "\"size\"=" + (size != null && !size.isBlank() ?
+                "✅\"" + size + "\"" : "⚠️\"\"") + " | " +
+                "\"marking\"=" + (marking != null && !marking.isBlank() ?
+                "✅\"" + marking + "\"" : "⚠️\"\"") + " | " +
+                "\"quantityInBox\"=" + (quantityInBox != null && !quantityInBox.isBlank() ?
+                "✅\"" + quantityInBox + "\"" : "⚠️\"\"") + " | " +
+                "\"order\"=" + (order != null && !order.isBlank() ?
+                "✅\"" + order + "\"" : "⚠️\"\"") +
                 '}';
     }
+
 
     @Override
     public String getTypeString() {
