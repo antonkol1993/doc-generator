@@ -3,7 +3,6 @@ package com.antonio.core.generator.service.map;
 import com.antonio.core.generator.dto.InputDto;
 import com.antonio.core.generator.dto.input.DefaultItem;
 import com.antonio.core.generator.dto.output.LabelLargeBox;
-import com.antonio.interfacefx.config.AppProperties;
 import com.antonio.persistence.entity.ObjectToGenerator;
 import com.antonio.persistence.repository.ObjectToGeneratorRepository;
 import lombok.RequiredArgsConstructor;
@@ -54,16 +53,16 @@ public class DefaultMapperImpl implements Mapper<LabelLargeBox> {
         // ⛏ ищем по engName
         ObjectToGenerator object = repository.findByEngName(originalName).orElse(null);
         // 👇 Добавляем путь к папке из конфигурации
-        String pathToImage = appProperties.getImagePath();
+//        String pathToImage = appProperties.getImagePath();
         if (object == null) {
             logger.warn("❌ Объект с engName = [{}] не найден в БД!", originalName);
             labelBox.setNameRus(item.getAlterNameRus());
-            labelBox.setImagePath(pathToImage + "/" + item.getAlterImageName());
+//            labelBox.setImagePath(pathToImage + "/" + item.getAlterImageName());
         } else {
             logger.info("✅ Найден объект по engName: {}", originalName);
             labelBox.setKeyName(object.getKeyName());
             labelBox.setNameRus(object.getRusName());
-            labelBox.setImagePath(pathToImage + "/" + object.getImagePath());
+//            labelBox.setImagePath(pathToImage + "/" + object.getImagePath());
 
         }
 
