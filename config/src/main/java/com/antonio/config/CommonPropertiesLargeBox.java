@@ -1,4 +1,4 @@
-package com.antonio.core.generator.config;
+package com.antonio.config;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
@@ -9,11 +9,11 @@ import java.nio.charset.StandardCharsets;
 import java.util.Properties;
 
 @Component
-public class CommonProperties {
+public class CommonPropertiesLargeBox {
 
     private final Properties properties = new Properties();
 
-    public CommonProperties(@Value("file:./storage/common-large-box-excel.properties") Resource resource) {
+    public CommonPropertiesLargeBox(@Value("file:${app.storage.path}/common-large-box-excel.properties") Resource resource) {
         try (InputStreamReader reader = new InputStreamReader(resource.getInputStream(), StandardCharsets.UTF_8)) {
             properties.load(reader);
         } catch (Exception e) {

@@ -24,6 +24,12 @@
             <artifactId>doc-generator-repo</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
+        <!-- config dependency -->
+        <dependency>
+            <groupId>com.mgt-group</groupId>
+            <artifactId>doc-generator-config</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
 
         <!-- Spring Boot -->
         <dependency>

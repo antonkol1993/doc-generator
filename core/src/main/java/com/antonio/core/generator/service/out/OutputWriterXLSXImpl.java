@@ -1,6 +1,6 @@
 package com.antonio.core.generator.service.out;
 
-import com.antonio.core.generator.config.CommonProperties;
+import com.antonio.config.CommonProperties;
 import com.antonio.core.generator.dto.output.LabelLargeBox;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.ss.util.CellRangeAddress;
