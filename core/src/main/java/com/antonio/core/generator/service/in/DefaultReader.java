@@ -11,42 +11,40 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.antonio.core.util.AnsiColors.*;
+
 @Service("defaultReader")
 @Slf4j
 public class DefaultReader implements InputReader {
-    //    private static final log log = logFactory.getlog(DefaultReader.class);
+
     private final List<List<InputDto>> dataBlocks = new ArrayList<>();
     private final List<InputDto> currentBlock = new ArrayList<>();
-
-    private static final String ANSI_RESET = "\u001B[0m";
-    private static final String ANSI_RED = "\u001B[31m";
-    private static final String ANSI_YELLOW = "\u001B[33m";
-    private static final String ANSI_GREEN = "\u001B[32m";
 
     @Override
     public List<List<InputDto>> readExcel(String filePath) throws IOException {
         log.info("📂 Начало обработки Excel-файла: {}", filePath);
 
-        try (FileInputStream file = new FileInputStream((filePath));
+        try (FileInputStream file = new FileInputStream(filePath);
              Workbook workbook = WorkbookFactory.create(file)) {
 
             Sheet sheet = workbook.getSheetAt(0);
             log.debug("📄 Рабочий лист '{}' успешно загружен", sheet.getSheetName());
 
             for (Row row : sheet) {
-                log.trace("➡️ Обработка строки №{}", row.getRowNum() + 1);
+                int rowIndex = row.getRowNum();
+                log.trace("➡️ Обработка строки №{}", rowIndex + 1);
 
-                if (row.getRowNum() < 2) {
-                    log.trace("⏭️ Пропускаем заголовок/первую строку {}", row.getRowNum() + 1);
+                if (rowIndex < 2) {
+                    log.trace("⏭️ Пропускаем строку заголовка №{}", rowIndex + 1);
                     continue;
                 }
 
                 DefaultItem item = processDataBlock(row);
                 if (item != null) {
                     currentBlock.add(item);
-                    log.debug(ANSI_YELLOW + "✅ Добавлен элемент: {}" + ANSI_RESET, item);
+                    log.debug(color("✅ Добавлен элемент: " + item, YELLOW));
                 } else if (!currentBlock.isEmpty()) {
-                    log.debug(ANSI_YELLOW + "🔶 Завершен блок из {} элементов" + ANSI_RESET, currentBlock.size());
+                    log.debug(color("🔶 Завершен блок из " + currentBlock.size() + " элементов", YELLOW));
                     dataBlocks.add(new ArrayList<>(currentBlock));
                     currentBlock.clear();
                 }
@@ -54,18 +52,17 @@ public class DefaultReader implements InputReader {
 
             if (!currentBlock.isEmpty()) {
                 dataBlocks.add(new ArrayList<>(currentBlock));
-                log.debug(ANSI_YELLOW + "🔶 Добавлен последний блок из {} элементов" + ANSI_RESET, currentBlock.size());
+                log.debug(color("🔶 Добавлен последний блок из " + currentBlock.size() + " элементов", YELLOW));
             }
 
-            log.info(ANSI_GREEN + "🎉 Файл успешно зачитан. Найдено {} блоков данных" + ANSI_RESET, dataBlocks.size());
+            log.info(color("🎉 Файл успешно зачитан. Найдено " + dataBlocks.size() + " блоков данных", GREEN));
             return dataBlocks;
 
         } catch (IOException e) {
-            log.error(ANSI_RED + "❌ Ошибка при обработке Excel-файла: {}" + ANSI_RESET, filePath, e);
+            log.error(color("❌ Ошибка при обработке Excel-файла: " + filePath, RED), e);
             throw e;
         }
     }
-
 
     private DefaultItem processDataBlock(Row row) {
         DefaultItem item = new DefaultItem();
@@ -85,71 +82,66 @@ public class DefaultReader implements InputReader {
             }
 
             if (isEmptyItem(item)) {
-                log.debug("Пустой элемент в строке {}", row.getRowNum() + 1);
+                log.debug("⚠️ Пустой элемент в строке {}", row.getRowNum() + 1);
                 return null;
             }
 
             return item;
 
         } catch (Exception e) {
-            log.warn(ANSI_RED + "❌ Ошибка обработки строки {}: {}" + ANSI_RESET, row.getRowNum() + 1, e.getMessage());
+            log.warn(color("❌ Ошибка обработки строки " + (row.getRowNum() + 1) + ": " + e.getMessage(), RED));
             return null;
         }
     }
 
-
     private boolean isEmptyItem(DefaultItem item) {
-        // Проверяем, что все поля пустые
         return (item.getItemNo() == null) &&
-                (item.getOriginalName() == null || item.getOriginalName().trim().isEmpty()) &&
-                (item.getAlterNameRus() == null || item.getAlterNameRus().trim().isEmpty()) &&
-                (item.getSize() == null || item.getSize().trim().isEmpty()) &&
-                (item.getQuantityInBox() == null || item.getQuantityInBox().trim().isEmpty()) &&
-                (item.getMarking() == null || item.getMarking().trim().isEmpty()) &&
-                (item.getAlterImageName() == null || item.getAlterImageName().trim().isEmpty()) &&
-                (item.getOrder() == null || item.getOrder().trim().isEmpty());
+                isBlank(item.getOriginalName()) &&
+                isBlank(item.getAlterNameRus()) &&
+                isBlank(item.getSize()) &&
+                isBlank(item.getQuantityInBox()) &&
+                isBlank(item.getMarking()) &&
+                isBlank(item.getAlterImageName()) &&
+                isBlank(item.getOrder());
+    }
+
+    private boolean isBlank(String value) {
+        return value == null || value.trim().isEmpty();
     }
 
     private String getCellValue(Cell cell) {
-        if (cell == null) {
-            return "";
-        }
+        if (cell == null) return "";
 
-        switch (cell.getCellType()) {
-            case STRING:
-                return cell.getStringCellValue().trim();
-            case NUMERIC:
-                if (DateUtil.isCellDateFormatted(cell)) {
-                    return cell.getDateCellValue().toString();
-                }
-                return String.valueOf((int) cell.getNumericCellValue());
-            case BOOLEAN:
-                return String.valueOf(cell.getBooleanCellValue());
-            case FORMULA:
+        return switch (cell.getCellType()) {
+            case STRING -> cell.getStringCellValue().trim();
+            case NUMERIC -> DateUtil.isCellDateFormatted(cell)
+                    ? cell.getDateCellValue().toString()
+                    : String.valueOf((int) cell.getNumericCellValue());
+            case BOOLEAN -> String.valueOf(cell.getBooleanCellValue());
+            case FORMULA -> {
                 try {
-                    return cell.getCellFormula();
+                    yield cell.getCellFormula();
                 } catch (Exception e) {
-                    log.warn(ANSI_RED + "❌ Ошибка при чтении формулы в {}: {}" + ANSI_RESET,
-                            cell.getAddress(), e.getMessage());
-                    return "ERROR_FORMULA";
+                    log.warn(color("❌ Ошибка при чтении формулы в " + cell.getAddress() + ": " + e.getMessage(), RED));
+                    yield "ERROR_FORMULA";
                 }
-            case BLANK:
-                return "";
-            default:
-                return "";
-        }
+            }
+            case BLANK -> "";
+            default -> ""; // на случай _NONE или чего-то нестандартного
+        };
     }
 
     private Integer getIntegerValue(Cell cell) {
         if (cell == null) return null;
+
         if (cell.getCellType() == CellType.NUMERIC) {
-            double numericValue = cell.getNumericCellValue();
-            if (numericValue % 1 != 0) {
-                log.warn(ANSI_RED + "⚠️ Число {} в ячейке {} содержит дробную часть, округление!" +
-                        ANSI_RESET, numericValue, cell.getAddress());
+            double value = cell.getNumericCellValue();
+            if (value % 1 != 0) {
+                log.warn(color("⚠️ Число " + value + " в ячейке " + cell.getAddress() + " содержит дробную часть, округление!", RED));
             }
-            return (int) Math.round(numericValue);
+            return (int) Math.round(value);
         }
+
         if (cell.getCellType() == CellType.STRING) {
             try {
                 return Integer.parseInt(cell.getStringCellValue().trim());
@@ -157,7 +149,7 @@ public class DefaultReader implements InputReader {
                 return null;
             }
         }
+
         return null;
     }
-
 }

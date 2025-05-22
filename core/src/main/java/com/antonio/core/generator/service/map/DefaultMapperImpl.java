@@ -11,8 +11,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.antonio.core.util.AnsiColors.*;
 
 @Service
 @RequiredArgsConstructor
@@ -22,9 +26,9 @@ public class DefaultMapperImpl implements Mapper<LabelLargeBox> {
     private final ObjectToGeneratorRepository repository;
     private static final Logger logger = LoggerFactory.getLogger(DefaultMapperImpl.class);
 
-
     @Override
     public List<List<LabelLargeBox>> map(List<List<InputDto>> dataBlocks) {
+        logger.info("📂 начало обработки " + color(this.getClass().getSimpleName(), YELLOW));
         List<List<LabelLargeBox>> mappedBlocks = new ArrayList<>();
 
         for (List<InputDto> block : dataBlocks) {
@@ -33,12 +37,12 @@ public class DefaultMapperImpl implements Mapper<LabelLargeBox> {
                 if (it instanceof DefaultItem item) {
                     mappedBlock.add(mapItem(item));
                 } else {
-                    throw new RuntimeException("are you nuts?");
+                    throw new RuntimeException("❌ Неподдерживаемый тип входных данных: " + it.getClass());
                 }
             }
             mappedBlocks.add(mappedBlock);
         }
-
+        logger.info("📂 обработка завершена " + color(this.getClass().getSimpleName(), YELLOW));
         return mappedBlocks;
     }
 
@@ -51,26 +55,32 @@ public class DefaultMapperImpl implements Mapper<LabelLargeBox> {
         labelBox.setOrder(item.getOrder());
 
         String originalName = item.getOriginalName().trim();
-
-        // ⛏ ищем по engName
         ObjectToGenerator object = repository.findByEngName(originalName).orElse(null);
-        // 👇 Добавляем путь к папке из конфигурации
         String pathToImage = appProperties.getImage().getPath();
+
         if (object == null) {
-            logger.warn("❌ Объект с engName = [{}] не найден в БД!", originalName);
+            logger.warn(color(" ‼️ Объект с engName = [" + originalName + "] не найден в БД!", ORANGE));
             labelBox.setNameRus(item.getAlterNameRus());
             labelBox.setImagePath(pathToImage + "/" + item.getAlterImageName());
         } else {
-            logger.info("✅ Найден объект по engName: {}", originalName);
+            logger.info(color("✅ Найден объект по engName: " + originalName, RESET));
             labelBox.setKeyName(object.getKeyName());
             labelBox.setNameRus(object.getRusName());
             labelBox.setImagePath(pathToImage + "/" + object.getImagePath());
-
         }
 
-        logger.debug("Результат маппинга: {}", labelBox);
+        logImageCheck(labelBox.getImagePath());
+
+        logger.debug(color("📦 Результат маппинга: " + labelBox, CYAN));
         return labelBox;
     }
 
-
+    private void logImageCheck(String imagePath) {
+        Path path = Path.of(imagePath);
+        if (Files.exists(path)) {
+            logger.info(color("🖼 Найдена картинка по пути: " + imagePath, RESET));
+        } else {
+            logger.warn(color("⚠️ Картинка не найдена по пути: " + imagePath, ORANGE));
+        }
+    }
 }
