@@ -55,7 +55,7 @@ public class DefaultMapperImpl implements Mapper<LabelLargeBox> {
         // ⛏ ищем по engName
         ObjectToGenerator object = repository.findByEngName(originalName).orElse(null);
         // 👇 Добавляем путь к папке из конфигурации
-        String pathToImage = appProperties.getImagePath();
+        String pathToImage = appProperties.getImage().getPath();
         if (object == null) {
             logger.warn("❌ Объект с engName = [{}] не найден в БД!", originalName);
             labelBox.setNameRus(item.getAlterNameRus());

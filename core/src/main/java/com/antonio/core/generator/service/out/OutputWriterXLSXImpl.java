@@ -66,7 +66,7 @@ public class OutputWriterXLSXImpl implements OutputWriter<LabelLargeBox> {
         String kgLabel = commonProperties.get("kg");
         String madeInLabel = commonProperties.get("made_in");
         String orderLabel = commonProperties.get("order_label");
-        String logoPath = appProperties.getLogoPath();
+        String logoPath = appProperties.getLogo().getPath();
 
         CellStyle style1 = createCellStyle("Arial", false, BorderStyle.MEDIUM,
                 HorizontalAlignment.CENTER, (short) 10);

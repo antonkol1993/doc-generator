@@ -149,7 +149,7 @@ public class ObjectFormController {
             Path source = Paths.get(originalPath);
             String fileName = source.getFileName().toString();
 
-            String baseDir = appProperties.getImagePath(); // например, storage/images/metalware
+            String baseDir = appProperties.getImage().getPath(); // например, storage/images/metalware
             Path destination = Paths.get(baseDir, fileName);
             Files.createDirectories(destination.getParent());
 

@@ -36,10 +36,11 @@ public class SpringJavaFxRunner extends Application {
 
     @Override
     public void init() {
-
-        // Запускаем Spring Boot и сохраняем контекст
-        context = new SpringApplicationBuilder(SpringJavaFxRunner.class).run();
+        context = new SpringApplicationBuilder(SpringJavaFxRunner.class)
+                .properties("spring.config.location=classpath:/application.yaml")
+                .run();
     }
+
 
     @Override
     public void start(Stage primaryStage) throws Exception {

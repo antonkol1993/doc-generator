@@ -1,41 +1,34 @@
 package com.antonio.config.component;
 
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
+import lombok.Data;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 
-@Component
+@Data
+@ConfigurationProperties(prefix = "app")
 public class AppProperties {
+    private Database database;
+    private Image image;
+    private Logo logo;
+    private Common common;
 
-
-    @Value("${app.image.path}")
-    private String imagePath;
-
-    @Value("${app.logo.path}")
-    private String logoPath;
-
-    @Value("${app.common.path}")
-    private String common;
-
-    public String getLogoPath() {
-        return logoPath;
+    @Data
+    public static class Database {
+        private String path;
+        private String name;
     }
 
-    public void setLogoPath(String logoPath) {
-        this.logoPath = logoPath;
+    @Data
+    public static class Image {
+        private String path;
     }
 
-    public String getImagePath() {
-        return imagePath;
-    }
-    public void setImagePath(String imagePath) {
-        this.imagePath = imagePath;
+    @Data
+    public static class Logo {
+        private String path;
     }
 
-    public String getCommon() {
-        return common;
-    }
-
-    public void setCommon(String common) {
-        this.common = common;
+    @Data
+    public static class Common {
+        private String path;
     }
 }
