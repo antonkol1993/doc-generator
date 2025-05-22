@@ -9,6 +9,6 @@
         <Label fx:id="infoLabel" layoutX="50" layoutY="50" prefWidth="500"/>
         <Button text="Генерировать" layoutX="50" layoutY="150" onAction="#onGenerate"/>
         <Button text="Назад" layoutX="200" layoutY="150" onAction="#onBack"/>
-        <Label fx:id="resultLabel" layoutX="50" layoutY="250" prefWidth="500"/>
+        <Label fx:id="resultLabel" layoutX="50" layoutY="250" prefWidth="1000"/>
     </children>
 </AnchorPane>

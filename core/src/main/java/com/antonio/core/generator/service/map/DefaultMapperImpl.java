@@ -1,6 +1,6 @@
 package com.antonio.core.generator.service.map;
 
-import com.antonio.config.AppProperties;
+import com.antonio.config.component.AppProperties;
 import com.antonio.core.generator.dto.InputDto;
 import com.antonio.core.generator.dto.input.DefaultItem;
 import com.antonio.core.generator.dto.output.LabelLargeBox;

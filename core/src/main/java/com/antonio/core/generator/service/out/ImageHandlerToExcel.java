@@ -1,5 +1,7 @@
 package com.antonio.core.generator.service.out;
 
+import com.antonio.config.component.AppProperties;
+import lombok.RequiredArgsConstructor;
 import org.apache.commons.io.IOUtils;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -11,93 +13,89 @@ import org.springframework.stereotype.Service;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
-import java.io.ByteArrayInputStream;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 
 @Service
+@RequiredArgsConstructor
 public class ImageHandlerToExcel {
 
-    public boolean addImageToSheet(Workbook workbook, Sheet sheet, String imagePath,
+    private final AppProperties appProperties;
+
+
+
+    public boolean addImageToSheet(Workbook workbook, Sheet sheet, String relativeImagePath,
                                    int startRow, int startCol, int endRow, int endCol) throws IOException {
-        // Загружаем изображение в массив байтов
-        byte[] imageBytes;
-        if (imagePath != null && !imagePath.trim().isEmpty()) {
 
+        File currentDir = new File(System.getProperty("user.dir")); // останемся в doc-generator
+        File imageFile = new File(currentDir, relativeImagePath);   // путь к картинке
 
-            try (InputStream inputStream = new FileInputStream(imagePath)) {
-                imageBytes = IOUtils.toByteArray(inputStream);
-            } catch (IOException e) {
-                System.err.println("Картинка не найдена: " + imagePath);
-                throw e;
-            }
-
-            // Определяем тип изображения
-            int pictureType;
-            if (imagePath.toLowerCase().endsWith(".png")) {
-                pictureType = Workbook.PICTURE_TYPE_PNG;
-            } else if (imagePath.toLowerCase().endsWith(".jpeg") || imagePath.toLowerCase().endsWith(".jpg")) {
-                pictureType = Workbook.PICTURE_TYPE_JPEG;
-            } else {
-                throw new IllegalArgumentException("Поддерживаются только PNG и JPEG изображения.");
-            }
-
-            // Добавляем изображение в Workbook
-            int pictureIdx = workbook.addPicture(imageBytes, pictureType);
-
-            // Загружаем изображение для получения его размеров
-            BufferedImage bufferedImage = ImageIO.read(new ByteArrayInputStream(imageBytes));
-            int originalWidth = bufferedImage.getWidth();
-            int originalHeight = bufferedImage.getHeight();
-
-            // Получаем размеры ячейки в пикселях
-            float cellWidthPx = 0;
-            for (int col = startCol; col <= endCol; col++) {
-                cellWidthPx += sheet.getColumnWidthInPixels(col);
-            }
-
-            float cellHeightPx = 0;
-            for (int row = startRow; row <= endRow; row++) {
-                Row sheetRow = sheet.getRow(row);
-                if (sheetRow != null) {
-                    cellHeightPx += sheetRow.getHeightInPoints() * 1.33f;  // Преобразуем высоту в пиксели
-                }
-            }
-
-            // --- МАСШТАБИРОВАНИЕ ---
-            double scale = 1.0;  // По умолчанию — не изменяем размер
-
-            // Если изображение больше ячейки, то уменьшаем его
-            if (originalWidth > cellWidthPx || originalHeight > cellHeightPx) {
-                double scaleX = (cellWidthPx * 0.80) / originalWidth;  // 80% от ширины ячейки
-                double scaleY = (cellHeightPx * 0.80) / originalHeight; // 80% от высоты ячейки
-                scale = Math.min(scaleX, scaleY);
-            }
-
-            // Если изображение меньше или равно ячейке, **оставляем его как есть**
-            int newWidth = (int) (originalWidth * scale);
-            int newHeight = (int) (originalHeight * scale);
-
-            // Вычисляем отступы для центрирования
-            double offsetX = (cellWidthPx - newWidth) / 2.0;
-            double offsetY = (cellHeightPx - newHeight) / 2.0;
-
-            // Конвертируем отступы в EMU (единицы Excel)
-            int dx1 = (int) (offsetX * 9525);
-            int dy1 = (int) (offsetY * 9525);
-
-            // Добавляем изображение в Excel
-            if (workbook instanceof XSSFWorkbook) {
-                XSSFDrawing drawing = (XSSFDrawing) sheet.createDrawingPatriarch();
-                XSSFClientAnchor anchor = new XSSFClientAnchor(dx1, dy1, -dx1, -dy1, startCol, startRow, endCol + 1, endRow + 1);
-                drawing.createPicture(anchor, pictureIdx);
-            }
-
-            return true;
-        } else {
-
+        if (!imageFile.exists()) {
+            System.err.println("❌ Картинка не найдена: " + imageFile.getAbsolutePath());
             return false;
         }
+
+        byte[] imageBytes;
+        try (InputStream inputStream = new FileInputStream(imageFile)) {
+            imageBytes = IOUtils.toByteArray(inputStream);
+        }
+
+        // Определяем тип изображения
+        int pictureType;
+        String lowerCasePath = relativeImagePath.toLowerCase();
+        if (lowerCasePath.endsWith(".png")) {
+            pictureType = Workbook.PICTURE_TYPE_PNG;
+        } else if (lowerCasePath.endsWith(".jpg") || lowerCasePath.endsWith(".jpeg")) {
+            pictureType = Workbook.PICTURE_TYPE_JPEG;
+        } else {
+            throw new IllegalArgumentException("Поддерживаются только PNG и JPEG изображения.");
+        }
+
+        int pictureIdx = workbook.addPicture(imageBytes, pictureType);
+
+        // Получаем размеры изображения
+        BufferedImage bufferedImage = ImageIO.read(new ByteArrayInputStream(imageBytes));
+        int originalWidth = bufferedImage.getWidth();
+        int originalHeight = bufferedImage.getHeight();
+
+        // Размеры области размещения (в пикселях)
+        float cellWidthPx = 0;
+        for (int col = startCol; col <= endCol; col++) {
+            cellWidthPx += sheet.getColumnWidthInPixels(col);
+        }
+
+        float cellHeightPx = 0;
+        for (int row = startRow; row <= endRow; row++) {
+            Row sheetRow = sheet.getRow(row);
+            if (sheetRow != null) {
+                cellHeightPx += sheetRow.getHeightInPoints() * 1.33f; // Преобразуем в пиксели
+            }
+        }
+
+        // Масштаб
+        double scale = 1.0;
+        if (originalWidth > cellWidthPx || originalHeight > cellHeightPx) {
+            double scaleX = (cellWidthPx * 0.8) / originalWidth;
+            double scaleY = (cellHeightPx * 0.8) / originalHeight;
+            scale = Math.min(scaleX, scaleY);
+        }
+
+        int newWidth = (int) (originalWidth * scale);
+        int newHeight = (int) (originalHeight * scale);
+
+        // Центрирование
+        double offsetX = (cellWidthPx - newWidth) / 2.0;
+        double offsetY = (cellHeightPx - newHeight) / 2.0;
+
+        int dx1 = (int) (offsetX * 9525);
+        int dy1 = (int) (offsetY * 9525);
+
+        // Вставка
+        if (workbook instanceof XSSFWorkbook) {
+            XSSFDrawing drawing = (XSSFDrawing) sheet.createDrawingPatriarch();
+            XSSFClientAnchor anchor = new XSSFClientAnchor(dx1, dy1, -dx1, -dy1, startCol, startRow, endCol + 1, endRow + 1);
+            drawing.createPicture(anchor, pictureIdx);
+        }
+
+        return true;
     }
 }

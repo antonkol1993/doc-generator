@@ -1,6 +1,6 @@
 package com.antonio.interfacefx.controller;
 
-import com.antonio.config.AppProperties;
+import com.antonio.config.component.AppProperties;
 import com.antonio.persistence.entity.ObjectToGenerator;
 import com.antonio.persistence.repository.ObjectToGeneratorRepository;
 import javafx.fxml.FXML;

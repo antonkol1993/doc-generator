@@ -1,7 +1,9 @@
 package com.antonio.core.generator.service.out;
 
-import com.antonio.config.CommonProperties;
+import com.antonio.config.component.AppProperties;
+import com.antonio.config.component.CommonPropertiesLargeBox;
 import com.antonio.core.generator.dto.output.LabelLargeBox;
+import lombok.RequiredArgsConstructor;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -15,31 +17,30 @@ import java.io.IOException;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class OutputWriterXLSXImpl implements OutputWriter<LabelLargeBox> {
+
+
+    private final ImageHandlerToExcel imageHandlerToExcel;
+    private final CommonPropertiesLargeBox commonProperties;
+    private final AppProperties appProperties;
+
+    private Workbook workbook;
+    private Sheet sheet;
+
+    private static final Logger log = LoggerFactory.getLogger(ImageHandlerToExcel.class);
 
     private int startRow = 2;
     private int startCol = 2;
 
-    private final Workbook workbook;
-    private final Sheet sheet;
-    private final ImageHandlerToExcel imageHandlerToExcel;
-    private final CommonProperties commonProperties;
-
-    private static final Logger log = LoggerFactory.getLogger(ImageHandlerToExcel.class);
-
-
-    @Autowired // Говорим Spring, что он должен передать эти зависимости
-    public OutputWriterXLSXImpl(ImageHandlerToExcel imageHandlerToExcel,
-                                CommonProperties commonProperties) {
-        this.workbook = new XSSFWorkbook();
-        this.sheet = workbook.createSheet("Labels"); // ✅ Создаём лист здесь
-        this.imageHandlerToExcel = imageHandlerToExcel;
-        this.commonProperties = commonProperties;
-    }
-
     @Override
     public void generateCards(List<List<LabelLargeBox>> dataBlocks, String outputName) throws IOException {
+
+        workbook = new XSSFWorkbook();
+        sheet = workbook.createSheet("Sheet1");
+
         int tempCol = startCol;
+
         for (List<LabelLargeBox> block : dataBlocks) {
             for (LabelLargeBox item : block) {
                 addCard(item);
@@ -65,7 +66,7 @@ public class OutputWriterXLSXImpl implements OutputWriter<LabelLargeBox> {
         String kgLabel = commonProperties.get("kg");
         String madeInLabel = commonProperties.get("made_in");
         String orderLabel = commonProperties.get("order_label");
-        String logoPath = commonProperties.get("logo_path");
+        String logoPath = appProperties.getLogoPath();
 
         CellStyle style1 = createCellStyle("Arial", false, BorderStyle.MEDIUM,
                 HorizontalAlignment.CENTER, (short) 10);
