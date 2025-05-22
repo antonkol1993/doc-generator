@@ -30,21 +30,20 @@ public class ImageHandlerToExcel {
     /**
      * Добавляет изображение (включая логотип) на лист Excel, с учетом центрирования и масштабирования.
      *
-     * @param workbook   рабочая книга
-     * @param sheet      лист Excel
-     * @param imageName  имя файла изображения (например, "image.png" или "logo.png")
-     * @param startRow   начальная строка (0-based)
-     * @param startCol   начальный столбец (0-based)
-     * @param endRow     конечная строка (0-based)
-     * @param endCol     конечный столбец (0-based)
-     * @param isLogo     true, если вставляется логотип (используется другой путь)
+     * @param workbook  рабочая книга
+     * @param sheet     лист Excel
+     * @param imageName имя файла изображения (например, "image.png" или "logo.png")
+     * @param startRow  начальная строка (0-based)
+     * @param startCol  начальный столбец (0-based)
+     * @param endRow    конечная строка (0-based)
+     * @param endCol    конечный столбец (0-based)
+     * @param isLogo    true, если вставляется логотип (используется другой путь)
      * @return true — если изображение успешно вставлено, иначе false
      */
     public boolean addImageToSheet(Workbook workbook, Sheet sheet, String imageName,
                                    int startRow, int startCol, int endRow, int endCol,
                                    boolean isLogo) {
         try {
-            // Определяем базовый путь в зависимости от типа изображения
             String basePath = isLogo
                     ? appProperties.getLogo().getPath()
                     : appProperties.getImage().getPath();
@@ -56,13 +55,11 @@ public class ImageHandlerToExcel {
                 return false;
             }
 
-            // Чтение байт изображения
             byte[] imageBytes;
             try (InputStream inputStream = Files.newInputStream(imagePath)) {
                 imageBytes = IOUtils.toByteArray(inputStream);
             }
 
-            // Определение типа изображения по расширению
             int pictureType;
             String lowerCaseName = imageName.toLowerCase();
             if (lowerCaseName.endsWith(".png")) {
@@ -70,17 +67,21 @@ public class ImageHandlerToExcel {
             } else if (lowerCaseName.endsWith(".jpg") || lowerCaseName.endsWith(".jpeg")) {
                 pictureType = Workbook.PICTURE_TYPE_JPEG;
             } else {
-                throw new IllegalArgumentException("Поддерживаются только PNG и JPEG изображения.");
+                log.warn("⚠️ Неподдерживаемый формат изображения: {}", imageName);
+                return false;
             }
 
             int pictureIdx = workbook.addPicture(imageBytes, pictureType);
 
-            // Получаем размеры изображения
             BufferedImage bufferedImage = ImageIO.read(new ByteArrayInputStream(imageBytes));
+            if (bufferedImage == null) {
+                log.warn("⚠️ Не удалось прочитать изображение: {}", imageName);
+                return false;
+            }
+
             int originalWidth = bufferedImage.getWidth();
             int originalHeight = bufferedImage.getHeight();
 
-            // Вычисляем размеры занимаемой области на листе в пикселях
             float cellWidthPx = 0;
             for (int col = startCol; col <= endCol; col++) {
                 cellWidthPx += sheet.getColumnWidthInPixels(col);
@@ -90,11 +91,10 @@ public class ImageHandlerToExcel {
             for (int row = startRow; row <= endRow; row++) {
                 Row sheetRow = sheet.getRow(row);
                 if (sheetRow != null) {
-                    cellHeightPx += sheetRow.getHeightInPoints() * 1.33f; // Переводим в пиксели
+                    cellHeightPx += sheetRow.getHeightInPoints() * 1.33f;
                 }
             }
 
-            // Масштабирование: уменьшаем изображение, если оно не помещается
             double scale = 1.0;
             if (originalWidth > cellWidthPx || originalHeight > cellHeightPx) {
                 double scaleX = (cellWidthPx * 0.8) / originalWidth;
@@ -105,14 +105,12 @@ public class ImageHandlerToExcel {
             int newWidth = (int) (originalWidth * scale);
             int newHeight = (int) (originalHeight * scale);
 
-            // Смещения для центрирования изображения
             double offsetX = (cellWidthPx - newWidth) / 2.0;
             double offsetY = (cellHeightPx - newHeight) / 2.0;
 
-            int dx1 = (int) (offsetX * 9525); // 1 пиксель = 9525 EMU
+            int dx1 = (int) (offsetX * 9525);
             int dy1 = (int) (offsetY * 9525);
 
-            // Вставка изображения
             if (workbook instanceof XSSFWorkbook) {
                 XSSFDrawing drawing = (XSSFDrawing) sheet.createDrawingPatriarch();
                 XSSFClientAnchor anchor = new XSSFClientAnchor(
@@ -128,9 +126,10 @@ public class ImageHandlerToExcel {
 
             return true;
 
-        } catch (IOException e) {
-            log.error("❌ Ошибка при вставке изображения в Excel: {}", imageName, e);
+        } catch (Exception e) {
+            log.error("❌ Не удалось вставить изображение в Excel: {}", imageName, e);
             return false;
         }
     }
+
 }

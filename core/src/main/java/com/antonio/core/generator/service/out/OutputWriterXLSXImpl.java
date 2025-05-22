@@ -13,6 +13,8 @@ import org.springframework.stereotype.Service;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.List;
 
 @Service
@@ -118,27 +120,41 @@ public class OutputWriterXLSXImpl implements OutputWriter<LabelLargeBox> {
         }
 
 // Добавление логотипа
-        boolean logoAdded = imageHandlerToExcel.addImageToSheet(workbook, sheet,
-                appProperties.getLogo().getFileName(), startRow - 1, startCol, startRow - 1,
-                startCol + 2, true);
+        tryAddImageIfExists(appProperties.getLogo().getFileName(), true,
+                startRow - 1, startCol, startRow - 1, startCol + 2, String.valueOf(item.getItemNo()));
 
-        if (logoAdded) {
-            log.info("✅ Логотип добавлен: {}", item.getItemNo());
-        } else {
-            log.warn("⚠️ Логотип не найден: {}", item.getItemNo());
-        }
+        tryAddImageIfExists(item.getImageName(), false,
+                startRow, startCol, startRow, startCol + 2, String.valueOf(item.getItemNo()));
 
-// Добавление картинки товара
-        boolean imageAdded = imageHandlerToExcel.addImageToSheet(workbook, sheet,
-                item.getImageName(), startRow, startCol, startRow, startCol + 2, false);
 
-        if (imageAdded) {
-            log.info("✅ Картинка добавлена: {}", item.getItemNo());
-        } else {
-            log.warn("⚠️ Картинка не найдена: {}", item.getItemNo());
-        }
     }
 
+    private void tryAddImageIfExists(String imageName, boolean isLogo,
+                                     int row1, int col1, int row2, int col2, String itemNo) {
+        if (imageName == null || imageName.isBlank() || !imageName.contains(".")) {
+            log.warn("⚠️ {} не задан или не содержит расширения: {}", isLogo ? "Логотип" : "Картинка", itemNo);
+            return;
+        }
+
+        String basePath = isLogo ? appProperties.getLogo().getPath() : appProperties.getImage().getPath();
+        Path imagePath = Path.of(basePath, imageName);
+
+        if (!Files.exists(imagePath) || Files.isDirectory(imagePath)) {
+            log.warn("⚠️ {} отсутствует или это директория: {} → {}", isLogo ? "Логотип" : "Картинка", itemNo, imagePath.toAbsolutePath());
+            return;
+        }
+
+        try {
+            boolean added = imageHandlerToExcel.addImageToSheet(workbook, sheet, imageName, row1, col1, row2, col2, isLogo);
+            if (added) {
+                log.info("✅ {} добавлен: {}", isLogo ? "Логотип" : "Картинка", itemNo);
+            } else {
+                log.warn("⚠️ addImageToSheet вернул false для {}: {}", isLogo ? "логотипа" : "картинки", itemNo);
+            }
+        } catch (Exception e) {
+            log.error("❌ Ошибка при вставке {} для {}: {}", isLogo ? "логотипа" : "картинки", itemNo, e.toString());
+        }
+    }
 
 
     private CellStyle createCellStyle(String fontName, boolean bold, BorderStyle border, HorizontalAlignment alignment,
