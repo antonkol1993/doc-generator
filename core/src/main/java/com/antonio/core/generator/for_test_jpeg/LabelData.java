@@ -1,4 +1,4 @@
-package com.antonio.core.generator.trying11111111IMAGE;
+package com.antonio.core.generator.for_test_jpeg;
 
 import lombok.Data;
 
