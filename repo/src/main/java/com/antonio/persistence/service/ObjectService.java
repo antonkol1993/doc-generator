@@ -44,7 +44,7 @@ public class ObjectService {
                     existing.setKeyName(updatedData.getKeyName());
                     existing.setRusName(updatedData.getRusName());
                     existing.setTo1C8name(updatedData.getTo1C8name());
-                    existing.setImagePath(updatedData.getImagePath());
+                    existing.setImageName(updatedData.getImageName());
                     return repository.save(existing);
                 })
                 .orElseThrow(() -> new RuntimeException("Object not found with ID: " + id));

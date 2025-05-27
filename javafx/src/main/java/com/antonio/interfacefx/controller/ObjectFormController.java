@@ -37,7 +37,7 @@ public class ObjectFormController {
     @FXML
     private TextField to1C8NameField;
     @FXML
-    private TextField imagePathField;
+    private TextField imageNameField;
     @FXML
     private TextField tnVedCodeField;
     @FXML
@@ -45,8 +45,8 @@ public class ObjectFormController {
 
     @FXML
     public void initialize() {
-        imagePathField.setOnDragOver(event -> {
-            if (event.getGestureSource() != imagePathField && event.getDragboard().hasFiles()) {
+        imageNameField.setOnDragOver(event -> {
+            if (event.getGestureSource() != imageNameField && event.getDragboard().hasFiles()) {
                 boolean hasImage = event.getDragboard().getFiles().stream()
                         .anyMatch(this::isImageFile);
                 if (hasImage) {
@@ -56,23 +56,23 @@ public class ObjectFormController {
             event.consume();
         });
 
-        imagePathField.setOnDragEntered(event -> {
-            if (event.getGestureSource() != imagePathField && event.getDragboard().hasFiles()) {
+        imageNameField.setOnDragEntered(event -> {
+            if (event.getGestureSource() != imageNameField && event.getDragboard().hasFiles()) {
                 boolean hasImage = event.getDragboard().getFiles().stream()
                         .anyMatch(this::isImageFile);
                 if (hasImage) {
-                    imagePathField.setStyle("-fx-background-color: lightgreen;");
+                    imageNameField.setStyle("-fx-background-color: lightgreen;");
                 }
             }
             event.consume();
         });
 
-        imagePathField.setOnDragExited(event -> {
-            imagePathField.setStyle(""); // сброс стиля
+        imageNameField.setOnDragExited(event -> {
+            imageNameField.setStyle(""); // сброс стиля
             event.consume();
         });
 
-        imagePathField.setOnDragDropped(event -> {
+        imageNameField.setOnDragDropped(event -> {
             var db = event.getDragboard();
             boolean success = false;
             if (db.hasFiles()) {
@@ -80,7 +80,7 @@ public class ObjectFormController {
                     if (isImageFile(file)) {
                         String relativePath = copyImageToStorage(file.getAbsolutePath());
                         if (relativePath != null) {
-                            imagePathField.setText(relativePath);
+                            imageNameField.setText(relativePath);
                             success = true;
                         }
                         break; // берем только первый файл
@@ -109,8 +109,8 @@ public class ObjectFormController {
         object.setTnVedCode(emptyToNull(tnVedCodeField.getText()));
         object.setProducer(emptyToNull(producerField.getText()));
 
-        // Уже скопированная картинка в imagePathField, просто сохраняем
-        object.setImagePath(emptyToNull(imagePathField.getText()));
+        // Уже скопированная картинка в imageNameField, просто сохраняем
+        object.setImageName(emptyToNull(imageNameField.getText()));
 
         repository.save(object);
 
@@ -131,7 +131,7 @@ public class ObjectFormController {
         if (selectedFile != null) {
             String relativePath = copyImageToStorage(selectedFile.getAbsolutePath());
             if (relativePath != null) {
-                imagePathField.setText(relativePath);
+                imageNameField.setText(relativePath);
             }
         }
     }

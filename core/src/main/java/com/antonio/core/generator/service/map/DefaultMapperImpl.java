@@ -67,7 +67,7 @@ public class DefaultMapperImpl implements Mapper<LabelLargeBox> {
             logger.info(color("✅ Найден объект по engName: " + originalName, RESET));
             labelBox.setKeyName(object.getKeyName());
             labelBox.setNameRus(object.getRusName());
-            imageFileName = object.getImagePath();
+            imageFileName = object.getImageName();
         }
 
         labelBox.setImageName(imageFileName); // <--- сохраняем ТОЛЬКО название файла

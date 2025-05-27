@@ -7,7 +7,7 @@ CREATE TABLE IF NOT EXISTS objects (
     eng_name TEXT,
     rus_name TEXT,
     "1C8_name" TEXT,
-    image_path TEXT,
+    image_name TEXT,
     tn_ved_code TEXT,
     producer TEXT
 );

@@ -23,8 +23,8 @@ public class ObjectToGenerator {
     @Column(name = "1C8_name")
     private String To1C8name;
 
-    @Column(name = "image_path")
-    private String imagePath;
+    @Column(name = "image_name")
+    private String imageName;
 
     @Column(name = "tn_ved_code")
     private String tnVedCode;;

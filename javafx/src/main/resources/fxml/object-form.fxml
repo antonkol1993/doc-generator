@@ -30,8 +30,8 @@
         <Label text="1C8 Name:" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
         <TextField fx:id="to1C8NameField" GridPane.rowIndex="3" GridPane.columnIndex="1"/>
 
-        <Label text="Image Path:" GridPane.rowIndex="4" GridPane.columnIndex="0"/>
-        <TextField fx:id="imagePathField" GridPane.rowIndex="4" GridPane.columnIndex="1"/>
+        <Label text="Image Name:" GridPane.rowIndex="4" GridPane.columnIndex="0"/>
+        <TextField fx:id="imageNameField" GridPane.rowIndex="4" GridPane.columnIndex="1"/>
         <Button text="Выбрать файл" onAction="#onChooseImage" GridPane.rowIndex="4" GridPane.columnIndex="2"/>
 
         <Label text="TN VED Code:" GridPane.rowIndex="5" GridPane.columnIndex="0"/>

@@ -13,7 +13,7 @@
                 <TableColumn fx:id="engNameColumn" text="ENG Name"/>
                 <TableColumn fx:id="rusNameColumn" text="RUS Name"/>
                 <TableColumn fx:id="to1C8NameColumn" text="1C8 Name"/>
-                <TableColumn fx:id="imagePathColumn" text="Image Path"/>
+                <TableColumn fx:id="imageNameColumn" text="Image Path"/>
                 <TableColumn fx:id="tnVedCodeColumn" text="HS code"/>
                 <TableColumn fx:id="producerColumn" text="Producer"/>
             </columns>

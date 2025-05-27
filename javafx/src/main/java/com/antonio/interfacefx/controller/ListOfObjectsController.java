@@ -34,7 +34,7 @@ public class ListOfObjectsController {
     @FXML
     private TableColumn<ObjectToGenerator, String> to1C8NameColumn;
     @FXML
-    private TableColumn<ObjectToGenerator, String> imagePathColumn;
+    private TableColumn<ObjectToGenerator, String> imageNameColumn;
     @FXML
     private TableColumn<ObjectToGenerator, String> tnVedCodeColumn;
 
@@ -46,7 +46,7 @@ public class ListOfObjectsController {
         engNameColumn.setCellValueFactory(new PropertyValueFactory<>("engName"));
         rusNameColumn.setCellValueFactory(new PropertyValueFactory<>("rusName"));
         to1C8NameColumn.setCellValueFactory(new PropertyValueFactory<>("to1C8name")); // имя должно соответствовать геттеру
-        imagePathColumn.setCellValueFactory(new PropertyValueFactory<>("imagePath"));
+        imageNameColumn.setCellValueFactory(new PropertyValueFactory<>("imageName"));
         tnVedCodeColumn.setCellValueFactory(new PropertyValueFactory<>("tn_ved_code"));
         producerColumn.setCellValueFactory(new PropertyValueFactory<>("producer"));
 

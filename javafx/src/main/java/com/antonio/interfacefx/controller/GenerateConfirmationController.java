@@ -28,16 +28,16 @@ public class GenerateConfirmationController {
     @FXML
     public void initialize() {
         String info = String.format("""
-            Подтвердите генерацию:
-            Тип ввода: %s
-            Файл ввода: %s
-            Тип вывода: %s
-            Файл вывода: %s
-            """,
-            initParameters.getInputType(),
-            initParameters.getInputFileName(),
-            initParameters.getOutputType(),
-            initParameters.getOutputFileName());
+                        Подтвердите генерацию:
+                        Тип ввода: %s
+                        Файл ввода: %s
+                        Тип вывода: %s
+                        Файл вывода: %s
+                        """,
+                initParameters.getInputType(),
+                initParameters.getInputFileName(),
+                initParameters.getOutputType(),
+                initParameters.getOutputFileName());
 
         infoLabel.setText(info);
     }

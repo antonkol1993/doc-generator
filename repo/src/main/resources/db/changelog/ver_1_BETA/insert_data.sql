@@ -1,7 +1,7 @@
 -- liquibase formatted sql
 -- changeset anton:insert-object-to-generator-001
 
-INSERT INTO objects (key_name, eng_name, rus_name, image_path)
+INSERT INTO objects (key_name, eng_name, rus_name, image_name)
 VALUES ('Anchor_bolt_with_hook_HG', 'Sleeve Anchor With Hook Bolt,Hex Nut And Washer,Yellow Zinc Plated',
         'Анкерный болт с крюком HG', 'Anchor_bolt_with_hook_HG.png'),
        ('Anchor_wedge_MAN', 'Ceiling Anchor,White Zinc Plated', 'Анкер-клин MAN',
