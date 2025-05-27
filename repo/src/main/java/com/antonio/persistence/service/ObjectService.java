@@ -17,27 +17,27 @@ public class ObjectService {
         this.repository = repository;
     }
 
-    // ✅ Сохранение объекта
+    // Сохранение объекта
     public ObjectToGenerator saveObject(ObjectToGenerator object) {
         return repository.save(object);
     }
 
-    // ✅ Получение объекта по ID
+    // Получение объекта по ID
     public Optional<ObjectToGenerator> getObjectById(Long id) {
         return repository.findById(id);
     }
 
-    // ✅ Удаление объекта по ID
+    // Удаление объекта по ID
     public void deleteObjectById(Long id) {
         repository.deleteById(id);
     }
 
-    // ✅ Получение всех объектов
+    // Получение всех объектов
     public List<ObjectToGenerator> getAllObjects() {
         return repository.findAll();
     }
 
-    // ✅ Обновление полей объекта (пример)
+    // Обновление полей объекта (пример)
     public ObjectToGenerator updateObject(Long id, ObjectToGenerator updatedData) {
         return repository.findById(id)
                 .map(existing -> {
