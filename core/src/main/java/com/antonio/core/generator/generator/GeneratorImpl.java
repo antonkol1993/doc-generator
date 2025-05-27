@@ -40,6 +40,7 @@ public class GeneratorImpl implements Generator {
         String outputFilename = initParameters.getOutputFileName();
 
         generate(inputType, outputType, inputFilename, outputFilename);
+
     }
 
     public void generate(InputType inputType, OutputType outputType, String inputFilename, String outputFilename) throws IOException {

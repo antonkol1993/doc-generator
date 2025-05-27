@@ -67,42 +67,11 @@ public class GenerateSectionController {
         }
     }
 
-    // Чтение Excel напрямую
-    @FXML
-    public void onRead(ActionEvent event) {
-        try {
-            List<List<InputDto>> lists = reader.readExcel("excel-example/DataFromInvoice for example .xlsx");
-            statusLabel.setText("Файл успешно прочитан");
-            lists.forEach(list -> list.forEach(System.out::println));
-        } catch (Exception ex) {
-            statusLabel.setText("Ошибка: " + ex.getMessage());
-        }
-    }
-
-    // Выбор произвольного файла (для отладки)
-    @FXML
-    public void onChooseFile(ActionEvent event) {
-        File file = openFileChooser();
-        if (file != null) {
-            statusLabel.setText("Файл: " + file.getName());
-            handleFileReading(file);
-        }
-    }
-
     @FXML
     public void onBack(ActionEvent event) {
         SceneSwitcher.switchScene("/fxml/menu-section.fxml", "Doc Generator FX");
     }
 
-    private void handleFileReading(File file) {
-        try {
-            List<List<InputDto>> data = reader.readExcel(file.getAbsolutePath());
-            statusLabel.setText("Успешно загружено блоков: " + data.size());
-            data.forEach(list -> list.forEach(System.out::println));
-        } catch (Exception e) {
-            statusLabel.setText("Ошибка: " + e.getMessage());
-        }
-    }
 
     private File openFileChooser() {
         FileChooser fileChooser = new FileChooser();
@@ -110,3 +79,37 @@ public class GenerateSectionController {
         return fileChooser.showOpenDialog(null);
     }
 }
+
+
+//    private void handleFileReading(File file) {
+//        try {
+//            List<List<InputDto>> data = reader.readExcel(file.getAbsolutePath());
+//            statusLabel.setText("Успешно загружено блоков: " + data.size());
+//            data.forEach(list -> list.forEach(System.out::println));
+//        } catch (Exception e) {
+//            statusLabel.setText("Ошибка: " + e.getMessage());
+//        }
+//    }
+
+//    // Чтение Excel напрямую
+//    @FXML
+//    public void onRead(ActionEvent event) {
+//        try {
+//            List<List<InputDto>> lists = reader.readExcel("excel-example/DataFromInvoice for example .xlsx");
+//            statusLabel.setText("Файл успешно прочитан");
+//            lists.forEach(list -> list.forEach(System.out::println));
+//        } catch (Exception ex) {
+//            statusLabel.setText("Ошибка: " + ex.getMessage());
+//        }
+//    }
+//
+//    // Выбор произвольного файла (для отладки)
+//    @FXML
+//    public void onChooseFile(ActionEvent event) {
+//        File file = openFileChooser();
+//        if (file != null) {
+//            statusLabel.setText("Файл: " + file.getName());
+//            handleFileReading(file);
+//        }
+//    }
+

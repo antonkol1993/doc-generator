@@ -10,8 +10,8 @@
         <Button text="HISENER" layoutX="200" layoutY="50" onAction="#onHisener"/>
 
 
-        <Button fx:id="readButton" text="Запустить чтение Excel" layoutX="50" layoutY="150" onAction="#onRead"/>
-        <Button text="Выбрать Excel" layoutX="250" layoutY="150" onAction="#onChooseFile"/>
+<!--        <Button fx:id="readButton" text="Запустить чтение Excel" layoutX="50" layoutY="150" onAction="#onRead"/>-->
+<!--        <Button text="Выбрать Excel" layoutX="250" layoutY="150" onAction="#onChooseFile"/>-->
         <Label fx:id="statusLabel" layoutX="50" layoutY="200" prefWidth="500"/>
         <Button fx:id="backButton" text="Назад" layoutX="50" layoutY="300" onAction="#onBack"/>
     </children>

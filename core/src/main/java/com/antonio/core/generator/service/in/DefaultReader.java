@@ -17,11 +17,11 @@ import static com.antonio.core.util.AnsiColors.*;
 @Slf4j
 public class DefaultReader implements InputReader {
 
-    private final List<List<InputDto>> dataBlocks = new ArrayList<>();
-    private final List<InputDto> currentBlock = new ArrayList<>();
 
     @Override
     public List<List<InputDto>> readExcel(String filePath) throws IOException {
+        List<List<InputDto>> dataBlocks = new ArrayList<>();
+        List<InputDto> currentBlock = new ArrayList<>();
         log.info("📂 Начало обработки Excel-файла: {}", filePath);
 
         try (FileInputStream file = new FileInputStream(filePath);

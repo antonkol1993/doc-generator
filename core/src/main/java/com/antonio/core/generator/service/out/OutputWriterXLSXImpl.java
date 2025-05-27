@@ -21,48 +21,41 @@ import java.util.List;
 @RequiredArgsConstructor
 public class OutputWriterXLSXImpl implements OutputWriter<LabelLargeBox> {
 
-
     private final ImageHandlerToExcel imageHandlerToExcel;
     private final CommonPropertiesLargeBox commonProperties;
     private final AppProperties appProperties;
 
-    private Workbook workbook;
-    private Sheet sheet;
-
     private static final Logger log = LoggerFactory.getLogger(ImageHandlerToExcel.class);
-
-    private int startRow = 2;
-    private int startCol = 2;
 
     @Override
     public void generateCards(List<List<LabelLargeBox>> dataBlocks, String outputName) throws IOException {
+        try (Workbook workbook = new XSSFWorkbook()) {
+            Sheet sheet = workbook.createSheet("Sheet1");
+            int startRow = 2;
+            int startCol = 2;
+            int tempCol = startCol;
 
-        workbook = new XSSFWorkbook();
-        sheet = workbook.createSheet("Sheet1");
+            String logoFileName = appProperties.getLogo().getFileName();
 
-        int tempCol = startCol;
-
-        // Получаем имя файла логотипа из настроек
-        String logoFileName = appProperties.getLogo().getFileName();
-
-        for (List<LabelLargeBox> block : dataBlocks) {
-            for (LabelLargeBox item : block) {
-                addCard(item, logoFileName);
-                startCol += 4;
+            for (List<LabelLargeBox> block : dataBlocks) {
+                for (LabelLargeBox item : block) {
+                    addCard(workbook, sheet, item, logoFileName, startRow, startCol);
+                    startCol += 4;
+                }
+                startRow += 12;
+                startCol = tempCol;
             }
-            startRow += 12;
-            startCol = tempCol;
-        }
 
-        try (FileOutputStream fileOut = new FileOutputStream(outputName)) {
-            workbook.write(fileOut);
-        } catch (IOException e) {
-            System.out.println("не получилось записать файл");
+            try (FileOutputStream fileOut = new FileOutputStream(outputName)) {
+                workbook.write(fileOut);
+            } catch (IOException e) {
+                System.out.println("не получилось записать файл");
+            }
         }
-        workbook.close();
     }
 
-    private void addCard(LabelLargeBox item, String logoFileName) throws IOException {
+    private void addCard(Workbook workbook, Sheet sheet, LabelLargeBox item, String logoFileName,
+                         int startRow, int startCol) throws IOException {
         String markingLabel = commonProperties.get("marking");
         String sizeLabel = commonProperties.get("size_label");
         String quantityLabel = commonProperties.get("quantity");
@@ -72,64 +65,54 @@ public class OutputWriterXLSXImpl implements OutputWriter<LabelLargeBox> {
         String madeInLabel = commonProperties.get("made_in");
         String orderLabel = commonProperties.get("order_label");
 
-        CellStyle style1 = createCellStyle("Arial", false, BorderStyle.MEDIUM,
-                HorizontalAlignment.CENTER, (short) 10);
-        CellStyle style2 = createCellStyle("Arial", true, BorderStyle.MEDIUM,
-                HorizontalAlignment.CENTER, (short) 11);
-        CellStyle style3 = createCellStyle("Arial", true, BorderStyle.THIN,
-                HorizontalAlignment.CENTER, (short) 10);
-        CellStyle style4 = createCellStyle("Arial", true, BorderStyle.THIN,
-                HorizontalAlignment.GENERAL, (short) 10);
+        CellStyle style1 = createCellStyle(workbook, "Arial", false, BorderStyle.MEDIUM, HorizontalAlignment.CENTER, (short) 10);
+        CellStyle style2 = createCellStyle(workbook, "Arial", true, BorderStyle.MEDIUM, HorizontalAlignment.CENTER, (short) 11);
+        CellStyle style3 = createCellStyle(workbook, "Arial", true, BorderStyle.THIN, HorizontalAlignment.CENTER, (short) 10);
+        CellStyle style4 = createCellStyle(workbook, "Arial", true, BorderStyle.THIN, HorizontalAlignment.GENERAL, (short) 10);
 
         setColumnWidths(sheet, startCol);
         setRowHeights(sheet, startRow);
 
-        createMergedCell(startRow, startCol + 1, startRow, startCol + 3, "", style1);
-        createMergedCell(startRow + 1, startCol + 1, startRow + 1, startCol + 3, "", style2);
-        createMergedCell(startRow + 2, startCol + 1, startRow + 2, startCol + 3,
+        createMergedCell(workbook, sheet, startRow, startCol + 1, startRow, startCol + 3, "", style1);
+        createMergedCell(workbook, sheet, startRow + 1, startCol + 1, startRow + 1, startCol + 3, "", style2);
+        createMergedCell(workbook, sheet, startRow + 2, startCol + 1, startRow + 2, startCol + 3,
                 item.getNameRus() + "\n" + item.getSize(), style2);
 
-        createCell(startRow + 3, startCol + 1, markingLabel, style4);
-        createMergedCell(startRow + 3, startCol + 2, startRow + 3, startCol + 3,
-                item.getMarking(), style3);
+        createCell(sheet, startRow + 3, startCol + 1, markingLabel, style4);
+        createMergedCell(workbook, sheet, startRow + 3, startCol + 2, startRow + 3, startCol + 3, item.getMarking(), style3);
 
-        createCell(startRow + 4, startCol + 1, sizeLabel, style4);
-        createMergedCell(startRow + 4, startCol + 2, startRow + 4, startCol + 3,
-                item.getSize(), style3);
+        createCell(sheet, startRow + 4, startCol + 1, sizeLabel, style4);
+        createMergedCell(workbook, sheet, startRow + 4, startCol + 2, startRow + 4, startCol + 3, item.getSize(), style3);
 
-        createCell(startRow + 5, startCol + 1, "", style4);
-        createMergedCell(startRow + 5, startCol + 2, startRow + 5, startCol + 3, "", style3);
+        createCell(sheet, startRow + 5, startCol + 1, "", style4);
+        createMergedCell(workbook, sheet, startRow + 5, startCol + 2, startRow + 5, startCol + 3, "", style3);
 
-        createCell(startRow + 6, startCol + 1, quantityLabel, style4);
-        createCell(startRow + 6, startCol + 2, item.getQuantityInBox(), style3);
-        createCell(startRow + 6, startCol + 3, pcsLabel, style4);
+        createCell(sheet, startRow + 6, startCol + 1, quantityLabel, style4);
+        createCell(sheet, startRow + 6, startCol + 2, item.getQuantityInBox(), style3);
+        createCell(sheet, startRow + 6, startCol + 3, pcsLabel, style4);
 
-        createCell(startRow + 7, startCol + 1, weightLabel, style4);
-        createCell(startRow + 7, startCol + 2, "", style3);
-        createCell(startRow + 7, startCol + 3, kgLabel, style4);
+        createCell(sheet, startRow + 7, startCol + 1, weightLabel, style4);
+        createCell(sheet, startRow + 7, startCol + 2, "", style3);
+        createCell(sheet, startRow + 7, startCol + 3, kgLabel, style4);
 
-        createCell(startRow + 8, startCol + 1, "", style4);
-        createMergedCell(startRow + 8, startCol + 2, startRow + 8, startCol + 3, madeInLabel, style4);
+        createCell(sheet, startRow + 8, startCol + 1, "", style4);
+        createMergedCell(workbook, sheet, startRow + 8, startCol + 2, startRow + 8, startCol + 3, madeInLabel, style4);
 
-        createCell(startRow + 9, startCol + 1, orderLabel, style4);
-        createMergedCell(startRow + 9, startCol + 2, startRow + 9, startCol + 3,
-                item.getOrder(), style4);
+        createCell(sheet, startRow + 9, startCol + 1, orderLabel, style4);
+        createMergedCell(workbook, sheet, startRow + 9, startCol + 2, startRow + 9, startCol + 3, item.getOrder(), style4);
 
         for (int i = startRow + 2; i <= startRow + 9; i++) {
             autoSizeRow(sheet, i);
         }
 
-// Добавление логотипа
-        tryAddImageIfExists(appProperties.getLogo().getFileName(), true,
+        tryAddImageIfExists(workbook, sheet, appProperties.getLogo().getFileName(), true,
                 startRow - 1, startCol, startRow - 1, startCol + 2, String.valueOf(item.getItemNo()));
 
-        tryAddImageIfExists(item.getImageName(), false,
+        tryAddImageIfExists(workbook, sheet, item.getImageName(), false,
                 startRow, startCol, startRow, startCol + 2, String.valueOf(item.getItemNo()));
-
-
     }
 
-    private void tryAddImageIfExists(String imageName, boolean isLogo,
+    private void tryAddImageIfExists(Workbook workbook, Sheet sheet, String imageName, boolean isLogo,
                                      int row1, int col1, int row2, int col2, String itemNo) {
         if (imageName == null || imageName.isBlank() || !imageName.contains(".")) {
             log.warn("⚠️ {} не задан или не содержит расширения: {}", isLogo ? "Логотип" : "Картинка", itemNo);
@@ -156,9 +139,8 @@ public class OutputWriterXLSXImpl implements OutputWriter<LabelLargeBox> {
         }
     }
 
-
-    private CellStyle createCellStyle(String fontName, boolean bold, BorderStyle border, HorizontalAlignment alignment,
-                                      short fontSize) {
+    private CellStyle createCellStyle(Workbook workbook, String fontName, boolean bold, BorderStyle border,
+                                      HorizontalAlignment alignment, short fontSize) {
         CellStyle style = workbook.createCellStyle();
         Font font = workbook.createFont();
         font.setFontName(fontName);
@@ -170,7 +152,7 @@ public class OutputWriterXLSXImpl implements OutputWriter<LabelLargeBox> {
         style.setBorderTop(border);
         style.setBorderLeft(border);
         style.setBorderRight(border);
-        style.setWrapText(true); // Включаем перенос текста
+        style.setWrapText(true);
         return style;
     }
 
@@ -194,7 +176,7 @@ public class OutputWriterXLSXImpl implements OutputWriter<LabelLargeBox> {
         row.setHeightInPoints(height);
     }
 
-    private void createCell(int row, int col, String value, CellStyle style) {
+    private void createCell(Sheet sheet, int row, int col, String value, CellStyle style) {
         Row sheetRow = sheet.getRow(row - 1);
         if (sheetRow == null) {
             sheetRow = sheet.createRow(row - 1);
@@ -204,36 +186,28 @@ public class OutputWriterXLSXImpl implements OutputWriter<LabelLargeBox> {
         cell.setCellStyle(style);
     }
 
-    private void createMergedCell(int startRow, int startCol, int endRow, int endCol, String value, CellStyle style) {
-        sheet.addMergedRegion(new CellRangeAddress(startRow - 1, endRow - 1,
-                startCol - 1, endCol - 1));
-
+    private void createMergedCell(Workbook workbook, Sheet sheet, int startRow, int startCol, int endRow, int endCol,
+                                  String value, CellStyle style) {
+        sheet.addMergedRegion(new CellRangeAddress(startRow - 1, endRow - 1, startCol - 1, endCol - 1));
         for (int row = startRow; row <= endRow; row++) {
             for (int col = startCol; col <= endCol; col++) {
-                createCell(row, col, "", style);
+                createCell(sheet, row, col, "", style);
             }
         }
-
-        createCell(startRow, startCol, value, style);
+        createCell(sheet, startRow, startCol, value, style);
     }
 
     private void autoSizeRow(Sheet sheet, int rowIndex) {
         Row row = sheet.getRow(rowIndex - 1);
         if (row != null) {
             int maxTextLength = 0;
-
-            // Проверяем все колонки в строке
             for (Cell cell : row) {
                 if (cell.getCellType() == CellType.STRING) {
-                    int textLength = cell.getStringCellValue().length();
-                    maxTextLength = Math.max(maxTextLength, textLength);
+                    maxTextLength = Math.max(maxTextLength, cell.getStringCellValue().length());
                 }
             }
-
-            int lineCount = (int) Math.ceil(maxTextLength / 20.0); // 20 символов в строке
-            row.setHeightInPoints(lineCount * sheet.getDefaultRowHeightInPoints()); // Авторазмер
+            int lineCount = (int) Math.ceil(maxTextLength / 20.0);
+            row.setHeightInPoints(lineCount * sheet.getDefaultRowHeightInPoints());
         }
     }
-
-
 }
