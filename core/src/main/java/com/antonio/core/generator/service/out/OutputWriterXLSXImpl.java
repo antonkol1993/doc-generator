@@ -35,7 +35,7 @@ public class OutputWriterXLSXImpl implements OutputWriter<LabelLargeBox> {
             int startCol = 2;
             int tempCol = startCol;
 
-            String logoFileName = appProperties.getLogo().getFileName();
+            String logoFileName = appProperties.getLogo().getName();
 
             for (List<LabelLargeBox> block : dataBlocks) {
                 for (LabelLargeBox item : block) {
@@ -105,7 +105,7 @@ public class OutputWriterXLSXImpl implements OutputWriter<LabelLargeBox> {
             autoSizeRow(sheet, i);
         }
 
-        tryAddImageIfExists(workbook, sheet, appProperties.getLogo().getFileName(), true,
+        tryAddImageIfExists(workbook, sheet, appProperties.getLogo().getName(), true,
                 startRow - 1, startCol, startRow - 1, startCol + 2, String.valueOf(item.getItemNo()));
 
         tryAddImageIfExists(workbook, sheet, item.getImageName(), false,

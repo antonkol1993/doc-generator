@@ -22,7 +22,7 @@ app:
     path: ${user.dir}/storage/images/metalware
   logo:
     path: ${user.dir}/storage/images/logo
-    fileName: "Mfix.jpg"
+    name: "Mfix.jpg"
   common:
     path: ${user.dir}/storage/common
 
